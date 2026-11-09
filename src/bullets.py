@@ -101,10 +101,11 @@ A person still adds the tickets and decides what to fix. The AI finds and explai
 12:"""Pitfall: designers started acting as engineers.
 A team of "I" leads to burnout. Everyone doing everything alone doesn't scale.
 What we did: worked together, learned more about development and model training, reached out to experts.
-We used AI as a coach to understand building, instead of prompting and hoping.""",
-111:"""Fix for the build pitfall: learn together, reach out to experts.
-Ask AI to explain how it works, step by step. Ask it to interview you about what you're building.
-A coach teaches you the how. Magic prompting just hides it.""",
+Don't try to do it all alone.""",
+111:"""Fix for the build pitfall: the paper napkin. Go run and do fun stuff, and test your ideas in a prototype.
+Then throw it away and work as a team. Engineering teams will find more stable builds in code and see flaws you can't.
+We work together on stable solutions.
+Understand your value in the room, and understand others' value in the room. Don't try to do it all alone.""",
 112:"""Cool thing: we got more technical.
 We also got more cross-functional: designers, engineers, strategy and content, building side by side.
 Show the tools. This is where the "wow" lives.""",

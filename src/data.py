@@ -56,7 +56,7 @@ D[43]=('What we learned','pixel',"New section: what we learned along the way. En
 
 D[3]=('The phases of AI adoption','pixel','Three phases to remember: Play (try it), Build (make it), Design (shape it). Around them, like building a real bridge: Before is the survey and permits (concerns and goals). After is opening day (the result and what we learned).')
 D[7]=('The market is pushing','fade','The market was racing, and everyone was talking about it in jargon. Keeping up felt mandatory.')
-D[12]=('When designers became engineers','blinds','Pitfall in the build phase: designers started acting as engineers, and a team of "I" leads to burnout. We worked together, learned more about development and model training, reached out to experts, and used AI as a coach to understand building instead of prompting magic. The team got more technical and more cross-functional.')
+D[12]=('When designers became engineers','blinds','Pitfall in the build phase: designers started acting as engineers, and a team of "I" leads to burnout. We worked together, learned more about development and model training, reached out to experts, and did not try to do it all alone. The team got more technical and more cross-functional.')
 D[32]=('A live moment: a prompt builds a site','fade',D[32][2])
 D[101]=('What I hope you take away','fade','Three hopes: one idea you can try today, permission to ask the question you think is too basic, and a reason to share your small wins.')
 D[102]=('Leadership was excited','pixel','Leaders said this is the way and were excited to move.')
@@ -68,7 +68,7 @@ D[107]=('The team said the hard stuff out loud','scan','The payoff: the team fel
 D[108]=('Our work showed up in the company\'s goals','scan','The payoff of setting goals that made sense: the team\'s work connected up to the roadmap and company goals, so leadership could see it.')
 D[109]=('Some experts kept the keys','blinds','Pitfall: internal experts gatekeeping with more access and more jargon. Everyone else waits outside, which is another glass ceiling.')
 D[110]=('Napkin sketch. Yes, and. Real tool.','scan','The payoff of play: ideas that became real tools. "Yes, and" is from improv: accept the idea, then add to it. It is how a napkin sketch becomes a team build.')
-D[111]=('AI as a coach, not magic prompting','fade','How we fixed the build pitfall: learn together, reach out to experts, and use AI as a coach that explains how building works instead of prompting and hoping.')
+D[111]=('The paper napkin: prototype it, then build as a team','fade','How we fixed the build pitfall: the paper napkin. Go run and do fun stuff, test your ideas in a prototype, then throw it away and work as a team. Engineering teams find more stable builds in code and see flaws you cannot. Understand your value in the room and others\' value too.')
 D[112]=('More technical. More cross-functional.','scan','The payoff of building: the team got more technical and more cross-functional.')
 D[113]=('We knew what could happen','scan','AI often means dropping in a chatbot. Because we understood what AI could do, we designed something much better.')
 D[114]=('Ask if code can do it','pixel','Tip: if you keep prompting the same thing, ask AI whether code or a script could do it for you today.')
