@@ -96,7 +96,6 @@ D[109]=('Experts who keep the keys','blinds','Pitfall to watch for: internal exp
 
 D[104]=('The team was concerned','fade','On the team, people were concerned about the environment, made-up answers (hallucinations), brain rot, ethics, and being left behind or replaced.')
 D[102]=(D[102][0],D[102][1],'Leaders said this is the way and were excited to move. Quote on the slide, from the CEO: "If you think your job is to argue for manual screwdrivers, you\'re not going to have fun over the next 20 years."')
-D[7]=(D[7][0],D[7][1],D[7][2]+' Hype note: technical talk can make people feel they are not allowed to question it, which builds another glass ceiling. The plain question anyone can ask: what problem are you solving? '+D[13][2])
 
 D[121]=('Three experiences','blinds','')
 D[122]=('Inline insights: help right where you work','fade','')
@@ -121,3 +120,5 @@ D[15]=('Goals before gadgets: not a side quest','pixel',"Takeaway: AI isn't a si
 D[116]=("If we can't measure it, we shouldn't do it",'fade',"Takeaway: pay attention to the bigger picture. When working with a new technology, ask questions constantly about the problem being solved. It has to come back to impact or a measurement. If we can't measure it, we shouldn't do it.")
 
 D[18]=('Play: Out of the box LLM','pixel',"Play was tied to the goals, but the goal was broad to start. We still had an OKR for the quarter, part of the company's efficiency initiative. It was about finding ways to improve your own workflow, not other people's. That lowered the risk and gave people space to just try things out. It's about psychological safety, not a set-aside block of time.")
+
+D[20]=('Share. Teach. Celebrate. Publish.','fade',"Takeaway: enable, don't gatekeep. Non-experts doing expert-level work, with a human still in charge. Share: biweekly reviews and internal blogs kept everyone in sync. Teach what we did and why, so others reuse the thinking. Celebrate with quarterly demos. Publish docs, guidance and external blogs, so sharing and celebrating reached customers too.")

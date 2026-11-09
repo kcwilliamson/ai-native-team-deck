@@ -6,11 +6,11 @@ PLAN=[
 (102,'The divide',0,0,'pixel'),(7,'The divide',0,0,'fade'),(103,'The divide',0,0,'fade'),(104,'The divide',0,0,'fade'),(6,'The divide',0,0,'blinds'),(9,'The divide',0,0,'scan'),
 (105,'Before · Concerns',1,2,'pixel'),(107,'Before · Concerns',1,4,'scan'),
 (15,'Before · Goals',2,2,'pixel'),(17,'Before · Goals',2,2,'fade'),
-(18,'Phase 1 · Play',3,6,'pixel'),(19,'Phase 1 · Play',3,2,'fade'),(20,'Phase 1 · Play',3,2,'fade'),(109,'Phase 1 · Play',3,3,'blinds'),(110,'Phase 1 · Play',3,4,'scan'),
+(18,'Phase 1 · Play',3,6,'pixel'),(19,'Phase 1 · Play',3,2,'fade'),(109,'Phase 1 · Play',3,3,'blinds'),(110,'Phase 1 · Play',3,4,'scan'),
 (22,'Phase 2 · Build',4,6,'pixel'),(38,'Phase 2 · Build',4,2,'fade'),(39,'Phase 2 · Build',4,2,'fade'),(40,'Phase 2 · Build',4,2,'fade'),(12,'Phase 2 · Build',4,3,'blinds'),(111,'Phase 2 · Build',4,5,'fade'),(112,'Phase 2 · Build',4,4,'scan'),
 (25,'Phase 3 · Design',5,6,'pixel'),(26,'Phase 3 · Design',5,2,'fade'),(41,'Phase 3 · Design',5,2,'fade'),(42,'Phase 3 · Design',5,2,'fade'),(125,'Phase 3 · Design',5,2,'fade'),(27,'Phase 3 · Design',5,3,'blinds'),
 (24,'After · Result',6,4,'scan'),
-(43,'After · Lessons',7,6,'pixel'),(28,'After · Lessons',7,3,'fade'),(30,'After · Lessons',7,3,'fade'),(31,'After · Lessons',7,4,'fade'),
+(43,'After · Lessons',7,6,'pixel'),(20,'After · Lessons',7,2,'fade'),(30,'After · Lessons',7,3,'fade'),(31,'After · Lessons',7,4,'fade'),
 (114,'After · Lessons',7,2,'pixel'),(32,'After · Lessons',7,2,'fade'),(115,'After · Lessons',7,2,'fade'),(116,'After · Lessons',7,2,'fade'),(120,'After · Lessons',7,2,'blinds'),(117,'After · Lessons',7,2,'fade'),(119,'After · Lessons',7,2,'scan'),
 (37,'Where this goes next',-1,0,'scan'),(36,'Q&A',-1,0,'fade')]
 import os,collections

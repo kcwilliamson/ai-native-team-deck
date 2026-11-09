@@ -9,7 +9,7 @@ css=f"""
 """
 from playwright.async_api import async_playwright
 async def main():
-    ns=[int(x) for x in sys.argv[1:]] or list(range(1,47))
+    ns=[int(x) for x in sys.argv[1:]] or list(range(1,46))
     async with async_playwright() as p:
         b=await p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox','--allow-file-access-from-files'])
         pg=await b.new_page(viewport={'width':1600,'height':900})

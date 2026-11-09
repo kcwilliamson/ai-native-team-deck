@@ -18,9 +18,7 @@ The CEO's line sets the tone: arguing for manual screwdrivers won't be much fun 
 It created immense pressure for everyone to figure out an AI use case.
 Their energy was real and useful. It just wasn't the whole story.""",
 7:"""The market was (and still is) racing, and everyone talked about it in jargon.
-FOMO was real: AI has the best marketing teams working on it.
-Technical talk can make people feel they're not allowed to question it. That's another glass ceiling.
-The plain question anyone can ask: what problem are you solving?""",
+FOMO was real: AI has the best marketing teams working on it.""",
 103:"""Our customers were highly technical and security-minded.
 Trust was fragile: easy to shatter, brutal to rebuild.
 Early chatbot experiments raised support tickets. Vague answers frustrated people fast.""",
@@ -67,7 +65,8 @@ It gave space to just try things out. Psychological safety, not a scheduled bloc
 Drafting internal blogs, copyediting, and using AI as a sounding board.
 Testing which models worked best for what. Not everything needs the biggest model.
 Candid lesson: early chatbot experiments increased support tickets.""",
-20:"""Share: biweekly reviews and internal blogs kept everyone in sync. No one worked in the shadows.
+20:"""Takeaway: enable, don't gatekeep. Non-experts doing expert-level work, with the human still in charge.
+Share: biweekly reviews and internal blogs kept everyone in sync. No one worked in the shadows.
 Teach what we did and why, so others reuse the thinking and not just the output.
 Celebrate: quarterly demos gave everyone a place to be seen.
 Publish: docs, guidance and external blogs, so sharing and celebrating reached customers too.""",
