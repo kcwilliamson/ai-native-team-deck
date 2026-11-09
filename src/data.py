@@ -52,7 +52,7 @@ D[39]=('Content scorer: walkthrough','fade',"Video walkthrough of the content sc
 D[40]=('Papercut report: walkthrough','fade','Video walkthrough of the papercut report. It finds small usability problems in a systematic way, and led to dozens of improvements in record time.')
 D[41]=('Cloudy search: the real screens','fade','Cloudy search, on the real product screens.')
 D[42]=('The real tool','fade','Space to show the actual content tool.')
-D[43]=('What we learned','pixel',"New section: what we learned along the way. Enable, don't gatekeep; no more chatbots; find your value spots; almost no one is an expert.")
+D[43]=('What we learned','pixel',"Section header: what we learned along the way. The slides that follow list each learning.")
 
 D[3]=('The phases of AI adoption','pixel','Three phases to remember: Play (try it), Build (make it), Design (shape it). Around them, like building a real bridge: Before is the survey and permits (concerns and goals). After is opening day (the result and what we learned).')
 D[7]=('The market is pushing','fade','The market was racing, and everyone was talking about it in jargon. Keeping up felt mandatory.')

@@ -10,7 +10,7 @@ PLAN=[
 (22,'Phase 2 · Build',4,6,'pixel'),(38,'Phase 2 · Build',4,2,'fade'),(39,'Phase 2 · Build',4,2,'fade'),(40,'Phase 2 · Build',4,2,'fade'),(12,'Phase 2 · Build',4,3,'blinds'),(111,'Phase 2 · Build',4,5,'fade'),(112,'Phase 2 · Build',4,4,'scan'),
 (25,'Phase 3 · Design',5,6,'pixel'),(26,'Phase 3 · Design',5,2,'fade'),(41,'Phase 3 · Design',5,2,'fade'),(42,'Phase 3 · Design',5,2,'fade'),(125,'Phase 3 · Design',5,2,'fade'),(27,'Phase 3 · Design',5,3,'blinds'),
 (24,'After · Result',6,4,'scan'),
-(43,'After · Lessons',7,1,'pixel'),(28,'After · Lessons',7,3,'fade'),(30,'After · Lessons',7,3,'fade'),(31,'After · Lessons',7,4,'fade'),
+(43,'After · Lessons',7,6,'pixel'),(28,'After · Lessons',7,3,'fade'),(30,'After · Lessons',7,3,'fade'),(31,'After · Lessons',7,4,'fade'),
 (114,'After · Lessons',7,2,'pixel'),(32,'After · Lessons',7,2,'fade'),(115,'After · Lessons',7,2,'fade'),(116,'After · Lessons',7,2,'fade'),(120,'After · Lessons',7,2,'blinds'),(117,'After · Lessons',7,2,'fade'),(119,'After · Lessons',7,2,'scan'),
 (37,'Where this goes next',-1,0,'scan'),(36,'Q&A',-1,0,'fade')]
 import os,collections

@@ -152,9 +152,8 @@ Mundane work to strategic work. That's the point of AI for us.""",
 Not being constantly in the weeds frees time for the bigger picture.
 Teams like ours fight for a seat at the table. With AI the fight got tougher: every team felt they could jump over us with the speed and false confidence of AI.
 Proudest moment: one of my direct reports was invited into annual planning conversations.""",
-43:"""Now: what we learned along the way.
-Enable, don't gatekeep. Find your value spots. Almost no one is an expert.
-Then a handful of things you can try today.""",
+43:"""What we learned along the way.
+The slides that follow list each learning.""",
 28:"""Takeaway: share the tool, the words and the reasoning.
 Build tools so non-experts can do expert-level work, with the human still in charge.
 People review the output and ask an expert when unsure.
