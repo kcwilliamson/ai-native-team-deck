@@ -432,8 +432,11 @@ B[43]=()=>`<div class="micro abs in" style="--d:.1;left:76px;top:150px">New sect
 B[27]=()=>`${top('Hype over the customer','Design')}
  <div class="serif abs" style="left:70px;top:290px;width:1000px;font-size:96px;line-height:1.04;z-index:3">${lines(['When things move fast,','the basics get','<em>forgotten.</em>'],.2,.25)}</div>
  <div class="abs in" style="--d:1.6;left:70px;top:760px;width:980px;font:400 32px/1.35 var(--sans);z-index:3">New tools and hype crowd out users’ needs and the business problem. Someone has to be charged to watch for it.</div>
- <svg class="abs" style="left:1180px;top:300px" width="670" height="560" viewBox="0 0 670 560" fill="none" stroke="#1F2BE0" stroke-width="2.5"><rect class="d" pathLength="1" x="40" y="60" width="250" height="440" style="--d:.6"/>${Array.from({length:40},(_,i)=>{const c=i%5,r=Math.floor(i/5);return `<rect class="tl" x="${40+c*50}" y="${60+r*55}" width="46" height="51" stroke="#1F2BE0" stroke-width="2" style="--d:${((c*.37+r*.23)%1.6).toFixed(2)}"/>`}).join('')}<path class="d" pathLength="1" d="M330 500 H650" style="--d:.9"/><g class="in" style="--d:1.4"><circle cx="505" cy="300" r="30"/><path d="M505 330 V420 M505 420 L470 500 M505 420 L540 500 M505 350 L465 400"/><g><path d="M505 350 L555 295"/><animateTransform attributeName="transform" type="rotate" values="-18 505 350;22 505 350;-18 505 350" dur="0.9s" repeatCount="indefinite" begin="2s"/></g></g>
-  <text x="165" y="40" text-anchor="middle" fill="#1F2BE0" font-family="DM Mono,monospace" font-size="24" letter-spacing="2" class="in" style="--d:1.5">HYPE</text><text x="505" y="540" text-anchor="middle" fill="#1F2BE0" font-family="DM Mono,monospace" font-size="22" letter-spacing="2" class="in" style="--d:1.7">THE CUSTOMER</text></svg>
+ <svg class="abs" style="left:1180px;top:300px" width="670" height="560" viewBox="0 0 670 560" fill="none" stroke="#1F2BE0" stroke-width="2.5"><path class="d" pathLength="1" d="M20 500 H650" style="--d:.5"/>
+  <g class="fall"><rect class="d" pathLength="1" x="20" y="60" width="200" height="440" style="--d:.6"/>${Array.from({length:40},(_,i)=>{const c=i%5,r=Math.floor(i/5);return `<rect class="tl" x="${20+c*40}" y="${60+r*55}" width="36" height="51" stroke="#1F2BE0" stroke-width="2" style="--d:${((c*.37+r*.23)%1.6).toFixed(2)}"/>`}).join('')}</g>
+  <g class="hl"><text x="120" y="40" text-anchor="middle" fill="#1F2BE0" font-family="DM Mono,monospace" font-size="24" letter-spacing="2" class="in" style="--d:1.5">HYPE</text></g>
+  <g class="squash"><g class="in" style="--d:1.4"><circle cx="440" cy="330" r="26"/><path d="M440 356 V430 M440 430 L410 500 M440 430 L470 500 M440 375 L405 410 M440 375 L475 410"/></g></g>
+  <text x="440" y="540" text-anchor="middle" fill="#1F2BE0" font-family="DM Mono,monospace" font-size="22" letter-spacing="2" class="in" style="--d:1.7">THE CUSTOMER</text></svg>
  <div class="serif abs in" style="--d:2.6;left:1180px;top:880px;width:670px;font-size:44px;line-height:1.1;z-index:3">Strategists: the voice of the customer. <em>Needs over hype.</em></div>`;
 B[28]=()=>`${top('Enable, don’t gatekeep','What we learned')}
  ${[['Share','the tool'],['Share','the words'],['Share','the reasoning']].map((x,i)=>`<div class="abs in" style="--d:${.2+i*.3};left:70px;top:${250+i*190}px;z-index:3;display:flex;align-items:baseline;gap:34px"><span class="mono" style="font-size:26px;width:50px">0${i+1}</span><span class="serif" style="font-size:150px;line-height:1">${x[0]}</span><span class="serif" style="font-size:72px;line-height:1;opacity:.8"><em>${x[1]}</em></span></div>`).join('')}
@@ -700,6 +703,10 @@ const css=document.createElement('style');css.textContent=`
 .slide.active .rip rect{animation:ripple 3.6s linear infinite}
 @keyframes ripple{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1.9);opacity:0}}
 .tl{fill:transparent}
+.fall,.squash{transform-box:view-box}.fall{transform-origin:220px 500px}.squash{transform-origin:440px 500px}
+.slide.active .fall{animation:fallo .7s cubic-bezier(.5,0,.9,.5) 3s both}@keyframes fallo{to{transform:rotate(90deg)}}
+.slide.active .squash{animation:squo .18s ease-in 3.62s both}@keyframes squo{to{transform:scaleY(.14)}}
+.slide.active .hl{animation:hlo .3s ease 2.9s both}@keyframes hlo{to{opacity:0}}
 .slide.active .tl{animation:tilep 3.2s infinite;animation-delay:calc(var(--d)*1s)}
 @keyframes tilep{0%,55%{fill:transparent}68%,82%{fill:#1F2BE0}100%{fill:transparent}}
 .conf{position:absolute;top:-60px;background:var(--ink);opacity:.9;display:block;z-index:1}
