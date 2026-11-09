@@ -29,7 +29,7 @@ for pos,(n,s,st,p,tx) in enumerate(PLAN,1):
     c=-(-4*seen[st]//tot[st]) if st in range(1,8) else 0
     d={"o":n,"m":n,"s":s,"mv":mv(st,c),"t":D[n][0],"tx":tx,"d":D[n][2]}
     if 1<=st<=7:
-        d["h"]=1; d["k"]='Principle' if (st in (1,2) and p==2) else ('Takeaway' if (st==7 and p!=1) else KIND[p])
+        d["h"]=1; d["k"]='Principle' if (st in (1,2) and p==2) else ('Takeaway' if (st==7 and p not in (1,6)) else KIND[p])
     if str(pos) in th: d["th"]=th[str(pos)]
     meta.append(d)
 t=open('template.html').read().replace('/*META*/[]',json.dumps(meta,ensure_ascii=False))
