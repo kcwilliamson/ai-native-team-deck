@@ -33,6 +33,10 @@ for pos,(n,s,st,p,tx) in enumerate(PLAN,1):
     if str(pos) in th: d["th"]=th[str(pos)]
     meta.append(d)
 t=open('template.html').read().replace('/*META*/[]',json.dumps(meta,ensure_ascii=False))
+import base64
+for _n in ['cloudy-monitor','clue','cloudspeaker','cloudy-search']:
+    _u='data:video/mp4;base64,'+base64.b64encode(open(f'vid/{_n}.mp4','rb').read()).decode()
+    t=t.replace(f"videos/{_n}.mp4",_u)
 open('/mnt/user-data/outputs/ai-enabling-a-team.html','w').write(t.replace('__GATED__','false'))
 open('/mnt/user-data/outputs/ai-native-team-deck-gated.html','w').write(t.replace('__GATED__','true'))
 print(len(t))
