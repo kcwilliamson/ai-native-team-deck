@@ -372,6 +372,19 @@ function video(n,name,outcome,v){return `
 B[38]=()=>video(1,'Feedback tool','Months of research became minutes.','cloudspeaker');
 B[39]=()=>video(2,'Content scorer','One area’s average score rose by about a third.','clue');
 B[40]=()=>video(3,'Papercut report','Dozens of fixes, in record time.');
+
+B[123]=()=>{const S=[["01", "Gather", "All the feedback, in one folder."], ["02", "Find themes", "Group it and count each one."], ["03", "Check the docs", "Is the answer already written?"], ["04", "Add evidence", "Community threads, full quotes."], ["05", "Classify", "Bug, UX friction, or docs gap."], ["06", "Write it up", "Plain English, ready to act on."]];
+ return `${top('Papercut report: how it works','Build')}
+ ${S.map((s,i)=>`<div class="step in" style="--d:${.2+i*.25};left:${70+i*306}px;top:320px;width:270px"><span class="n">${s[0]}</span><span class="h">${s[1]}</span><span class="s">${s[2]}</span></div>`).join('')}
+ <svg class="abs" style="left:0;top:0;z-index:2" width="1920" height="1080" fill="none" stroke="#1F2BE0" stroke-width="2.5">${[0,1,2,3,4].map(i=>`<path class="d" pathLength="1" d="M${340+i*306} 470 H${376+i*306} M${366+i*306} 460 L${376+i*306} 470 L${366+i*306} 480" style="--d:${.5+i*.25}"/>`).join('')}
+ <path class="d" pathLength="1" d="M1494 660 V720 M480 720 H1520 M480 720 V760 M1000 720 V760 M1520 720 V760" style="--d:1.9"/></svg>
+ ${[['Bug','To engineering'],['UX friction','To design'],['Docs gap','To content']].map((c,i)=>`<div class="in" style="--d:${2.2+i*.2};position:absolute;left:${[290,810,1330][i]}px;top:760px;width:380px;border:1.5px solid var(--ink);padding:20px 24px;background:${i==0?'var(--ink)':'var(--paper)'};color:${i==0?'var(--paper)':'var(--ink)'};z-index:3"><div style="font:400 20px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">${c[0]}</div><div class="serif" style="font-size:40px;line-height:1.05">${c[1]}</div></div>`).join('')}`;};
+B[124]=()=>{const T=[["Possible sync bug between two systems", "todo", "To do"], ["Purchases missing from the dashboard", "todo", "To do"], ["Possible registrar or DNS bug", "todo", "To do"], ["Review the add-site guide", "done", "Closed"], ["Fix the docs link in setup steps", "done", "Closed"], ["Improve the FAQ", "done", "Closed"], ["Give new users value right away", "done", "Closed"], ["Clarify the confusing instruction wording", "done", "Closed"], ["Document what to do when the old provider blocks changes", "bk", "Backlog"], ["Onboarding path for people who can’t make the change", "bk", "Backlog"], ["What to do when re-adding a deleted site", "bk", "Backlog"], ["Explain the email verification step", "bk", "Backlog"], ["Link troubleshooting to account recovery", "bk", "Backlog"]];const row=T.concat(T);
+ return `${top('From feedback to fixes','Build')}
+ <div class="serif abs in" style="--d:.2;left:70px;top:250px;font-size:76px;line-height:1.05;z-index:3">One report. <em>Thirteen tickets.</em></div>
+ <div class="tape in" style="--d:.5;top:400px"><div class="row">${row.map(x=>`<div class="tk"><span class="st ${x[1]=='done'?'done':x[1]=='todo'?'todo':''}">${x[2]}</span><span class="nm">${x[0]}</span></div>`).join('')}</div></div>
+ <div class="abs in" style="--d:1.2;left:70px;top:680px;display:flex;gap:60px;z-index:3">${[['3','bugs raised'],['5','fixes closed'],['5','in the backlog']].map(c=>`<div><div class="serif" style="font-size:150px;line-height:.95">${c[0]}</div><div class="mono" style="font-size:24px;letter-spacing:.1em;text-transform:uppercase;margin-top:6px">${c[1]}</div></div>`).join('')}</div>
+ <div class="serif abs in" style="--d:1.6;left:1050px;top:720px;width:800px;font-size:50px;line-height:1.12;z-index:3">Feedback became a to-do list <em>the team could ship.</em></div>`;};
 B[23]=()=>`${top('Results: mundane to <em>strategic</em>','Build')}
  <div class="abs" style="left:70px;right:70px;top:290px;display:grid;grid-template-columns:1fr 130px 1fr;z-index:3"><div class="micro" style="opacity:.6">Off our plate</div><div></div><div class="micro">What opened up</div></div>
  <div class="abs m23" style="left:70px;right:70px;top:340px;z-index:3">${[['Feedback tool','Digging through scattered feedback','Strategy shaped by customer signal'],['Content scorer','Line-by-line copy edits','High-judgment design critique'],['Papercut report','Hunting small problems by hand','Deciding what matters most']].map((x,i)=>`
@@ -608,6 +621,16 @@ const css=document.createElement('style');css.textContent=`
 .egg .c p{margin:0;font:400 24px/1.3 var(--sans)}
 .egg .x{position:absolute;right:26px;top:20px;background:none;border:1.5px solid var(--ink);color:var(--ink);font:400 18px/1 var(--mono);padding:10px 14px;cursor:pointer}
 .egg a{color:var(--ink);font-weight:600}.egg .go{display:inline-block;margin-top:22px;background:var(--ink);color:var(--paper);padding:18px 26px;font:400 20px/1 var(--mono);letter-spacing:.08em;text-decoration:none}
+
+@keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tape{position:absolute;left:0;right:0;overflow:hidden;z-index:3}
+.tape .row{display:flex;gap:26px;width:max-content;animation:tape 60s linear infinite}
+.tk{width:560px;height:210px;border:1.5px solid var(--ink);background:var(--paper);padding:22px 26px;display:flex;flex-direction:column;justify-content:space-between;flex:none}
+.tk .st{align-self:flex-start;font:400 19px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border:1.5px solid var(--ink)}
+.tk .st.done{background:var(--ink);color:var(--paper)}.tk .st.todo{border-style:dashed}
+.tk .nm{font:400 36px/1.1 var(--serif)}
+.step{position:absolute;border:1.5px solid var(--ink);background:var(--paper);padding:24px 22px;height:340px;display:flex;flex-direction:column;justify-content:space-between;z-index:3}
+.step .n{font:400 20px/1 var(--mono);letter-spacing:.1em}.step .h{font:400 40px/1.08 var(--serif)}.step .s{font:400 22px/1.3 var(--sans)}
 #gate{position:absolute;inset:0;z-index:900;background:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px;display:flex;flex-direction:column;justify-content:center;padding:0 160px;color:var(--ink)}
 #gate.off{opacity:0;pointer-events:none;transition:opacity .6s}
 #gate .tag{align-self:flex-start;font:400 24px/1 var(--mono);letter-spacing:.2em;border:1.5px solid var(--ink);padding:12px 22px;margin-bottom:40px;background:var(--paper)}

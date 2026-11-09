@@ -192,4 +192,19 @@ We crossed the bridge together.""",
 36:"""Drop your questions in the chat. Silly ones first.
 The best plain-English ones get answered live.
 If jargon slips out, call it and I'll restate it.""",
+
+123:"""This is what the papercut report actually does, in six steps.
+Gather all the feedback in one place: support tickets, community posts, surveys, docs questions.
+Find the themes and count how often each one comes up. Each person only counts once.
+Check whether the docs already answer it, and add community threads and full customer quotes as evidence.
+Classify each theme: a bug, UX friction, or a docs gap. That decides who gets it.
+Write it up in plain English so a stakeholder can act on it. Bugs go to engineering, UX issues to design, docs gaps to content.
+Candid: it took many rounds to get right. Early versions invented quotes, so we required full, real quotes."""
+,
+124:"""This is the first report we ran, on one stuck point in onboarding.
+It turned about nine hundred pieces of feedback into twelve themes and thirteen tickets.
+Three bugs raised, five fixes already closed, and five waiting in the backlog.
+The point: feedback stopped being a pile of complaints and became a to-do list the team could ship.
+Cool thing: a person still adds the tickets and decides what to fix. The AI finds and explains, we decide."""
+,
 }

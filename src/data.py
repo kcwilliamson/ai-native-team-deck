@@ -105,3 +105,6 @@ D[32]=('Go tinker','fade',D[32][2])
 D[41]=('Cloudy search: the real screens','fade','Cloudy search, on the real product screens.')
 
 D[42]=('The real tool: Cloudy monitoring','fade',D[42][2])
+
+D[123]=('Papercut report: how it works','fade','')
+D[124]=('From feedback to fixes','fade','')
