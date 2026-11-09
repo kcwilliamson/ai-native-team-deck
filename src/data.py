@@ -111,3 +111,8 @@ D[124]=('From feedback to fixes','fade','')
 
 D[40]=('Papercut report: how it works','fade','')
 D[125]=('Chunkability: the stranger test','fade','')
+
+D[41]=('Cloudy search: dashboard walkthrough','fade',D[41][2])
+D[42]=('Prompt monitoring: so we knew what was happening','fade',D[42][2])
+D[125]=('Chunkability: keeping the agent in line','fade',D[125][2])
+D[27]=('Hype over the customer','blinds',D[27][2])
