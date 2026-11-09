@@ -74,7 +74,7 @@ D[113]=('We knew what could happen','scan','AI often means dropping in a chatbot
 D[114]=('Ask if code can do it','pixel','Tip: if you keep prompting the same thing, ask AI whether code or a script could do it for you today.')
 D[115]=('Start a folder. Save things.','fade','Tip: collect ideas, tools and patterns in a folder you can reuse. Designing with AI is a lot about curation. I saved an open-source slide repo to a library for this very project.')
 D[116]=('Nothing is impossible anymore','fade','Tip: assume it can be done, then ask.')
-D[117]=('Think of one person you are solving for','fade','Tip: think about how AI could make the world better for the person you are problem solving for.')
+D[117]=('Think of one person you are solving for','fade','Tip: think about how AI could make the world better for the person you are problem solving for. The power of teams like ours is deep empathy: solutions can come fast and be executed even faster, so when you pinpoint a single person, keep your humanity intact.')
 D[118]=('Learn the tools you have','fade','Tip: learn more about the tools we already have access to.')
 D[119]=('Share it. Celebrate it.','fade','Tip: share and celebrate openly. Everything is new, and the small things people are already doing are clever solutions.')
 

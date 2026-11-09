@@ -183,7 +183,9 @@ Your first prompt or tool won't be great. You'll tweak, edit and nudge. It takes
 Once one works, you've solved a future-you problem.
 And your next tool starts smarter, because you know what went wrong the first time.""",
 117:"""Takeaway: think about how AI could make the world better for the person you're solving for.
-Start with one person, not a platform.""",
+Start with one person, not a platform.
+The power of teams like ours is deep empathy.
+Solutions can come fast and be executed even faster. When you pinpoint a single person, keep your humanity intact.""",
 119:"""Takeaway: share and celebrate openly. Everything is new and fresh.
 The small things you're already doing are clever solutions.
 Continue to share with each other and with customers: docs, guidance, internal blogs, external blogs.
