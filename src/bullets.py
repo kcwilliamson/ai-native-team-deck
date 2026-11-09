@@ -92,11 +92,12 @@ Formulas can't judge tone, so we added an AI layer that checks context and voice
 Impact: one product area's average score went from 7.42 to 10, about a 35% lift.
 Candid: we rewrote every page description in that area by hand to prove it first. Then rebuilt it as a real app, with moderated usability tests and a 25-person survey before rollout.
 It checks what you wrote instead of writing it for you. The human stays in charge.""",
-40:"""What it does: finds small usability problems (papercuts) in a systematic way.
-Shipping fast means lots of small UX bugs. This pulls together the feedback tool, the content scorer and dashboard code.
-Six steps: gather feedback, count themes, check the docs, find community proof, classify the theme (bug, UX, or docs gap), write the report with real quotes.
-Impact: dozens of improvements in record time.
-Candid: it's agentic, not magic. Every step leaves something a human can check, and real quotes mean nobody has to take the AI's word.""",
+40:"""Left: how the papercut report works, in six steps. Gather all the feedback, find and count the themes, check whether the docs already answer it, add community evidence with full quotes, classify each theme as a bug, UX friction or docs gap, then write it up in plain English.
+Right: what it set off. By the end of this work we were getting about 30 new UX improvement tickets every month.
+A monthly cross-team review of open-ended survey feedback turned themes into tickets and tracked them: closed, in progress, backlog, needs triage.
+Cool thing: the papercut report led to a lot more getting done. It made small problems visible and easy to prioritize, so they actually got fixed.
+Candid: it took many rounds to get right. Early versions invented quotes, so we required full, real quotes.
+A person still adds the tickets and decides what to fix. The AI finds and explains; we decide.""",
 12:"""Pitfall: designers started acting as engineers.
 A team of "I" leads to burnout. Everyone doing everything alone doesn't scale.
 What we did: worked together, learned more about development and model training, reached out to experts.
@@ -119,8 +120,8 @@ An answer, not a conversation. Customer sentiment held steady while product adop
 Point out: the search bar, the suggested prompts, and the answer that comes right back.
 An answer, not a conversation. We solved the problem or served the right content.""",
 27:"""A hallucination is the AI confidently making something up.
-Pitfall: when accuracy dropped, the AI was pulling from the wrong material.
-Insight: the more information it had access to, the less accurate it got.
+Pitfall: Cloudy answers were a 50/50 split of thumbs up and thumbs down, and accuracy was slipping.
+Insight: the AI was pulling from the wrong material. The more information it had access to, the less accurate it got.
 The cool part: because we had built things first, we knew enough to monitor the responses and change the functionality, not just ship and hope.
 We fixed the source: format, tag and chunk the content (small, labeled pieces the AI can find and use).
 Answers went from about one in five accurate to about four in five. Content is king.""",
@@ -143,7 +144,7 @@ Impact: sentiment and task completion went up. It actually helped people.
 Candid: it grew out of an existing inline-content pattern. The real work was monitoring it.""",
 23:"""Feedback: digging through scattered feedback became strategy conversations shaped by customer signal.
 Scorer: manual line edits became high-judgment feedback that shaped how we approached design critique.
-Papercuts: hunting small problems by hand became a systematic way to find and prioritize.
+Papercuts: hunting small problems by hand became a systematic way to find and prioritize. It led to about 30 new UX improvement tickets a month, and a lot more getting done.
 Mundane work to strategic work. That's the point of AI for us.""",
 24:"""Having data in hand is a powerful tool for conversation, and AI lets you grab it.
 Not being constantly in the weeds frees time for the bigger picture.
@@ -207,4 +208,11 @@ Three bugs raised, five fixes already closed, and five waiting in the backlog.
 The point: feedback stopped being a pile of complaints and became a to-do list the team could ship.
 Cool thing: a person still adds the tickets and decides what to fix. The AI finds and explains, we decide."""
 ,
+125:"""The Cloudy answers were a 50/50 split of thumbs up and thumbs down. People told us third-party AI tools gave them a mixed bag too.
+Our docs were written for people who use sidebars and context. AI reads them in small slices, called chunks.
+We can't control how another tool slices our docs, so we assume the worst: no title, no breadcrumbs, no neighbors.
+The stranger test: if I handed this slice to a stranger, would they know exactly which product and which action it's about?
+We built a skill that scores a page: Robust is 22 to 26, Stable is 16 to 21, Fragile is under 16.
+First audit, three key decision pages: scores of 19, 15 and 16. None were Robust, and one failed a hard floor.
+Plan: baseline test, fix the pages and re-test the same questions, then target the pages with the most thumbs down.""",
 }

@@ -108,3 +108,6 @@ D[42]=('The real tool: Cloudy monitoring','fade',D[42][2])
 
 D[123]=('Papercut report: how it works','fade','')
 D[124]=('From feedback to fixes','fade','')
+
+D[40]=('Papercut report: how it works','fade','')
+D[125]=('Chunkability: the stranger test','fade','')
