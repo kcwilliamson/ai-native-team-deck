@@ -36,20 +36,22 @@ Everyone crosses the same bridge, in plain language, with nobody gatekept out.
 Worries get heard, not dismissed, and the human stays in charge.
 AI is no longer really an opt-out. Waiting stopped being the safe choice.
 The seven planks are the story of how we crossed.""",
-105:"""Before we built anything, we left space to say the worries out loud.
+105:"""Before we built anything, we made a safe space to say the worries out loud.
 The worries were real: environment, made-up answers, brain rot, ethics, data, accountability, craft, being replaced.
 They got heard, not dismissed. "Will I be replaced?" was the one I addressed right away.
-Psychological safety comes first: people can speak up without being punished.""",
+Psychological safety comes first: people can speak up without being punished.
+If you call concerns resistance, people go quiet, and you lose the information you need most.""",
 106:"""Pitfall: treating concerns as resistance. People go quiet.
 When they go quiet, you lose the information you need most.
 Get concerns into the open, then understand and empathize. Move through them, not around them.""",
-107:"""Payoff: the team felt safe enough to say the hard stuff.
-That made every step after this easier.
-Say it plainly: safety first, then speed.""",
-15:"""Company goals were vague. They didn't tell a team what to do on Monday.
-Every quarter I set specific OKRs (a goal plus the measures that show you got there).
-We looked at the roadmap, found the through-lines, and set metrics combining product work with company goals.
-An AI experiment isn't a side hustle when it shows up in the same goals as the product work.""",
+107:"""Cool thing: saying things out loud led to team standards for AI, plus solutions and principles we could use to guide our work.
+We knew we couldn't solve everything. But putting our empathetic brains on AI values and operations made our projects sharper and better.
+Safety first, then speed.""",
+15:"""Takeaway: AI isn't a side quest. It's meaningfully part of our team objectives.
+Company goals were vague. They didn't tell a team what to do on Monday.
+We planned and aligned across roadmaps to find the through-lines.
+Then we created AI OKRs (a goal plus the measures that show you got there) that connected up to the company goals.
+Leadership could see it, so AI wasn't a side project.""",
 17:"""Objective: create AI experiences that help customers find answers faster.
 Key results: improve search accuracy, keep customer sentiment positive, check the box on AI.
 Team goals: level up on how AI really works, expand research to include AI, evolve the team for a new future.""",
@@ -57,6 +59,7 @@ Team goals: level up on how AI really works, expand research to include AI, evol
 Team goals connected up through the roadmap to company goals.
 Leadership could see it, so AI wasn't a side project.""",
 18:"""Play was tied to the goals, but the goal was broad to start.
+We still had an OKR for the quarter, part of the company's efficiency initiative.
 It was about improving your own workflow, not other people's.
 Low risk: it's your own work, so there's little to lose.
 It gave space to just try things out. Psychological safety, not a scheduled block of time.""",
@@ -175,9 +178,10 @@ It won't be perfect. That's fine, that's the point.""",
 115:"""Takeaway: start a folder and save things: ideas, tools, patterns.
 Designing with AI is a lot about curation.
 I saved an open-source slide repo to my library for this very talk.""",
-116:"""Takeaway: nothing is impossible anymore.
-Those old reasons (we can't build that, it needs an engineering quarter, that's not our job) are worth asking about again.
-Ask anyway.""",
+116:"""Takeaway: pay attention to the bigger picture.
+When working with a new technology, ask questions constantly about the problem being solved.
+It has to come back to impact or a measurement.
+If we can't measure it, we shouldn't do it.""",
 120:"""Takeaway: the first pancake sucks.
 Your first prompt or tool won't be great. You'll tweak, edit and nudge. It takes time and can be frustrating.
 Once one works, you've solved a future-you problem.
