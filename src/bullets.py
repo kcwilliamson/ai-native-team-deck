@@ -190,8 +190,11 @@ Start with one person, not a platform.
 The power of teams like ours is deep empathy.
 Solutions can come fast and be executed even faster. When you pinpoint a single person, keep your humanity intact.""",
 119:"""Takeaway: share and celebrate openly. Everything is new and fresh.
+Share: biweekly reviews and internal blogs kept everyone in sync. No one worked in the shadows.
+Teach what we did and why, so others reuse the thinking and not just the output.
+Celebrate: quarterly demos gave everyone a place to be seen.
+Publish: docs, guidance and external blogs, so sharing and celebrating reached customers too.
 The small things you're already doing are clever solutions.
-Continue to share with each other and with customers: docs, guidance, internal blogs, external blogs.
 Learn more about the tools you already have access to.""",
 37:"""AI took down the language barrier.
 The mundane work is what AI is for. The people in this room lead with judgment, empathy and context.
