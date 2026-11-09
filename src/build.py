@@ -1,6 +1,7 @@
 import json
 from data import D
 import bullets
+import transitions
 PLAN=[
 (1,'Welcome',0,0,'fade'),(2,'Welcome',0,0,'fade'),(101,'Welcome',0,0,'fade'),(3,'Welcome',0,0,'pixel'),
 (102,'The divide',0,0,'pixel'),(7,'The divide',0,0,'fade'),(103,'The divide',0,0,'fade'),(104,'The divide',0,0,'fade'),(6,'The divide',0,0,'blinds'),(9,'The divide',0,0,'scan'),
@@ -24,7 +25,9 @@ tot=collections.Counter(p[2] for p in PLAN); seen=collections.Counter()
 KIND={1:'Overview',2:'Example',3:'Pitfall',4:'Cool thing',5:'The fix',6:'Transition'}
 th=json.load(open('thumbs.json')) if os.path.exists('thumbs.json') else {}
 meta=[]
-for pos,(n,s,st,p,tx) in enumerate(PLAN,1):
+TX=transitions.auto_tx([x[1] for x in PLAN])
+for pos,(n,s,st,p,_tx) in enumerate(PLAN,1):
+    tx=TX[pos-1]
     seen[st]+=1
     c=-(-4*seen[st]//tot[st]) if st in range(1,8) else 0
     d={"o":n,"m":n,"s":s,"mv":mv(st,c),"t":D[n][0],"tx":tx,"d":D[n][2]}

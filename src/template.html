@@ -178,6 +178,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @keyframes scin{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes scout{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 
+/* soft move inside a section: header and frame stay put, only the content eases over */
+.cw{position:absolute;inset:0}
+.slide.soft-in .cw{animation:softin .6s cubic-bezier(.2,.9,.2,1) both}
+.slide.soft-out .cw{animation:softout .26s cubic-bezier(.5,0,.8,.4) both}
+@keyframes softin{from{opacity:0;translate:calc(var(--dx,1)*38px) 0}to{opacity:1;translate:0 0}}
+@keyframes softout{from{opacity:1;translate:0 0}to{opacity:0;translate:calc(var(--dx,1)*-30px) 0}}
+
 @media (prefers-reduced-motion:reduce){
   .slide *{animation:none!important}
   .in,.inL,.dl,.fillrect{opacity:1!important}.wipeR{clip-path:none}.d{stroke-dashoffset:0}.flip .inner{transform:none}.type{width:auto;border:0}
@@ -585,7 +592,7 @@ META.forEach((m,i)=>{
   const n=i+1, o=m.o, s=document.createElement('section');
   s.className='slide'+(n===1?' active':''); s.id='s'+n; s.dataset.tx=m.tx; s.dataset.n=n;
   if(m.h)s.classList.add('hdr');
-  s.innerHTML=(window.__tag=m.s,B[o]?B[o]():'')+(m.h?`<div class="sechdr"><span class="k">${m.k}</span><span>${m.s}</span></div>`:(i>0&&m.s!=='Q&A'?`<div class="sechdr solo"><span>${m.s}</span></div>`:''))+meterHTML(m)+
+  s.innerHTML='<div class="cw">'+(window.__tag=m.s,B[o]?B[o]():'')+'</div>'+(m.h?`<div class="sechdr"><span class="k">${m.k}</span><span>${m.s}</span></div>`:(i>0&&m.s!=='Q&A'?`<div class="sechdr solo"><span>${m.s}</span></div>`:''))+meterHTML(m)+
    `<button class="moreBtn" data-n="${n}">+ More</button><button class="gridBtn" title="All slides (G)" aria-label="All slides"><svg width="22" height="22" viewBox="0 0 22 22">${[0,1,2].map(r=>[0,1,2].map(c=>`<rect x="${c*8}" y="${r*8}" width="6" height="6" fill="#1F2BE0"/>`).join('')).join('')}</svg></button><div class="pagenum">${String(n).padStart(2,'0')} / ${TOTAL}</div>`;
   root.appendChild(s);
 });
@@ -762,10 +769,11 @@ const run={
  pixel:n=>{px.classList.add('fill');setTimeout(()=>{show(n);px.classList.remove('fill');px.classList.add('clear');},860);setTimeout(()=>{px.classList.remove('clear');busy=false;},1760);},
  blinds:n=>{bl.classList.add('fill');setTimeout(()=>{show(n);bl.classList.remove('fill');bl.classList.add('clear');},880);setTimeout(()=>{bl.classList.remove('clear');busy=false;},1700);},
  scan:n=>{scan.className='fx scan in';setTimeout(()=>{show(n);scan.className='fx scan out';},520);setTimeout(()=>{scan.className='fx scan';busy=false;},1060);},
+ soft:n=>{const a=slides[cur],b=slides[n],dx=n>cur?1:-1;a.style.setProperty('--dx',dx);b.style.setProperty('--dx',dx);a.classList.add('soft-out');setTimeout(()=>{a.classList.remove('soft-out');b.classList.add('soft-in');show(n);busy=false;setTimeout(()=>b.classList.remove('soft-in'),700);},260);},
  fade:n=>{slides[cur].classList.add('leaving');slides[cur].classList.remove('active');setTimeout(()=>{show(n);busy=false;},300);},
  cover:n=>run.fade(n)
 };
-function go(n){if(typeof gateOn!=='undefined'&&gateOn)return;if(n>=slides.length&&n===cur+1&&!busy){openOV();return;}if(n<0||n>=slides.length||n===cur||busy)return;if(reduce){show(n);return;}busy=true;(run[META[n].tx]||run.fade)(n);}
+function go(n){if(typeof gateOn!=='undefined'&&gateOn)return;if(n>=slides.length&&n===cur+1&&!busy){openOV();return;}if(n<0||n>=slides.length||n===cur||busy)return;if(reduce){show(n);return;}busy=true;const tx=n>cur?META[n].tx:META[cur].tx;(run[tx]||run.fade)(n);}
 
 /* ---------- overview ---------- */
 const ov=document.createElement('div');ov.id='ov';stage.appendChild(ov);
