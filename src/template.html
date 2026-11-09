@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build an AI-native team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Hanken+Grotesk:wght@400;600&family=Newsreader:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F0EBDE; --paper2:#E6E0CE; --ink:#1F2BE0; --soft:#5560E5;
+  --grid:rgba(31,43,224,.10); --faint:rgba(31,43,224,.18);
+  --serif:'Newsreader',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif; --mono:'DM Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#1F2BE0}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:#1F2BE0}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:var(--paper);overflow:hidden;color:var(--ink);font-family:var(--sans)}
+.deck-stage::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;overflow:hidden;z-index:1}
+.slide.active{opacity:1;visibility:visible}
+.slide.leaving{visibility:visible;opacity:0;transition:opacity .28s}
+.slide.incoming{visibility:visible;opacity:1;z-index:5;animation:reveal .95s cubic-bezier(.7,0,.2,1) both}
+@keyframes reveal{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+
+.slide::before,.slide::after{content:"";position:absolute;left:70px;right:70px;height:1.5px;background:var(--ink);z-index:3}
+.slide::before{top:28px}.slide::after{bottom:22px}
+.pagenum{position:absolute;right:132px;bottom:50px;font:400 22px/1 var(--mono);letter-spacing:.06em;z-index:4}
+.moreBtn{position:absolute;left:70px;bottom:40px;z-index:9;font:400 20px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1.5px solid var(--ink);padding:10px 16px;background:var(--paper)}
+.gridBtn{position:absolute;right:70px;bottom:40px;z-index:9;width:44px;height:44px;border:1.5px solid var(--ink);background:var(--paper);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+.gridBtn:hover{background:var(--ink)}.gridBtn:hover rect{fill:var(--paper)}
+.moreBtn:hover{background:var(--ink);color:var(--paper)}
+.micro{font:600 22px/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.labtag{font:400 22px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.mono{font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.serif{font-family:var(--serif);font-weight:400;letter-spacing:-.008em}
+.serif em{font-style:italic}
+.t-xl{font-size:186px;line-height:.98}.t-l{font-size:140px;line-height:1}.t-m{font-size:104px;line-height:.98}
+.abs{position:absolute}
+.topbar{position:absolute;left:70px;right:70px;top:90px;display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:20px;z-index:3}
+.line{display:block;overflow:hidden;padding:4px 0 10px}.line span{display:inline-block}
+
+.meter{position:absolute;left:50%;bottom:48px;transform:translateX(-50%);display:flex;gap:22px;z-index:4;align-items:flex-end}
+.meter .grp{display:flex;flex-direction:column;gap:8px;align-items:center}
+.meter .cells{display:flex;gap:3px}.meter .cells i{display:block;width:13px;height:13px;background:var(--grid)}
+.meter .cells i.on{animation:cellon .3s both}
+@keyframes cellon{from{background:var(--grid)}to{background:var(--ink)}}
+.meter .grp:not(.ph) .lab{opacity:.45}.meter .grp.ph .lab{opacity:1}
+.meter .lab{font:400 15px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+
+.qr{position:absolute;width:150px;height:150px;padding:7px;background:var(--paper);box-shadow:0 0 0 1.5px var(--paper);display:grid;grid-template-columns:repeat(8,1fr);z-index:4}
+.qr i{display:block}.qr i.on{background:var(--ink)}
+.glitch{position:absolute;pointer-events:none;z-index:2}
+
+/* motion primitives */
+.in{opacity:0}
+.slide.active .in{animation:up .65s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(var(--d,0)*1s)}
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.slide.active .inL{animation:inL .65s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(var(--d,0)*1s)}
+.inL{opacity:0}
+@keyframes inL{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:none}}
+.slide.active .wipeR{animation:wipeR .8s cubic-bezier(.7,0,.2,1) both;animation-delay:calc(var(--d,0)*1s)}
+.wipeR{clip-path:inset(0 100% 0 0)}
+@keyframes wipeR{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.slide.active .rise span{animation:rise .85s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(var(--d,0)*1s)}
+@keyframes rise{from{transform:translateY(108%)}to{transform:none}}
+.d{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1}
+.slide.active .d{animation:draw 1.2s cubic-bezier(.5,0,.2,1) both;animation-delay:calc(var(--d,0)*1s)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.dl{font:400 20px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;fill:var(--ink);opacity:0}
+.slide.active .dl{animation:fadein .6s both;animation-delay:calc(var(--d,0)*1s)}
+@keyframes fadein{to{opacity:1}}
+.fillrect{fill:var(--ink);opacity:0}
+.slide.active .fillrect{animation:fadein .5s both;animation-delay:calc(var(--d,0)*1s)}
+.slide.active .bob{animation:bob 2.4s ease-in-out infinite;animation-delay:calc(var(--d,0)*1s)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* ---- per-layout ---- */
+.cardbox{border:1.5px solid var(--ink);background:var(--paper)}
+.big4{position:absolute;left:70px;right:70px;top:250px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.big4 .c{height:640px;border:1.5px solid var(--ink);background:var(--paper);position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:30px 32px}
+.big4 .g{font:400 280px/.9 var(--serif)}
+.big4 .w{font:400 68px/1 var(--serif);letter-spacing:-.01em}
+.idx{position:absolute;left:70px;right:70px;top:280px;display:grid;grid-template-columns:1fr 1fr;column-gap:60px}
+.idx .r{display:grid;grid-template-columns:90px 1fr;align-items:center;height:210px}
+.idx .n{font:400 28px/1 var(--mono);letter-spacing:.06em}
+.idx .h{font:400 74px/1 var(--serif);letter-spacing:-.01em}
+.led{position:absolute;left:70px;right:70px;top:290px}
+.led .r{display:grid;grid-template-columns:330px 1fr;align-items:center;min-height:210px;padding:10px 0}
+.led .k{font:600 24px/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.led .v{font:400 62px/1.08 var(--serif);letter-spacing:-.008em}
+.tiles5{position:absolute;left:70px;right:70px;top:300px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
+.tiles5 .t{height:520px;border:1.5px solid var(--ink);padding:26px;display:flex;flex-direction:column;justify-content:space-between;background:var(--paper)}
+.tiles5 .t .n{font:400 22px/1 var(--mono);letter-spacing:.08em}
+.tiles5 .t .h{font:400 70px/.98 var(--serif);letter-spacing:-.01em}
+.cols4{position:absolute;left:70px;right:70px;top:300px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.cols4 .t{height:540px;border:1.5px solid var(--ink);padding:30px;display:flex;flex-direction:column;justify-content:space-between;background:var(--paper)}
+.cols4 .h{font:400 94px/.95 var(--serif);letter-spacing:-.012em}
+.cols4 .s{font:400 26px/1.3 var(--mono);letter-spacing:.04em}
+.cards3{position:absolute;left:70px;right:70px;top:290px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+.cards3 .t{height:600px;border:1.5px solid var(--ink);padding:36px;display:flex;flex-direction:column;justify-content:space-between;background:var(--paper)}
+.cards3 .t.hot{border-width:5px}.cards3 .t.hot .n::after{content:'the real work';background:var(--ink);color:var(--paper);padding:3px 8px;margin-left:8px}
+.cards3 .n{font:400 24px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.cards3 .h{font:400 64px/1.05 var(--serif);letter-spacing:-.01em}
+.cards3 .u{height:200px;border:1.5px solid var(--ink);position:relative;overflow:hidden}
+.chain{position:absolute;left:70px;right:70px;top:380px;display:flex;align-items:stretch}
+.chain .l{flex:1;border:1.5px solid var(--ink);background:var(--paper);height:300px;padding:24px;display:flex;flex-direction:column;justify-content:space-between}
+.chain .l .n{font:400 22px/1 var(--mono);letter-spacing:.08em}
+.chain .l .h{font:400 52px/1.02 var(--serif);letter-spacing:-.01em}
+.chain .a{width:56px;display:flex;align-items:center;justify-content:center;font:400 42px/1 var(--mono)}
+.mockwin{border:1.5px solid var(--ink);background:var(--paper);position:absolute}
+.mockwin .bar{height:48px;border-bottom:1.5px solid var(--ink);display:flex;align-items:center;gap:10px;padding:0 18px}
+.mockwin .bar i{display:block;width:14px;height:14px;border:1.5px solid var(--ink)}
+.type{display:inline-block;overflow:hidden;white-space:nowrap;border-right:3px solid var(--ink);width:0}
+.slide.active .type{animation:typing 3.2s steps(46,end) both, caret .7s step-end infinite;animation-delay:calc(var(--d,0)*1s)}
+@keyframes typing{from{width:0}to{width:var(--w,100%)}}
+@keyframes caret{50%{border-color:transparent}}
+.chip{display:inline-block;border:1.5px solid var(--ink);padding:14px 22px;font:400 24px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--paper)}
+.drift{position:absolute;font:400 70px/1 var(--serif);color:var(--ink);opacity:.14;white-space:nowrap}
+.slide.active .drift{animation:drift 14s linear infinite;animation-delay:calc(var(--d,0)*-1s)}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-280px)}}
+.pile{position:absolute;font:400 64px/1 var(--serif);white-space:nowrap;opacity:0}
+.slide.active .pile{animation:pilein .5s both, pileout .6s 3.4s both;animation-delay:calc(var(--d,0)*1s),3.4s}
+@keyframes pilein{from{opacity:0;transform:scale(.6) rotate(var(--r,0deg))}to{opacity:1;transform:rotate(var(--r,0deg))}}
+@keyframes pileout{to{opacity:0;transform:scale(.4) rotate(var(--r,0deg))}}
+.flip{perspective:1400px}
+.flip .face{backface-visibility:hidden;position:absolute;inset:0;padding:30px;display:flex;flex-direction:column;justify-content:space-between;border:1.5px solid var(--ink);background:var(--paper)}
+.flip .back{transform:rotateY(180deg);background:var(--ink);color:var(--paper)}
+.flip .inner{position:absolute;inset:0;transform-style:preserve-3d}
+.slide.active .flip .inner{animation:flipc 10s ease-in-out infinite;animation-delay:calc(var(--d,0)*1s)}
+@keyframes flipc{0%,22%{transform:rotateY(0)}30%,62%{transform:rotateY(180deg)}70%,100%{transform:rotateY(0)}}
+
+/* strike on text */
+.strike{background:linear-gradient(var(--ink),var(--ink)) no-repeat 0 58%/0% 4px}
+.slide.active .strike{animation:strikego .7s both;animation-delay:calc(var(--d,0)*1s)}
+@keyframes strikego{from{background-size:0% 4px}to{background-size:100% 4px}}
+
+/* drawer */
+.drawer{position:absolute;top:60px;right:70px;bottom:60px;width:760px;z-index:30;background:var(--paper);border:1.5px solid var(--ink);padding:42px 46px;transform:translateX(900px);transition:transform .45s cubic-bezier(.7,0,.2,1);overflow:auto}
+.drawer.open{transform:none}
+.drawer .k{font:400 20px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;border-bottom:1.5px solid var(--ink);padding-bottom:16px}
+.drawer h3{font:400 64px/1.02 var(--serif);letter-spacing:-.01em;margin:30px 0 24px}
+.drawer p{font:400 31px/1.45 var(--sans)}
+.drawer .x{font:400 20px/1 var(--mono);text-transform:uppercase;letter-spacing:.1em}
+
+/* reading view */
+#read{position:fixed;inset:0;z-index:100;background:var(--paper);color:var(--ink);overflow:auto;display:none;padding:60px 0 120px}
+#read.on{display:block}
+#read .w{max-width:880px;margin:0 auto;padding:0 28px}
+#read h1{font:400 56px/1.05 var(--serif);margin-bottom:10px}
+#read .tip{font:400 15px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;margin-bottom:40px;opacity:.7}
+#read .it{border-top:1.5px solid var(--ink);padding:22px 0 26px}
+#read .it .n{font:400 14px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:flex;justify-content:space-between}
+#read .it h2{font:400 34px/1.1 var(--serif);margin-bottom:10px}
+#read .it p{font:400 18px/1.55 var(--sans)}
+#read .it a{color:inherit}
+
+/* transitions */
+.fx{position:absolute;inset:0;z-index:60;pointer-events:none}
+.px{visibility:hidden}.px.fill,.px.clear{visibility:visible}
+.px i{position:absolute;width:80.5px;height:80.5px;background:var(--ink);transform:scale(0)}
+.px.fill i{animation:pxin .3s cubic-bezier(.3,0,.3,1) both;animation-delay:calc(var(--d)*1ms)}
+.px.clear i{animation:pxout .3s cubic-bezier(.3,0,.3,1) both;animation-delay:calc(var(--d)*1ms)}
+@keyframes pxin{from{transform:scale(0)}to{transform:scale(1.03)}}
+@keyframes pxout{from{transform:scale(1.03)}to{transform:scale(0)}}
+.bl{visibility:hidden}.bl.fill,.bl.clear{visibility:visible}
+.bl i{position:absolute;top:0;width:241px;height:1080px;background:var(--ink);transform:scaleY(0)}
+.bl.fill i{transform-origin:top;animation:blin .45s cubic-bezier(.6,0,.3,1) both;animation-delay:calc(var(--d)*1ms)}
+.bl.clear i{transform-origin:bottom;animation:blout .45s cubic-bezier(.6,0,.3,1) both;animation-delay:calc(var(--d)*1ms)}
+@keyframes blin{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes blout{from{transform:scaleY(1)}to{transform:scaleY(0)}}
+.scan{visibility:hidden;background:var(--ink);transform:scaleX(0)}
+.scan.in{visibility:visible;transform-origin:left;animation:scin .5s cubic-bezier(.7,0,.3,1) both}
+.scan.out{visibility:visible;transform-origin:right;animation:scout .5s cubic-bezier(.7,0,.3,1) both}
+@keyframes scin{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes scout{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+@media (prefers-reduced-motion:reduce){
+  .slide *{animation:none!important}
+  .in,.inL,.dl,.fillrect{opacity:1!important}.wipeR{clip-path:none}.d{stroke-dashoffset:0}.flip .inner{transform:none}.type{width:auto;border:0}
+  .fx{display:none}
+}
+</style>
+</head>
+<body>
+<div class="deck-viewport" id="vp">
+ <div class="deck-stage" id="stage">
+  <div id="slides"></div>
+  <div class="drawer" id="drawer"><div class="k"><span id="dk"></span><button class="x" id="dx">Close ✕</button></div><h3 id="dh"></h3><div id="dp"></div></div>
+  <div class="fx px" id="px"></div>
+  <div class="fx bl" id="bl"></div>
+  <div class="fx scan" id="scan" style="position:absolute"></div>
+ </div>
+</div>
+<div id="read"><div class="w"><h1>Build an AI-native team</h1><div class="tip">Reading view · every slide, with its notes · press R or Esc to go back</div><div id="readList"></div></div></div>
+
+<script>
+const META=/*META*/[];const TOTAL=META.length;
+(function(){
+'use strict';
+const NS='http://www.w3.org/2000/svg';
+const $=(s,r)=> (r||document).querySelector(s);
+/* ---------- helpers ---------- */
+const lines=(arr,d0,step)=>arr.map((t,i)=>`<span class="line rise" style="--d:${(d0||0)+i*(step||.14)}"><span>${t}</span></span>`).join('');
+const top=(title,tag)=>`<div class="topbar"><h2 class="serif t-m">${title}</h2><div class="labtag">${window.__tag||tag}</div></div>`;
+const sec=n=> n<5?'Welcome': n<11?'The bridge': n<15?'Gotchas': n<18?'Goals': n<21?'Play': n<25?'Build': n<28?'Design': n<32?'What we learned': n<35?'Try it': n<36?'Goals':'Q&A';
+function meterHTML(m){ if(!m.mv) return ''; return `<div class="meter" data-m="${m.mv.join(',')}"></div>`; }
+function qr(x,y,seed,size){ // pixel QR-style block
+  let s=seed,c='';
+  for(let i=0;i<64;i++){s=(s*9301+49297)%233280; c+=`<i class="${s/233280>.5?'on':''}"></i>`;}
+  return `<div class="qr" style="left:${x}px;top:${y}px;${size?`width:${size}px;height:${size}px`:''}">${c}</div>`;
+}
+function glitch(x,y,w0,steps,h){ // stair-stepped scanline column, right-anchored at x+w0
+  let r='',yy=0;
+  for(let i=0;i<steps;i++){const ww=w0*(1-i/steps);r+=`<rect x="${w0-ww}" y="${yy}" width="${ww}" height="${h}" fill="url(#st)"/>`;yy+=h+3;}
+  return `<svg class="glitch" style="left:${x}px;top:${y}px" width="${w0}" height="${yy}" viewBox="0 0 ${w0} ${yy}"><defs><pattern id="st" width="9" height="10" patternUnits="userSpaceOnUse"><rect width="3" height="10" fill="#1F2BE0"/></pattern></defs>${r}</svg>`;
+}
+function person(x,y,s,d,bob){ // blocky figure
+  return `<g class="${bob?'bob':''}" style="--d:${d||0}"><rect x="${x-s*.25}" y="${y-s*1.1}" width="${s*.5}" height="${s*.5}" fill="#F0EBDE" stroke="#1F2BE0" stroke-width="2"/><rect x="${x-s*.3}" y="${y-s*.55}" width="${s*.6}" height="${s*.9}" fill="#F0EBDE" stroke="#1F2BE0" stroke-width="2"/></g>`;
+}
+function bridge(o){ // svg placeholder; drawn in init()
+  return `<svg class="abs bridge" style="left:0;top:${o.top||540}px;z-index:3" width="1920" height="480" viewBox="0 0 1920 480" data-o='${JSON.stringify(o)}'></svg>`;
+}
+function initBridge(svg){
+  const o=JSON.parse(svg.dataset.o), x0=o.x0||120,x1=o.x1||1800,deckY=330,cx=(x0+x1)/2;
+  const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e;};
+  const dl=(d,dd,sw)=>el('path',{class:'d',pathLength:1,d,style:`--d:${dd};${sw?'stroke-width:'+sw:''}`});
+  const seg=(x1-x0)/(o.n||4);
+  for(let i=0;i<(o.lit||0);i++) el('rect',{class:'fillrect',x:x0+i*seg,y:deckY,width:seg,height:22,style:`--d:${(o.litDelay||1.4)+i*.5}`});
+  dl(`M${x0} ${deckY} L${x1} ${deckY}`,.2); dl(`M${x0} ${deckY+22} L${x1} ${deckY+22}`,.3);
+  dl(`M${x0} ${deckY} Q${cx} -40 ${x1} ${deckY}`,.6,3);
+  for(let k=1;k<14;k+=2){const t=k/14,px=(1-t)*(1-t)*x0+2*(1-t)*t*cx+t*t*x1,py=(1-t)*(1-t)*deckY+2*(1-t)*t*(-40)+t*t*deckY;
+    dl(`M${px.toFixed(1)} ${py.toFixed(1)} L${px.toFixed(1)} ${deckY}`,1.1+k*.05);}
+  const labels=o.labels===false?[]:(o.labels||['Goals','Play','Build','Design']);
+  labels.forEach((n,s)=>{const t=el('text',{class:'dl',x:x0+s*seg+seg/2,y:deckY+80,'text-anchor':'middle',style:`--d:${2.4+s*.15}`});t.textContent=n;});
+  if(o.figures){
+    const fl=Array.isArray(o.figures)?o.figures:Array(o.figures).fill('');
+    const g=document.createElementNS(NS,'g');svg.appendChild(g);
+    let h='';fl.forEach((lab,i)=>{const fx=x0+(i+.5)*(x1-x0)/fl.length;h+=person(fx,deckY-4,70,i*.3,true);});
+    g.innerHTML=h; g.style.opacity=0; g.setAttribute('class','figs');
+  }
+}
+/* ---------- slide builders ---------- */
+const PEOPLE=[['Skeptical users',['Highly technical and security-minded','Trust was fragile','Early chatbot experiments raised support tickets']],
+ ['Nervous team',['The environment','Made-up answers (hallucinations)','Brain rot and ethics','Being left behind or replaced']],
+ ['Gung-ho leadership',['Their message: this is the way','Wanted visible progress, fast']],
+ ['Racing market',['Everyone was moving fast','The message everywhere: ship AI now']]];
+const B={};
+B[1]=()=>`
+ <h1 class="serif t-xl abs" style="left:70px;top:210px;z-index:3">${lines(['Build an','<em>AI-native team</em>'],.1,.15)}</h1>
+ <div class="serif abs in" style="--d:.9;left:76px;top:650px;font-size:54px;z-index:3">How we crossed the bridge, together</div>
+ <div class="abs mono in" style="--d:.2;left:76px;top:86px;z-index:4;font-size:24px;letter-spacing:.2em;border:1.5px solid var(--ink);padding:12px 22px">CASE STUDY · AI-ENABLING A UX TEAM</div>
+ <div class="abs mono" style="left:0;right:0;bottom:34px;text-align:center;font-size:18px;opacity:.75;z-index:4">← → arrow keys move between slides · G shows every slide</div>
+ ${glitch(1520,160,330,6,30)}`;
+B[121]=()=>`${bridge({top:500,labels:false})}`; /* spare: former cover bridge, unused */
+B[2]=()=>`
+ <h1 class="serif t-l abs" style="left:70px;top:260px;z-index:3">${lines(['“Stop with the jargon.','<em>Just talk to me.</em>”'],.2,.2)}</h1>
+ <svg class="abs" style="left:1420px;top:200px" width="400" height="560" viewBox="0 0 400 560" fill="none" stroke="#1F2BE0" stroke-width="3">
+  <g class="hand" style="transform-origin:200px 520px"><g class="in" style="--d:.5">
+   <rect x="110" y="260" width="190" height="200" fill="#F0EBDE"/>
+   <rect x="110" y="100" width="40" height="170" fill="#F0EBDE"/><rect x="156" y="60" width="40" height="210" fill="#F0EBDE"/>
+   <rect x="202" y="80" width="40" height="190" fill="#F0EBDE"/><rect x="248" y="120" width="40" height="150" fill="#F0EBDE"/>
+   <path d="M110 330 L40 270 L66 244 L130 300" fill="#F0EBDE"/>
+   <rect x="120" y="460" width="170" height="60" fill="#F0EBDE"/></g></g>
+ </svg>`;
+B[3]=()=>`${top('The phases of AI adoption','The route')}${bridge({top:300,n:3,lit:3,litDelay:1.2,labels:false,x0:560,x1:1360})}
+ <div class="abs in" style="--d:.4;left:70px;top:520px;width:440px;z-index:3"><div class="mono" style="font-size:22px;letter-spacing:.2em;opacity:.75">BEFORE</div><div class="serif" style="font-size:54px;line-height:1.05;margin:8px 0 10px">Survey and permits</div><div class="mono" style="font-size:22px;letter-spacing:.12em">CONCERNS · GOALS</div></div>
+ <div class="abs in" style="--d:.6;right:70px;top:520px;width:440px;text-align:right;z-index:3"><div class="mono" style="font-size:22px;letter-spacing:.2em;opacity:.75">AFTER</div><div class="serif" style="font-size:54px;line-height:1.05;margin:8px 0 10px">Opening day</div><div class="mono" style="font-size:22px;letter-spacing:.12em">RESULT · LESSONS</div></div>
+ ${[['Play.','try it'],['Build.','make it'],['<em>Design.</em>','shape it']].map((x,i)=>`<div class="abs in" style="--d:${1.6+i*.5};left:${560+i*266.7}px;width:266.7px;top:690px;text-align:center;z-index:3"><div class="serif" style="font-size:78px;line-height:1">${x[0]}</div><div class="mono" style="font-size:24px;letter-spacing:.2em;margin-top:14px;opacity:.8">${x[1].toUpperCase()}</div></div>`).join('')}`;
+B[4]=()=>`
+ <h1 class="serif t-xl abs" style="left:70px;top:190px;z-index:3">${lines(['House rule:','<em>plain English</em>'],.1,.15)}</h1>
+ <div class="abs" style="left:70px;top:700px;display:flex;gap:24px;z-index:3">
+  <span class="chip in" style="--d:.9">Every AI term defined</span><span class="chip in" style="--d:1.1">Chat stays open</span><span class="chip in" style="--d:1.3">A co-pilot is watching</span></div>`;
+B[5]=()=>`${top('Four moods, one room','The bridge')}<div class="abs mono in" style="--d:1.2;left:70px;top:935px;font-size:22px;z-index:3">The audience: every one of these is sitting in this room</div>
+ <div class="big4">${[['?','Skeptical<br>Users'],['…','Nervous<br>Team'],['!','Gung-ho<br>Leadership'],['»','Racing<br>Market']].map((x,i)=>`<div class="c in" style="--d:${.2+i*.18}"><div class="g">${x[0]}</div><div class="w">${x[1]}</div></div>`).join('')}</div>`;
+B[6]=()=>`${top('The problem: bridge the divide','The bridge')}
+ <div class="abs" style="left:70px;top:290px;width:1780px;height:620px;z-index:3">
+  ${[['Skeptical<br>Users',0,0],['Nervous<br>Team',0,1],['Gung-ho<br>Leadership',1,0],['Racing<br>Market',1,1]].map((x,k)=>`<div class="abs cardbox in pcard" data-k="${k}" style="cursor:pointer;--d:${.2+k*.15};${x[1]?'right':'left'}:0;${x[2]?'bottom':'top'}:0;width:280px;height:280px;padding:24px;display:flex;align-items:flex-end;font:400 50px/1.02 var(--serif)">${x[0]}</div>`).join('')}
+  <div class="pong" style="left:320px;top:20px"><div class="px2"><div class="py2"></div></div></div>
+  <div class="ppanel">${PEOPLE.map((p,k)=>`<div class="pb" data-k="${k}"><div class="micro">${p[0]}</div><ul>${p[1].map(b=>`<li>${b}</li>`).join('')}</ul></div>`).join('')}</div>
+ </div>`;
+B[7]=()=>{const w=['agentic','multimodal','RAG','LLM','copilot','orchestration','vibe coding','prompt engineering','fine-tuning','tokens','guardrails','embeddings','ChatGPT','Claude','Gemini','Cursor','Llama','Midjourney','Perplexity','Mistral','GPT-5','MCP','context window','vector DB','LangChain','Copilot Studio','Sora','DeepSeek','agents','evals','inference','open weights','Figma Make','v0','Lovable','Bolt','Replit','RLHF','transformers','hallucination'];
+ let f='';w.forEach((x,i)=>{f+=`<span class="drift" style="--d:${i*.7};left:${1120+(i*397)%700}px;top:${120+((i*229)%820)}px">${x}</span>`;});
+ return `${f}<div class="serif abs" style="left:70px;top:130px;font-size:132px;line-height:1.02;z-index:3">${lines(['The market','was (and is still)','<em>racing.</em>'],.1,.18)}</div>
+  <div class="serif abs in" style="--d:1;left:76px;top:640px;width:820px;font-size:56px;line-height:1.2;z-index:3">Everyone was racing to ship AI. <em>FOMO</em> was real.</div>
+  <div class="serif abs in" style="--d:1.8;left:76px;top:850px;width:860px;font-size:38px;line-height:1.25;opacity:.85;z-index:3">Technical talk made it hard to ask the simple question: <em>what problem are we solving?</em></div>`;};
+B[8]=()=>`
+ <div class="abs serif" style="left:70px;top:170px;font-size:170px;line-height:1;z-index:3"><span class="strike" style="--d:1.4">Will I use AI?</span></div>
+ <div class="abs mono in" style="--d:1.9;left:80px;top:430px;font-size:60px">↓</div>
+ <h1 class="serif abs" style="left:70px;top:520px;font-size:160px;line-height:1;white-space:nowrap;z-index:3">${lines(['How do I use it <em>well?</em>'],2.1)}</h1>`;
+B[9]=()=>`${top('The goal','The bridge')}
+ <div class="serif abs" style="left:70px;top:240px;font-size:112px;line-height:1.02;z-index:3">${lines(['From <em>AI skeptic</em>','to <em>AI native</em>, together.'],.2,.25)}</div>
+ <div class="abs in" style="--d:.5;left:120px;top:620px;width:300px;height:110px;border:1.5px solid var(--ink);background:var(--paper);display:flex;align-items:flex-end;padding:18px;font:400 44px/1 var(--serif);z-index:3">AI skeptic</div>
+ <div class="abs in" style="--d:.7;left:1500px;top:620px;width:300px;height:110px;background:var(--ink);color:var(--paper);display:flex;align-items:flex-end;padding:18px;font:400 44px/1 var(--serif);z-index:3">AI native</div>
+ ${bridge({top:540,n:7,lit:7,litDelay:.8,labels:['Concerns','Goals','Play','Build','Design','Result','Lessons']})}`;
+B[10]=()=>`${top('Four planks','The bridge')}${bridge({top:420,lit:1,litDelay:2.6})}`;
+B[11]=()=>{const c=[['Panic and false confidence','Add skills, don’t replace specialists'],['Hype is jargon too','Ask what it actually does'],['Working alone','Build together, nobody solo'],['AI with no reason','Start from goals, not gadgets']];
+ return `${top('Four gotchas, four fixes','Gotchas')}<div class="abs" style="left:70px;right:70px;top:290px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px">${c.map((x,i)=>`
+  <div class="flip in" style="--d:${.2+i*.15};position:relative;height:600px"><div class="inner" style="--d:${2.5+i*.8}">
+   <div class="face"><span class="mono" style="font-size:22px">Gotcha</span><span class="serif" style="font-size:66px;line-height:1.02">${x[0]}</span></div>
+   <div class="face back"><span class="mono" style="font-size:22px">The fix</span><span class="serif" style="font-size:62px;line-height:1.02">${x[1]}</span></div></div></div>`).join('')}</div>`;};
+B[12]=()=>`
+ <h1 class="serif abs" style="left:70px;top:210px;font-size:168px;line-height:.98;white-space:nowrap;z-index:3">${lines(['When designers','<em>became engineers</em>'],.1,.14)}</h1>
+ <div class="serif abs in" style="--d:.8;left:76px;top:700px;font-size:46px;line-height:1.3;max-width:760px;z-index:3">A team of “I” leads to burnout.</div>
+ <div class="abs swap" style="right:90px;top:200px;width:430px;height:560px;z-index:3">
+  <div class="badge b1"><span class="t">Job title</span><span class="n">Designer</span></div>
+  <div class="arrows">⇅</div>
+  <div class="badge b2"><span class="t">Job title</span><span class="n">Engineer</span></div></div>`;
+B[13]=()=>{const w=['agentic swarm','10x','autonomous','AI-native','transformative','revolutionary','game-changing','end-to-end','self-healing','next-gen','orchestrated','paradigm','supercharged','frictionless'];
+ let h='';w.forEach((x,i)=>{h+=`<span class="pile" style="--d:${.15+i*.14};--r:${(i%5-2)*4}deg;left:${120+((i*331)%1250)}px;top:${200+((i*157)%520)}px">${x}</span>`;});
+ return `${top('Hype is a glass ceiling','Gotchas')}${h}
+  <div class="serif abs in" style="--d:3.8;left:70px;top:330px;width:1700px;font-size:124px;line-height:1.05;z-index:3">Ask: <em>What problem are you solving?</em></div>
+  <div class="serif abs in" style="--d:4.6;left:76px;top:660px;width:1400px;font-size:46px;line-height:1.25;z-index:3">Technical talk can make people feel they’re not allowed to question it. Big words shouldn’t stop anyone from asking.</div>`;};
+B[14]=()=>{const l=['Environment','Security','Hallucinations','Ethics','Brain rot','Being left behind or replaced'];
+ return `${top('The worries we heard','Gotchas')}<div class="idx">${l.map((x,i)=>`<div class="r in" style="--d:${.2+i*.15}"><div class="n">0${i+1}</div><div class="h">${x}</div></div>`).join('')}</div>`;};
+B[15]=()=>`${top('Goals before gadgets','Goals')}
+ <div class="serif abs" style="left:70px;top:330px;font-size:86px;line-height:1.08;width:880px;z-index:3">${lines(['An OKR is a goal','<em>plus the measures</em>','that show you got there.'],.3,.2)}</div>
+ <svg class="abs" style="left:1100px;top:250px" width="700" height="700" viewBox="0 0 700 700" fill="none">
+  ${[300,230,160,90].map((r,i)=>`<rect class="d" pathLength="1" x="${350-r}" y="${350-r}" width="${r*2}" height="${r*2}" style="--d:${.2+i*.2}"/>`).join('')}
+  <rect class="fillrect" x="310" y="310" width="80" height="80" style="--d:1.4"/>
+  <path class="d" pathLength="1" d="M40 60 L340 340" style="--d:1.5;stroke-width:3"/><path class="d" pathLength="1" d="M40 60 L40 110 M40 60 L90 60" style="--d:1.8;stroke-width:3"/></svg>`;
+B[16]=()=>chain('Goals, linked to outcomes','Goals',['Company goals','Roadmap','Through-lines','Team OKRs','Metrics','Outcomes']);
+function chain(title,tag,arr){return `${top(title,tag)}<div class="chain">${arr.map((x,i)=>`<div class="l in" style="--d:${.2+i*.3}"><span class="n">0${i+1}</span><span class="h">${x}</span></div>${i<arr.length-1?`<div class="a in" style="--d:${.4+i*.3}">→</div>`:''}`).join('')}</div>`;}
+B[17]=()=>`${top('A real example','Goals')}<div class="led">${[['Objective','AI experiences that help customers find answers faster'],['Key results','Better search accuracy · customer sentiment stays positive · check the box on AI'],['Team goals','Level up on how AI works · add AI to research · evolve the team']].map((x,i)=>`<div class="r in" style="--d:${.2+i*.4}"><div class="k">${x[0]}</div><div class="v">${x[1]}</div></div>`).join('')}</div>`;
+B[18]=()=>`${top('Play: Out of the box LLM','Play')}
+ <div class="serif abs" style="left:70px;top:290px;font-size:84px;line-height:1.06;width:1000px;z-index:3">${lines(['Find a way AI','improves <em>your own</em> workflow.'],.2,.2)}</div>
+ <div class="serif abs in" style="--d:1;left:76px;top:650px;width:960px;font-size:42px;line-height:1.3;z-index:3">Tied to the goals, but broad to start.<br>Low risk: it’s your work, not anyone else’s.<br>Space to just try things.</div>
+ <svg class="abs" style="left:1000px;top:220px" width="850" height="720" viewBox="0 0 850 720" fill="none" stroke="#1F2BE0" stroke-width="2.5">
+  ${(()=>{const N=[['Specs and docs',130,90],['Research synthesis',425,50],['Design ideas',720,90],['Meeting notes',130,600],['Copyediting',425,650],['Learning a tool',720,600]];const cx=425,cy=345;return N.map((n,i)=>`<path class="d" pathLength="1" d="M${cx} ${cy} L${n[1]} ${n[2]}" style="--d:${.8+i*.3}"/><rect class="in" x="${n[1]-115}" y="${n[2]-32}" width="230" height="64" fill="#F0EBDE" style="--d:${1.2+i*.3}"/><text class="in" x="${n[1]}" y="${n[2]+8}" text-anchor="middle" fill="#1F2BE0" stroke="none" font-family="Hanken Grotesk" font-size="22" style="--d:${1.2+i*.3}">${n[0]}</text><rect class="fillrect" x="${n[1]-6}" y="${n[2]+(n[2]<345?42:-54)}" width="12" height="12" style="--d:${1+i*.3}"/>`).join('');})()}
+  ${person(425,415,150,.3,false)}<text class="dl" x="425" y="500" text-anchor="middle" style="--d:.6">You</text></svg>`;
+B[19]=()=>{const it=['Prompt library','Blog drafts','Sounding board','Model testing','New tools'];
+ const wave='M70 600 q175 -140 350 0 t350 0 t350 0 t350 0 t350 0';
+ return `${top('How we played','Play')}<svg class="abs" style="left:0;top:0" width="1920" height="1080" viewBox="0 0 1920 1080"><path class="d" pathLength="1" d="${wave}" style="--d:.3;stroke-width:3"/>${it.map((x,i)=>{const px=245+i*350,py=600+(i%2?70:-70);return `<rect class="fillrect" x="${px-14}" y="${py-14}" width="28" height="28" style="--d:${.9+i*.3}"/>`;}).join('')}</svg>
+ ${it.map((x,i)=>{const px=245+i*350,up=i%2===0;return `<div class="abs in" style="--d:${.9+i*.3};left:${px-170}px;width:340px;text-align:center;top:${up?330:720}px;z-index:3"><div class="mono" style="font-size:22px;margin-bottom:10px">0${i+1}</div><div class="serif" style="font-size:56px;line-height:1">${x}</div></div>`;}).join('')}`;};
+B[20]=()=>`${top('Share. Teach. Celebrate. Publish.','Play')}
+<svg class="abs" style="left:840px;top:190px" width="1010" height="780" viewBox="0 0 1010 780" fill="none" stroke="#1F2BE0" stroke-width="3">
+  ${[[230,230,200,0],[760,210,220,1],[470,500,210,2],[800,610,260,3]].map(([cx,cy,r,i])=>`<g class="fw">${Array.from({length:16},(_,k)=>{const a=k/16*Math.PI*2,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;return `<line pathLength="1" x1="${cx}" y1="${cy}" x2="${x.toFixed(0)}" y2="${y.toFixed(0)}" style="--d:${(.6+i*.9).toFixed(1)}"/>`}).join('')}<circle cx="${cx}" cy="${cy}" r="14" fill="#1F2BE0" style="--d:${(.6+i*.9).toFixed(1)};transform-origin:${cx}px ${cy}px"/></g>`).join('')}</svg>
+ ${[['Share','Biweekly reviews and internal blogs'],['Teach','What we did, and why'],['Celebrate','Quarterly demos'],['Publish','Docs, guidance and external blogs, for customers too']].map((x,i)=>`<div class="abs in" style="--d:${.6+i*.8};left:70px;top:${250+i*175}px;width:760px;z-index:3"><span class="mono" style="font-size:22px;opacity:.7">0${i+1}</span><div class="serif" style="font-size:86px;line-height:1.05">${x[0]}</div><div class="mono" style="font-size:22px;letter-spacing:.06em;text-transform:uppercase;margin-top:6px">${x[1]}</div></div>`).join('')}`;
+B[21]=()=>`${top('Build: our own tools','Build')}
+ <svg class="abs" style="left:70px;top:300px" width="1780" height="640" viewBox="0 0 1780 640" fill="none" stroke="#1F2BE0" stroke-width="2">
+  <rect class="d" pathLength="1" x="40" y="60" width="640" height="440" style="--d:.2"/><rect class="d" pathLength="1" x="1" y="500" width="720" height="40" style="--d:.4"/>
+  ${[0,1,2,3,4,5,6].map(i=>`<path class="d" pathLength="1" d="M80 ${110+i*54} L${200+((i*97)%380)} ${110+i*54}" style="--d:${.6+i*.12};stroke-width:5"/>`).join('')}
+  <path class="d" pathLength="1" d="M760 300 L980 300 M940 270 L980 300 L940 330" style="--d:1.6;stroke-width:3"/>
+  <path class="d" pathLength="1" d="M1040 420 L1760 420" style="--d:1.8"/>
+  ${[0,1,2,3].map(i=>`<rect class="d" pathLength="1" x="${1070+i*170}" y="${300-(i%2)*40}" width="140" height="${120+(i%2)*40}" style="--d:${2.5+i*.8}"/>`).join('')}
+  ${[0,1,2,3].map(i=>`<path class="d" pathLength="1" d="M${1140+i*170} 600 L${1140+i*170} 450 M${1120+i*170} 470 L${1140+i*170} 450 L${1160+i*170} 470" style="--d:${2.8+i*.15};stroke-width:1.5"/>`).join('')}
+  <text x="40" y="590" class="dl" style="--d:1.2">Built once</text><text x="1040" y="620" class="dl" style="--d:3.2">Used by many hands</text></svg>`;
+B[121]=()=>{const c=[['Cloudy: AI-assisted search','An answer, not a chat'],['Cloudy: inline AI tooling','Help right where you work'],['Chunkability','About 1 in 5 accurate became about 4 in 5']];
+ return `${top('Cool designs. The real work came after.','Design')}<div class="cards3">${c.map((x,i)=>`<div class="t in${i==2?' hot':''}" style="--d:${.2+i*.25}"><span class="n">${x[0]}</span>
+  <div class="u"><svg width="100%" height="100%" viewBox="0 0 520 200" preserveAspectRatio="none" fill="none" stroke="#1F2BE0" stroke-width="2.5">${i==0?'<rect x="30" y="30" width="460" height="50"/><path d="M50 55 H220" stroke-width="5"/><rect x="30" y="110" width="460" height="70" fill="#1F2BE0"/><path d="M50 135 H400 M50 158 H300" stroke="#F0EBDE" stroke-width="5"/>':i==1?'<rect x="30" y="20" width="300" height="160"/><path d="M50 50 H300 M50 80 H260 M50 110 H300" stroke-width="4"/><rect x="250" y="120" width="240" height="64" fill="#1F2BE0"/><path d="M270 144 H460 M270 162 H400" stroke="#F0EBDE" stroke-width="5"/>':[0,1,2,3,4,5].map(k=>`<rect x="${30+k*76}" y="${170-(30+k*22)}" width="48" height="${30+k*22}" fill="#1F2BE0" opacity="${.3+k*.14}"/>`).join('')}</svg></div>
+  <span class="h">${x[1]}</span></div>`).join('')}</div>`;};
+B[122]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:112px;line-height:1.02;z-index:3">${lines(['Inline insights:','help right where','you <em>work.</em>'],.1,.2)}</div>
+ <div class="serif abs in" style="--d:1.2;left:76px;top:640px;width:760px;font-size:42px;line-height:1.3;z-index:3">Pre-written, stress-tested prompts, tied to exactly where someone is.</div>
+ <div class="mockwin in" style="--d:.3;left:980px;top:230px;width:870px;height:640px;z-index:3"><div class="bar"><i></i><i></i><i></i><span class="mono" style="margin-left:14px;font-size:18px;opacity:.7">Dashboard</span></div>
+  <div style="padding:34px;display:grid;gap:22px">${[560,420,500,360].map((w,i)=>`<div class="in" style="--d:${.6+i*.2};height:26px;width:${w}px;background:var(--faint)"></div>`).join('')}
+  <div class="in" style="--d:1.4;height:110px;border:1.5px solid var(--ink);display:flex;align-items:center;padding:0 26px;font:400 30px/1.2 var(--sans);width:640px">This setting controls who can see it.</div></div>
+  <div class="cardbox in" style="--d:2.2;position:absolute;right:34px;bottom:34px;width:420px;padding:22px 26px;background:var(--ink);color:var(--paper);font:400 28px/1.3 var(--sans)"><div class="mono" style="font-size:18px;letter-spacing:.12em;margin-bottom:10px">LEARN WITH THE AI HELPER</div>Here’s what this does, and when to change it.</div></div>`;
+B[22]=()=>{const c=[['Feedback tool','Months of research became minutes'],['Content scorer','One area’s average score rose by about a third'],['Papercut report','Dozens of fixes, in record time']];
+ return `${top('Three tools','Build')}<div class="cards3">${c.map((x,i)=>`<div class="t in" style="--d:${.2+i*.25}"><span class="n">${x[0]}</span>
+  <div class="u"><svg width="100%" height="100%" viewBox="0 0 520 200" preserveAspectRatio="none" fill="none" stroke="#1F2BE0">${i==0?[0,1,2,3,4,5,6].map(k=>`<rect x="${20+k*70}" y="${180-(20+((k*47)%130))}" width="40" height="${20+((k*47)%130)}" fill="#1F2BE0" opacity="${.3+k*.1}"/>`).join(''):i==1?[0,1,2,3,4].map(k=>`<path d="M30 ${30+k*34} L${150+((k*83)%330)} ${30+k*34}" stroke-width="6"/>`).join(''):[0,1,2,3,4,5].map(k=>`<rect x="${30+k*80}" y="${50+(k%2)*60}" width="50" height="50" stroke-width="2"/>`).join('')}</svg></div>
+  <span class="h">${x[1]}</span></div>`).join('')}</div>`;};
+function vid(name,inset){return `<video src="${name.includes('/')?name:'https://katiewilliamsonsebkhi.com/videos/'+name+'.mp4'}" preload="metadata" muted loop playsinline controls onerror="this.style.display='none'" style="position:absolute;inset:${inset||'48px 0 0 0'};width:100%;height:calc(100% - 48px);object-fit:contain;background:#1F2BE0;z-index:2"></video>`;}
+function video(n,name,outcome,v){return `
+ <div class="micro abs in" style="--d:.1;left:70px;top:90px">Walkthrough ${n} of 3 · Build</div>
+ <h1 class="serif abs" style="left:70px;top:130px;font-size:120px;line-height:1;z-index:3">${lines([name],.15)}</h1>
+ <div class="mockwin in" style="--d:.4;left:70px;top:300px;width:1200px;height:600px;z-index:3"><div class="bar"><i></i><i></i><i></i></div>
+  <div style="position:absolute;inset:48px 0 0 0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px"><svg width="150" height="170" viewBox="0 0 150 170" fill="none" stroke="#1F2BE0"><path class="d" pathLength="1" d="M20 14 L132 85 L20 156 Z" style="--d:.8;stroke-width:4"/></svg><div class="mono" style="font-size:22px;opacity:.7">Video walkthrough</div></div>${v?vid(v):''}</div>
+ <div class="serif abs in" style="--d:1;left:1330px;top:320px;width:520px;font-size:64px;line-height:1.08;z-index:3">${outcome}</div>`;}
+B[38]=()=>video(1,'Feedback tool','Months of research became minutes.','cloudspeaker');
+B[39]=()=>video(2,'Content scorer','One area’s average score rose by about a third.','clue');
+B[40]=()=>video(3,'Papercut report','Dozens of fixes, in record time.');
+B[23]=()=>`${top('Results: mundane to <em>strategic</em>','Build')}
+ <div class="abs" style="left:70px;right:70px;top:290px;display:grid;grid-template-columns:1fr 130px 1fr;z-index:3"><div class="micro" style="opacity:.6">Off our plate</div><div></div><div class="micro">What opened up</div></div>
+ <div class="abs m23" style="left:70px;right:70px;top:340px;z-index:3">${[['Feedback tool','Digging through scattered feedback','Strategy shaped by customer signal'],['Content scorer','Line-by-line copy edits','High-judgment design critique'],['Papercut report','Hunting small problems by hand','Deciding what matters most']].map((x,i)=>`
+  <div class="row"><div class="l in" style="--d:${.2+i*.4}"><span class="t">${x[0]}</span><p><span class="strike" style="--d:${.6+i*.4}">${x[1]}</span></p></div><div class="mid in" style="--d:${1.2+i*.4}">→</div><div class="r wipeR" style="--d:${1.3+i*.4}"><p>${x[2]}</p></div></div>`).join('')}</div>`;
+B[24]=()=>`
+ <h1 class="serif abs" style="left:70px;top:170px;font-size:170px;line-height:1.02;z-index:3">${lines(['Data in hand.','Out of the weeds.','<em>A seat at the table.</em>'],.2,.3)}</h1>
+ <svg class="abs" style="left:1440px;top:520px" width="360" height="330" viewBox="0 0 360 330" fill="none" stroke="#1F2BE0" stroke-width="3">
+  <rect class="d" pathLength="1" x="90" y="40" width="40" height="170" style="--d:1.4"/><rect class="d" pathLength="1" x="90" y="210" width="190" height="36" style="--d:1.6"/><path class="d" pathLength="1" d="M110 246 L110 320 M260 246 L260 320" style="--d:1.8"/></svg>`;
+B[25]=()=>{let k='';let id=0;
+ const kk=(c,r,w)=>{const lit=((id*37)%11)<3;k+=`<rect class="${lit?'key':''}" x="${c*74}" y="${r*84}" width="${w}" height="62" fill="${lit?'#1F2BE0':'none'}" stroke="#1F2BE0" stroke-width="2" style="--d:${(id*.17)%3.4}"/>`;id++;};
+ for(let r=0;r<3;r++)for(let c=0;c<14;c++)kk(c,r,62);
+ for(let c=0;c<3;c++)kk(c,3,62);
+ kk(3,3,7*74-12);
+ for(let c=10;c<14;c++)kk(c,3,62);
+ return `${top('Design: learn by doing','Design')}
+ <div class="serif abs" style="left:70px;top:310px;font-size:130px;line-height:1.04;z-index:3">${lines(['Hands on.','<em>Not a book.</em>'],.2,.2)}</div>
+ <svg class="abs kb" style="left:760px;top:620px" width="1000" height="340" viewBox="-4 -4 1046 350">${k}</svg>`;};
+B[26]=()=>`${top('Search: an answer, not a chat','Design')}
+ <div class="micro abs in" style="--d:.2;left:70px;top:290px;opacity:.6">Before</div><div class="micro abs in" style="--d:.8;left:990px;top:290px">After</div>
+ <svg class="abs" style="left:70px;top:340px" width="800" height="560" viewBox="0 0 800 560" fill="none" stroke="#1F2BE0" stroke-width="2">
+  ${[0,1,2].flatMap(r=>[0,1,2].map(c=>`<rect class="d" pathLength="1" x="${c*260}" y="${r*190}" width="240" height="170" style="--d:${.3+(r*3+c)*.07}"/>`)).join('')}
+  <path class="d" pathLength="1" d="M120 85 L380 85 L380 275 L640 275 L640 465 L120 465 L120 85" stroke-dasharray="1" style="--d:1.2;stroke-width:4" /></svg>
+ <div class="abs" style="left:990px;top:350px;width:860px;z-index:3">
+  <div class="cardbox in" style="--d:.9;padding:26px 30px;font:400 40px/1.2 var(--sans)"><span class="type" style="--d:1.2;--w:610px">How do I set this up?</span></div>
+  <div style="margin-top:34px;display:grid;gap:18px">
+   <div class="cardbox in" style="--d:3.2;padding:24px 30px"><div class="mono" style="font-size:20px;opacity:.7;margin-bottom:8px">Solve it</div><div class="serif" style="font-size:48px;line-height:1.1">The answer, right there</div></div>
+   <div class="cardbox in" style="--d:3.6;padding:24px 30px"><div class="mono" style="font-size:20px;opacity:.7;margin-bottom:8px">Or serve it</div><div class="serif" style="font-size:48px;line-height:1.1">The right content, not a chat</div></div></div></div>`;
+B[41]=()=>`${top('Cloudy search: the real screens','Design')}<div class="mockwin in" style="--d:.3;left:70px;top:290px;width:1100px;height:660px;z-index:3"><div class="bar"><i></i><i></i><i></i><span class="mono" style="margin-left:14px;font-size:18px">Cloudy search</span></div>${vid('videos/cloudy-search.mp4')}</div><div class="serif abs in" style="--d:1;left:1230px;top:320px;width:620px;font-size:70px;line-height:1.08;z-index:3">An answer, <em>not a chat.</em></div>`;
+B[42]=()=>`${top('The real tool: Cloudy monitoring','Design')}<div class="mockwin in" style="--d:.3;left:70px;top:290px;width:1780px;height:610px;z-index:3"><div class="bar"><i></i><i></i><i></i></div>${vid('videos/cloudy-monitor.mp4')}</div>`;
+B[43]=()=>`<div class="micro abs in" style="--d:.1;left:76px;top:150px">New section</div>
+ <h1 class="serif abs" style="left:70px;top:230px;font-size:300px;line-height:.98;z-index:3">${lines(['What we','<em>learned</em>'],.1,.18)}</h1>
+ <svg class="abs" style="left:1320px;top:300px" width="540" height="360" viewBox="0 0 660 440">${(()=>{let k='';for(let r=0;r<4;r++)for(let c=0;c<6;c++)k+=`<rect class="tl" x="${c*110}" y="${r*110}" width="92" height="92" stroke="#1F2BE0" stroke-width="2" style="--d:${((c+r)*.35).toFixed(2)}"/>`;return k;})()}</svg>`;
+B[27]=()=>{let m='',t='';
+ for(let i=0;i<7;i++){m+=`<g style="transform:rotate(${(i%2?1:-1)*(4+i*3)}deg);transform-origin:300px 250px"><rect x="${130+i*14}" y="${80+((i*29)%50)}" width="220" height="290" fill="#F0EBDE" stroke="#1F2BE0" stroke-width="2"/>${[0,1,2,3].map(k=>`<path d="M${150+i*14} ${130+((i*29)%50)+k*50} L${300+i*14-(k*17%60)} ${130+((i*29)%50)+k*50}" stroke="#1F2BE0" stroke-width="5"/>`).join('')}</g>`;}
+ ['how-to','limits','setup','example','warning','steps'].forEach((x,i)=>{t+=`<g class="in" style="--d:${1.4+i*.18}"><rect x="${(i%3)*200}" y="${Math.floor(i/3)*220}" width="180" height="190" fill="#F0EBDE" stroke="#1F2BE0" stroke-width="2"/><rect x="${(i%3)*200}" y="${Math.floor(i/3)*220}" width="180" height="40" fill="#1F2BE0"/><text x="${(i%3)*200+16}" y="${Math.floor(i/3)*220+28}" fill="#F0EBDE" font-family="DM Mono,monospace" font-size="20" letter-spacing="1.4">${x.toUpperCase()}</text></g>`;});
+ return `${top('Keep an eye on AI. Fix the source.','Design')}
+ <svg class="abs" style="left:70px;top:290px" width="800" height="660" viewBox="0 0 700 660" fill="none">${m}</svg>
+ <div class="abs mono in" style="--d:1;left:900px;top:570px;font-size:70px;z-index:3">→</div>
+ <svg class="abs" style="left:1100px;top:350px" width="620" height="460" viewBox="0 0 600 440">${t}</svg>
+ <div class="abs mono in" style="--d:2.7;left:1100px;top:850px;font-size:22px;width:700px">Small, labeled pieces the AI can find</div>`;};
+B[28]=()=>`${top('Enable, don’t gatekeep','What we learned')}
+ ${[['Share','the tool'],['Share','the words'],['Share','the reasoning']].map((x,i)=>`<div class="abs in" style="--d:${.2+i*.3};left:70px;top:${250+i*190}px;z-index:3;display:flex;align-items:baseline;gap:34px"><span class="mono" style="font-size:26px;width:50px">0${i+1}</span><span class="serif" style="font-size:150px;line-height:1">${x[0]}</span><span class="serif" style="font-size:72px;line-height:1;opacity:.8"><em>${x[1]}</em></span></div>`).join('')}
+ <div class="serif abs in" style="--d:1.4;left:76px;top:850px;font-size:44px;z-index:3">Non-experts doing expert-level work, with a human still in charge.</div>`;
+B[29]=()=>`
+ <h1 class="serif t-xl abs" style="left:70px;top:150px;z-index:3">${lines(['No more','<em>chatbots</em>'],.1,.15)}</h1>
+ <svg class="abs" style="left:1300px;top:180px" width="520" height="520" viewBox="0 0 520 520" fill="none" stroke="#1F2BE0" stroke-width="3">
+  <rect class="d" pathLength="1" x="30" y="50" width="460" height="300" style="--d:.5"/><path class="d" pathLength="1" d="M90 350 L90 450 L200 350" style="--d:.8"/>
+  ${[0,1,2].map(i=>`<rect class="fillrect" x="${140+i*90}" y="180" width="40" height="40" style="--d:${1.2+i*.2}"/>`).join('')}
+  <path class="d" pathLength="1" d="M0 20 L520 480" style="--d:1.8;stroke-width:8"/><path class="d" pathLength="1" d="M520 20 L0 480" style="--d:2;stroke-width:8"/></svg>
+ <div class="abs" style="left:76px;top:620px;font:400 50px/1.25 var(--serif);z-index:3"><div class="in" style="--d:1.2">Ask AI how to build.</div><div class="in" style="--d:1.5">Don’t always build <em>AI</em>.</div></div>`;
+B[30]=()=>`${top('Find your value spots','What we learned')}
+ <div class="serif abs" style="left:70px;top:290px;font-size:160px;line-height:1.02;z-index:3">${lines(['Taste.','Creativity.','<em>Authority.</em>'],.2,.3)}</div>
+ <svg class="abs" style="left:1050px;top:300px" width="800" height="640" viewBox="0 0 800 640" fill="none" stroke="#1F2BE0" stroke-width="2">
+  <rect class="d" pathLength="1" x="40" y="40" width="720" height="520" style="--d:.6;stroke-width:2"/>
+  <g class="d" style="--d:1.2"><rect x="90" y="250" width="110" height="90" stroke-width="3"/><rect x="115" y="210" width="60" height="40" stroke-width="3"/><path d="M145 210 V190 M135 190 H155" stroke-width="3"/><rect x="128" y="224" width="12" height="12" fill="#1F2BE0"/><rect x="152" y="224" width="12" height="12" fill="#1F2BE0"/></g><g class="d" style="--d:1.5"><rect x="345" y="250" width="110" height="90" stroke-width="3"/><rect x="370" y="210" width="60" height="40" stroke-width="3"/><path d="M400 210 V190 M390 190 H410" stroke-width="3"/><rect x="383" y="224" width="12" height="12" fill="#1F2BE0"/><rect x="407" y="224" width="12" height="12" fill="#1F2BE0"/></g><g class="d" style="--d:1.8"><rect x="600" y="250" width="110" height="90" stroke-width="3"/><rect x="625" y="210" width="60" height="40" stroke-width="3"/><path d="M655 210 V190 M645 190 H665" stroke-width="3"/><rect x="638" y="224" width="12" height="12" fill="#1F2BE0"/><rect x="662" y="224" width="12" height="12" fill="#1F2BE0"/></g>
+  <path class="d" pathLength="1" d="M60 345 H740" style="--d:2;stroke-width:3"/>
+  <path class="d" pathLength="1" d="M630 395 l30 30 l-30 30 M690 395 l-30 30 l30 30" stroke-width="5" style="--d:2.4"/>
+  <g transform="translate(0,-70)"><circle class="d" pathLength="1" cx="400" cy="470" r="30" style="--d:2.6;stroke-width:3"/><path class="d" pathLength="1" d="M400 500 V560 M340 520 H460 M400 560 L360 600 M400 560 L440 600" style="--d:2.8;stroke-width:3"/>
+  <path class="d" pathLength="1" d="M470 440 l30 -20 l30 20 M500 420 V470" style="--d:3.1;stroke-width:3"/></g>
+  <text x="40" y="620" class="dl" style="--d:3.3">You watch the AI. You correct it.</text></svg>`;
+B[31]=()=>{let p='';for(let i=0;i<8;i++){const x=150+i*215;p+=`${person(x,820,150,i*.25,true)}<text class="dl" x="${x}" y="${640}" text-anchor="middle" style="--d:${.4+i*.12};font-size:70px;font-family:Newsreader,serif;letter-spacing:0;text-transform:none">?</text>`;}
+ return `${top('Almost no one is an expert','What we learned')}<svg class="abs" style="left:0;top:40px" width="1920" height="900" viewBox="0 0 1920 900">${p}</svg>
+ <div class="serif abs in" style="--d:1.6;left:70px;top:330px;font-size:70px;z-index:3">Everyone is figuring it out.</div>`;};
+B[32]=()=>`${top('Go tinker','Try it')}
+ <div class="mockwin in" style="--d:.2;left:70px;top:290px;width:860px;height:620px"><div class="bar"><i></i><i></i><i></i></div>
+  <div style="padding:34px"><div class="mono" style="font-size:20px;opacity:.7;margin-bottom:14px">Prompt</div><div class="cardbox" style="padding:22px;font:400 34px/1.3 var(--sans);min-height:230px"><span class="type" style="--d:.8;--w:100%;white-space:normal;display:block;border-right-color:transparent">Make a one-page site for our team offsite, with a schedule and a map link.</span></div></div></div>
+ <div class="mockwin in" style="--d:1.2;left:990px;top:290px;width:860px;height:620px"><div class="bar"><i></i><i></i><i></i><span class="mono" style="margin-left:14px;font-size:18px">localhost</span></div>
+  <div style="padding:34px"><div class="serif" style="font-size:76px;line-height:1">Team offsite</div><div style="margin-top:26px;display:grid;gap:14px">${[0,1,2,3].map(i=>`<div class="in" style="--d:${3.4+i*.3};height:60px;border:1.5px solid var(--ink)"></div>`).join('')}</div></div></div>`;
+B[33]=()=>`${top('Try 2: template + prompt','Try it')}
+ <div class="abs" style="left:70px;top:290px;width:780px;height:620px;z-index:3"><div class="micro in" style="--d:.2;margin-bottom:18px">Template</div>
+  <svg width="780" height="560" viewBox="0 0 780 560" fill="none" stroke="#1F2BE0" stroke-width="2"><rect class="d" pathLength="1" x="2" y="2" width="776" height="556" style="--d:.3"/><rect class="d" pathLength="1" x="40" y="40" width="700" height="90" style="--d:.7"/>${[0,1].map(i=>`<rect class="d" pathLength="1" x="${40+i*360}" y="170" width="340" height="230" style="--d:${1+i*.2}"/>`).join('')}<path class="d" pathLength="1" d="M40 450 L740 450 M40 490 L560 490" style="--d:1.6;stroke-width:4"/></svg></div>
+ <div class="mono abs in" style="--d:1.3;left:880px;top:560px;font-size:70px;z-index:3">+</div>
+ <div class="abs" style="left:1000px;top:290px;width:850px;z-index:3"><div class="micro in" style="--d:.8;margin-bottom:18px">The prompt that made it</div>
+  <div class="cardbox in" style="--d:1.2;padding:34px;font:400 36px/1.4 var(--sans);height:560px">Build a clean one-page layout from this template. Keep the headings, swap in my content, and keep the tone plain and friendly.</div></div>`;
+B[34]=()=>`${top('Try 3: presentation tips','Try it')}
+ <div class="idx" style="grid-template-columns:1fr">${['One idea per slide','Say it, don’t read it','End with the ask'].map((x,i)=>`<div class="r in" style="--d:${.2+i*.4};height:200px"><div class="n">0${i+1}</div><div class="h" style="font-size:110px">${x}</div></div>`).join('')}</div>`;
+B[35]=()=>chain('Set client AI goals together','Goals',['Client roadmap','Through-lines','One AI goal','One metric']);
+B[36]=()=>`
+ <h1 class="serif abs" style="left:70px;top:230px;font-size:340px;line-height:1;z-index:3">${lines(['<em>Questions?</em>'],.1)}</h1>
+ <div class="serif abs in" style="--d:1;left:76px;top:700px;font-size:56px;line-height:1.2;z-index:3">The chat is open.<br>Silly ones first.</div>
+ ${glitch(1520,330,330,7,30)}
+ <button class="eggbtn abs" style="left:76px;top:905px;z-index:5" onclick="eggOpen(1)">How I built this deck</button>
+ <div class="egg" id="egg" onclick="if(event.target===this)eggOpen(0)"><div class="box"><button class="x" onclick="eggOpen(0)">CLOSE · ESC</button>
+  <h2>How I <em>built this deck</em></h2>
+  <div class="sub">No coding background needed. Here’s the recipe, in plain words.</div>
+  <div class="grid">
+   <div class="c"><b>1 · Story first, then tweaking</b><p>I started with all my content and a clear story. Then we poured it into a design template. After that, it was tweaking: I’d look at each version and leave short comments like “make this look like a chat.” Show, react, repeat.</p></div>
+   <div class="c"><b>2 · My folder of resources</b><p>I gave Claude my own material so it wasn’t guessing: project write-ups, articles and research I wanted referenced, my talk outline. Think of it as handing a new teammate the binder on day one.</p></div>
+   <div class="c"><b>3 · GitHub holds the code</b><p>GitHub is a shared folder for code that remembers every change. It’s where this deck’s code lives, so I can keep editing and nothing gets lost.</p></div>
+   <div class="c"><b>4 · GitHub Pages shares it</b><p>Pages turns that folder into a web link. No server to run. Send the link, add the password, and the deck opens in any browser.</p></div>
+   <div class="c"><b>5 · Start from a template</b><p>I found an open source template that someone turned into a skill: <a href="https://github.com/zarazhangrui/beautiful-html-templates/tree/main" target="_blank" rel="noopener">beautiful-html-templates ↗</a>. Swap the words, keep the look. Once you see it, you start imagining what templates can do.</p></div>
+   <div class="c" style="display:flex;align-items:center"><p style="font:400 52px/1.1 Newsreader,serif"><em>Let’s try this at One North!</em></p></div>
+  </div>
+ </div></div>`;
+B[37]=()=>`
+ <h1 class="serif abs" style="left:70px;top:105px;font-size:186px;line-height:.98;white-space:nowrap;z-index:3">${lines(['AI took down the','<em>language barrier.</em>'],.1,.15)}</h1>
+ ${bridge({top:540,n:7,lit:7,litDelay:.8,labels:['Concerns','Goals','Play','Build','Design','Result','Lessons']})}${glitch(1520,170,330,8,50)}`;
+
+
+B[101]=()=>`${top('What I hope you take away','Welcome')}${['Excitement to try one idea today','Permission to ask the “basic” question','A reason to share your small wins'].map((x,i)=>`<div class="abs in" style="--d:${.3+i*.5};left:70px;top:${290+i*190}px;display:flex;align-items:center;gap:50px;z-index:3"><svg width="96" height="96" viewBox="0 0 96 96" fill="none" stroke="#1F2BE0" stroke-width="3"><rect x="2" y="2" width="92" height="92"/><path class="d" pathLength="1" d="M20 50 L42 72 L78 24" style="--d:${.9+i*.5};stroke-width:7"/></svg><span class="serif" style="font-size:84px;line-height:1">${x}</span></div>`).join('')}`;
+B[102]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:150px;line-height:1.02;z-index:3">${lines(['Leadership','was <em>excited.</em>'],.1,.18)}</div>
+ <div class="serif abs in" style="--d:1.2;left:76px;top:560px;width:800px;font-size:50px;line-height:1.2;z-index:3">“If you think your job is to argue for manual screwdrivers, you’re not going to have fun over the next 20 years.”</div><div class="mono abs in" style="--d:1.6;left:80px;top:850px;font-size:24px;letter-spacing:.14em;z-index:3">— CEO</div>
+ <svg class="abs" style="left:900px;top:300px" width="960" height="640" viewBox="0 0 960 640">${[0,1,2,3,4,5].map(i=>`<rect class="in" x="${i*160}" y="${640-(100+i*90)}" width="140" height="${100+i*90}" fill="#1F2BE0" style="--d:${.5+i*.25}"/>`).join('')}</svg>`;
+B[103]=()=>{const m=[['u','Is it safe to put customer data in this?'],['a','Great question! Security is very important to us.'],['u','Where does the data actually go?'],['a','I understand your concern! I’m here to help with any questions.'],['u','That’s not an answer.'],['f','Never mind. I’ll do it myself.']];
+ return `<div class="serif abs" style="left:70px;top:130px;font-size:150px;line-height:1.02;z-index:3">${lines(['Users','were <em>skeptical.</em>'],.1,.18)}</div>
+ <div class="serif abs in" style="--d:1;left:76px;top:560px;width:760px;font-size:48px;line-height:1.25;z-index:3">Highly technical. Security-minded. Trust was fragile.</div>
+ <div class="mockwin in" style="--d:.3;left:1010px;top:190px;width:840px;height:720px;z-index:3"><div class="bar"><i></i><i></i><i></i><span class="mono" style="margin-left:14px;font-size:18px;opacity:.7">Chat</span></div>
+ <div style="padding:26px 32px;display:flex;flex-direction:column;gap:18px">${m.map((x,i)=>`<div class="cardbox in" style="--d:${.9+i*1.0};align-self:${x[0]=='a'?'flex-start':'flex-end'};max-width:600px;padding:16px 24px;font:400 32px/1.25 var(--sans);${x[0]=='f'?'background:var(--ink);color:var(--paper);':''}">${x[1]}</div>`).join('')}</div></div>`;};
+B[104]=()=>{const w=['The environment','Made-up answers','Brain rot','Ethics','Being replaced'];
+ return `<div class="serif abs" style="left:70px;top:130px;font-size:150px;line-height:1.02;z-index:3">${lines(['The team','was <em>concerned.</em>'],.1,.18)}</div>${w.map((x,i)=>`<div class="bub fl${i%2?' r':''}" style="left:${i%2?1250:960}px;top:${200+i*140}px;--d:${i*.8};font:400 34px/1.2 var(--sans);padding:18px 30px;z-index:3">${x}</div>`).join('')}`;};
+B[105]=()=>`${top('Room to say it out loud','Step 1')}${['Is this bad for the environment?','What if it just makes things up?','Is this rotting our brains?','Is this even ethical?','What happens to our data?','Who’s responsible when it’s wrong?','Will my craft still matter?','Will I be replaced?'].map((x,i,a)=>`<div class="abs cardbox in" style="--d:${.3+i*.5};${i%2?'right':'left'}:70px;top:${235+i*96}px;padding:12px 30px;font:400 38px/1.2 var(--sans);z-index:3;${i==a.length-1?'background:var(--ink);color:var(--paper)':''}">${x}</div>`).join('')}`;
+B[106]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:100px;line-height:1.06;z-index:3">${lines(['Call concerns','<em>resistance,</em>','and people go quiet.'],.1,.2)}</div>
+ <div class="mockwin in" style="--d:.3;left:1080px;top:190px;width:770px;height:720px;z-index:3"><div class="bar"><i></i><i></i><i></i><span class="mono" style="margin-left:14px;font-size:18px;opacity:.7">Team chat</span></div>
+ <div style="padding:30px 32px;display:flex;flex-direction:column">${['Can we talk about this?','What about our data?','I’m not sure it’s ready.','Who decides?','It doesn’t matter. Just do it.'].map((x,i)=>`<div class="rb cb${i%2||i==4?' r':''}" style="--d:${i*.5}"${i==4?' data-x':''}>${x}</div>`).join('')}</div>
+ <div class="stamp mono" style="position:absolute;left:100px;top:260px;padding:14px 34px;border:8px solid var(--ink);font-size:76px;letter-spacing:.06em;background:var(--paper)">RESISTANCE</div>
+ <div class="hush serif" style="position:absolute;left:0;right:0;top:600px;font-size:60px;font-style:italic">…silence.</div></div>`;
+B[107]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:130px;line-height:1.04;z-index:3">${lines(['The team said','<em>the hard stuff</em>','out loud.'],.1,.2)}</div>
+ <div class="serif abs in" style="--d:1.2;left:76px;top:700px;width:900px;font-size:48px;line-height:1.25;z-index:3">That made every step after this easier.</div>
+ <svg class="abs" style="left:1100px;top:250px" width="760" height="620" viewBox="0 0 760 620">${Array.from({length:12},(_,i)=>`<rect class="eq" x="${i*62}" y="0" width="46" height="620" style="--d:${((i*.19)%1.3).toFixed(2)}"/>`).join('')}</svg>`;
+B[108]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:120px;line-height:1.04;z-index:3">${lines(['Our work showed up','in the <em>company’s goals.</em>'],.1,.2)}</div>
+ <svg class="abs" style="left:70px;top:470px" width="1780" height="520" viewBox="0 0 1780 520" fill="none" stroke="#1F2BE0" stroke-width="2.5">${[['Team goals',0],['Roadmap',1],['Company goals',2]].map(([l,i])=>`<rect class="d" pathLength="1" x="${i*720}" y="${360-i*140}" width="340" height="${150+i*140}" style="--d:${.4+i*.3}"/><text class="dl" x="${i*720+24}" y="${360-i*140+54}" style="--d:${.9+i*.3}">${l}</text>`).join('')}
+  <path class="d" pathLength="1" d="M170 340 L560 340 L880 200 L1180 200 L1500 60 L1610 60" style="--d:1.4;stroke-width:3"/>
+  <rect width="26" height="26" fill="#1F2BE0" stroke="none"><animateMotion dur="3.5s" repeatCount="indefinite" begin="1.8s" path="M157 327 L547 327 L867 187 L1167 187 L1487 47 L1597 47"/></rect></svg>`;
+B[109]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:100px;line-height:1.04;z-index:3">${lines(['Keep an eye out for','experts who','<em>keep the keys.</em>'],.1,.2)}</div>
+ <div class="serif abs in" style="--d:1;left:76px;top:560px;width:820px;font-size:48px;line-height:1.25;z-index:3">More access. More jargon. Everyone else waits outside.</div>
+ <svg class="abs" style="left:980px;top:260px" width="880" height="700" viewBox="0 0 880 700" fill="none" stroke="#1F2BE0" stroke-width="2.5">
+  <rect class="d" pathLength="1" x="480" y="60" width="300" height="600" style="--d:.3"/><rect class="fillrect" x="640" y="330" width="40" height="70" style="--d:1"/>
+  ${[0,1,2,3].map(i=>person(60+i*100,650,80,.5+i*.2,false)).join('')}
+  <g class="keyswing"><circle cx="840" cy="40" r="26" stroke-width="6"/><path d="M840 66 V150 M840 110 H870 M840 150 H864" stroke-width="6"/></g></svg>`;
+B[110]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:112px;line-height:1.04;z-index:3">${lines(['A napkin idea','became a <em>real tool.</em>'],.1,.25)}</div>
+ <div class="serif abs in" style="--d:1.2;left:76px;top:470px;width:820px;font-size:46px;line-height:1.28;z-index:3">Someone sketched an idea. We said <em>“Yes, and…”</em> and built on it, instead of shutting it down.</div>
+ <svg class="abs" style="left:1000px;top:260px" width="860" height="520" viewBox="0 0 860 520" fill="none" stroke="#1F2BE0" stroke-width="2.5">
+  <rect class="d" pathLength="1" x="20" y="60" width="330" height="260" style="--d:.4"/>
+  <path class="d" pathLength="1" d="M50 130 q40 -40 70 0 t70 0 t70 0 M50 210 L310 210 M50 260 L220 260" style="--d:.9;stroke-width:4"/>
+  <path class="d" pathLength="1" d="M360 190 L510 190 M490 165 L510 190 L490 215" style="--d:1.5;stroke-width:4"/>
+  <rect class="fillrect" x="520" y="60" width="330" height="260" style="--d:1.9"/>
+  <path class="d" pathLength="1" d="M555 130 H815 M555 190 H775 M555 250 H700" style="--d:2.3;stroke:#F0EBDE;stroke-width:6"/>
+  <text class="dl" x="20" y="380" style="--d:1">1 · Napkin sketch</text><text class="dl" x="435" y="160" text-anchor="middle" style="--d:1.6;font-style:italic">Yes, and…</text><text class="dl" x="520" y="380" style="--d:2.6">2 · Real tool</text></svg>`;
+B[111]=()=>`${top('AI as a coach, not magic prompting','Step 4')}
+ <div class="mockwin in" style="--d:.2;left:70px;top:290px;width:1100px;height:600px;z-index:3"><div class="bar"><i></i><i></i><i></i></div><div style="padding:34px 40px"><div class="mono" style="font-size:20px;opacity:.7;margin-bottom:14px">Prompt</div><div class="cardbox" style="padding:24px 28px;font:400 34px/1.3 var(--sans)"><span class="type" style="--d:.8;--w:900px">How can I build this step by step? Interview me.</span></div>
+  <div style="margin-top:40px;display:grid;gap:18px">${[620,520,430].map((w,i)=>`<div class="wipeR" style="--d:${3.6+i*.4};height:18px;width:${w}px;background:var(--ink)"></div>`).join('')}</div></div></div>
+ <div class="abs" style="left:1230px;top:290px;width:620px;display:flex;flex-direction:column;gap:22px;z-index:3">${['Learn together','Reach out to experts','Ask AI to explain, not just do'].map((x,i)=>`<span class="chip in" style="--d:${1.2+i*.4};font-size:28px;padding:22px 26px">${x}</span>`).join('')}</div>`;
+B[112]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:130px;line-height:1.04;z-index:3">${lines(['More technical.','<em>More cross-functional.</em>'],.1,.2)}</div>
+ <svg class="abs" style="left:560px;top:450px" width="800" height="520" viewBox="0 0 800 520" fill="none" stroke="#1F2BE0" stroke-width="2.5">
+  <rect class="d" pathLength="1" x="20" y="20" width="380" height="380" style="--d:.4"/><rect class="d" pathLength="1" x="300" y="120" width="380" height="380" style="--d:.7"/>
+  <rect class="fillrect" x="300" y="120" width="100" height="280" style="--d:1.4"/>
+  <text class="dl" x="40" y="70" style="--d:1">Strategy</text><text class="dl" x="520" y="480" style="--d:1.1">Engineering</text></svg>`;
+B[113]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:120px;line-height:1.04;z-index:3">${lines(['We knew what','<em>could happen.</em>'],.1,.2)}</div>
+ <div class="serif abs in" style="--d:1;left:76px;top:470px;width:760px;font-size:48px;line-height:1.25;z-index:3">So we skipped the chatbot and designed something better.</div>
+ ${[['Answers, not chat',-7],['Scores that coach',0],['Reports that prioritize',7]].map((x,i)=>`<div class="abs" style="left:${800+i*365}px;top:${300+(i==1?30:0)}px;transform:rotate(${x[1]}deg);z-index:${3+i}"><div class="cardbox in" style="--d:${.6+i*.4};width:345px;height:560px;padding:28px;display:flex;align-items:flex-end;font:400 46px/1.02 var(--serif)">${x[0]}</div></div>`).join('')}`;
+B[114]=()=>`${top('Ask if code can do it','Takeaways')}
+ <div class="abs in" style="--d:.3;left:70px;top:290px;width:1780px;height:600px;background:var(--ink);color:var(--paper);padding:44px 54px;z-index:3;font:400 40px/1.6 var(--mono)">
+  <div style="opacity:.6">~/things-i-keep-prompting</div>
+  <div><span class="type" style="--d:.9;--w:1420px;border-right-color:var(--paper)">&gt; Can a script do this instead of me prompting?</span></div>
+  <div class="in" style="--d:4.4;margin-top:34px">✓ Yes. Here is a 12-line script.</div>
+  <div class="in" style="--d:5;opacity:.8">✓ Run it any time. No prompt needed.</div></div>`;
+B[115]=()=>{const it=['A repo','A tool','A pattern','A prompt','An idea'];
+ return `${top('Start a folder. Save things.','Takeaways')}
+ <div class="serif abs in" style="--d:.2;left:76px;top:300px;width:760px;font-size:62px;line-height:1.2;z-index:3">Designing with AI is mostly <em>curation.</em></div>
+ ${it.map((x,i)=>`<div class="abs chip fall" style="left:${960+(i*173)%560}px;top:280px;--d:${.6+i*.6};z-index:4">${x}</div>`).join('')}
+ <div class="abs" style="left:900px;top:610px;width:240px;height:40px;border:1.5px solid var(--ink);border-bottom:0;background:var(--paper);z-index:5"></div>
+ <div class="abs mono" style="left:900px;top:650px;width:880px;height:300px;border:1.5px solid var(--ink);background:var(--paper);z-index:5;padding:30px;font-size:24px">My library</div>`;};
+B[116]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:118px;line-height:1.04;z-index:3">${lines(['Nothing is','<em>impossible</em> anymore.'],.1,.2)}</div>
+ <div class="abs" style="left:76px;top:520px;z-index:3;display:grid;gap:22px">${['“We can’t build that.”','“That needs an engineering quarter.”','“That’s not our job.”'].map((x,i)=>`<div class="in" style="--d:${1+i*.7};font:400 50px/1.1 var(--sans)"><span class="strike" style="--d:${1.6+i*.7}">${x}</span></div>`).join('')}</div>
+ <div class="serif abs in" style="--d:3.8;left:1000px;top:560px;font-size:170px;line-height:1;z-index:3"><em>Ask anyway.</em></div>`;
+B[117]=()=>`<div class="serif abs" style="left:70px;top:170px;font-size:120px;line-height:1.04;width:1000px;z-index:3">${lines(['Think of the','<em>one person</em>','you’re solving for.'],.1,.2)}</div>
+ <div class="serif abs in" style="--d:1.2;left:76px;top:720px;font-size:50px;width:900px;line-height:1.2;z-index:3">How could AI make their world better?</div>
+ <svg class="abs" style="left:1100px;top:200px" width="760" height="760" viewBox="0 0 760 760" fill="none" stroke="#1F2BE0" stroke-width="2.5"><g class="rip">${[0,1,2].map(i=>`<rect x="190" y="190" width="380" height="380" style="animation-delay:${i*1.2}s"/>`).join('')}</g>${person(380,470,150,.4,false)}</svg>`;
+B[119]=()=>{let c='';for(let i=0;i<34;i++){const s=14+(i*7)%22;c+=`<i class="conf" style="left:${(i*59)%1860}px;width:${s}px;height:${s}px;--d:${((i*.37)%5).toFixed(2)};--t:${4+(i%5)}s"></i>`;}
+ return `${c}<h1 class="serif abs" style="left:0;right:0;top:290px;text-align:center;font-size:220px;line-height:1.02;z-index:3">${lines(['Share it.','<em>Celebrate it.</em>'],.1,.2)}</h1><div class="serif abs in" style="--d:1.2;left:0;right:0;top:820px;text-align:center;font-size:48px;z-index:3">The small things you’re already doing are clever solutions.<br>Continue to share with each other and customers.</div>`;};
+
+B[120]=()=>{const pc=(cx,i,lab,sub,body)=>`<g class="in" style="--d:${.9+i*.7}"><g transform="translate(${cx},210)">${body}</g><text x="${cx}" y="430" text-anchor="middle" font-family="DM Mono" font-size="24" letter-spacing="3" fill="#1F2BE0">${lab}</text><text x="${cx}" y="468" text-anchor="middle" font-family="Newsreader" font-style="italic" font-size="34" fill="#1F2BE0">${sub}</text></g>`;
+ const blob='M-118,-20 C-130,-90 -40,-130 30,-112 C110,-100 134,-30 112,40 C96,104 20,126 -50,108 C-112,92 -108,30 -118,-20Z';
+ const p1=`<path d="${blob}" fill="#1F2BE0"/><path d="M-60,-30 L-30,0 M-30,-30 L-60,0 M20,30 L50,60 M50,30 L20,60" stroke="#F0EBDE" stroke-width="6" fill="none"/>`;
+ const p2=`<circle r="116" fill="#5560E5"/><circle r="70" fill="none" stroke="#F0EBDE" stroke-width="3" stroke-dasharray="10 12"/>`;
+ const p3=`<circle r="116" fill="#F0EBDE" stroke="#1F2BE0" stroke-width="4"/><circle r="84" fill="none" stroke="#1F2BE0" stroke-width="2"/><path d="M-44,2 L-12,36 L48,-34" stroke="#1F2BE0" stroke-width="10" fill="none"/>`;
+ return `${top('Expect a messy first try','Takeaways')}<h1 class="serif abs" style="left:70px;top:260px;font-size:112px;line-height:1.06;width:940px;z-index:3">${lines(['The first pancake','<em>sucks.</em>'],.1,.2)}</h1>
+ <div class="serif abs in" style="--d:1.1;left:76px;top:620px;font-size:44px;width:800px;line-height:1.25;z-index:3">Your first prompt or tool won’t be great. Tweak it. Nudge it. It’s frustrating, and it takes time.</div>
+ <svg class="abs" style="left:1000px;top:260px" width="860" height="520" viewBox="0 0 860 520">${pc(140,0,'TRY 1','Not great.',p1)}${pc(430,1,'TRY 2','Getting there.',p2)}${pc(720,2,'TRY 3','It works.',p3)}</svg>
+ <div class="serif abs in" style="--d:3.4;left:1000px;top:820px;width:860px;text-align:center;font-size:44px;z-index:3"><em>Now your next tool starts smarter.</em></div>`;};
+
+/* ---------- build DOM ---------- */
+const root=$('#slides');
+META.forEach((m,i)=>{
+  const n=i+1, o=m.o, s=document.createElement('section');
+  s.className='slide'+(n===1?' active':''); s.id='s'+n; s.dataset.tx=m.tx; s.dataset.n=n;
+  if(m.h)s.classList.add('hdr');
+  s.innerHTML=(window.__tag=m.s,B[o]?B[o]():'')+(m.h?`<div class="sechdr"><span class="k">${m.k}</span><span>${m.s}</span></div>`:(i>0&&m.s!=='Q&A'?`<div class="sechdr solo"><span>${m.s}</span></div>`:''))+meterHTML(m)+
+   `<button class="moreBtn" data-n="${n}">+ More</button><button class="gridBtn" title="All slides (G)" aria-label="All slides"><svg width="22" height="22" viewBox="0 0 22 22">${[0,1,2].map(r=>[0,1,2].map(c=>`<rect x="${c*8}" y="${r*8}" width="6" height="6" fill="#1F2BE0"/>`).join('')).join('')}</svg></button><div class="pagenum">${String(n).padStart(2,'0')} / ${TOTAL}</div>`;
+  root.appendChild(s);
+});
+const slides=[].slice.call(document.querySelectorAll('.slide'));
+document.querySelectorAll('svg.bridge').forEach(initBridge);
+document.querySelectorAll('.meter').forEach(m=>{
+  const names=['Concerns','Goals','Play','Build','Design','Result','Lessons'],vals=m.dataset.m.split(',').map(Number);let t=0;
+  vals.forEach((v,g)=>{const grp=document.createElement('div');grp.className='grp';const cells=document.createElement('div');cells.className='cells';
+   for(let i=0;i<4;i++){const c=document.createElement('i');if(i<v){c.className='on';c.style.animationDelay=(.3+t*.07)+'s';t++;}cells.appendChild(c);}
+   if(g>=2&&g<=4)grp.classList.add('ph');const l=document.createElement('div');l.className='lab';l.textContent=names[g];grp.appendChild(cells);grp.appendChild(l);m.appendChild(grp);});
+});
+/* extra CSS that builders reference (swap loop, m23) */
+const css=document.createElement('style');css.textContent=`
+.slide.active .rb{animation:rbk 8s ease-in-out infinite;animation-delay:calc(var(--d)*1s)}
+@keyframes rbk{0%{opacity:0;transform:translateY(20px)}8%,45%{opacity:1;transform:none}60%{opacity:1;transform:scale(1)}70%,92%{opacity:.08;transform:scale(.3)}100%{opacity:0}}
+.stamp{opacity:0}.slide.active .stamp{animation:stp 8s ease-in infinite}
+@keyframes stp{0%,40%{opacity:0;transform:rotate(-8deg) scale(3)}48%{opacity:1;transform:rotate(-8deg) scale(1)}92%{opacity:1;transform:rotate(-8deg)}100%{opacity:0}}
+.hush{opacity:0;text-align:center}.slide.active .hush{animation:hsh 8s infinite}
+@keyframes hsh{0%,68%{opacity:0}78%,92%{opacity:1}100%{opacity:0}}
+
+.bub{position:absolute;border:1.5px solid var(--ink);background:var(--paper)}
+.bub:before,.bub:after{content:"";position:absolute;width:0;height:0;border-style:solid}
+.bub:after{bottom:-17px;left:30px;border-width:16px 14px 0 0;border-color:var(--ink) transparent transparent transparent}
+.bub:before{bottom:-14px;left:31px;border-width:14px 12px 0 0;border-color:var(--paper) transparent transparent transparent;z-index:1}
+.bub.r:after{left:auto;right:30px;border-width:16px 0 0 14px}.bub.r:before{left:auto;right:31px;border-width:14px 0 0 12px}
+.cb{position:relative;border:1.5px solid var(--ink);background:var(--paper);padding:16px 26px;font:400 32px/1.2 var(--sans);max-width:620px;margin-bottom:22px}
+.cb:before,.cb:after{content:"";position:absolute;width:0;height:0;border-style:solid}
+.cb:after{bottom:-17px;left:28px;border-width:16px 14px 0 0;border-color:var(--ink) transparent transparent transparent}
+.cb:before{bottom:-14px;left:29px;border-width:14px 12px 0 0;border-color:var(--paper) transparent transparent transparent;z-index:1}
+.cb.r{align-self:flex-end}.cb[data-x]{align-self:flex-start;background:var(--ink);color:var(--paper)}.cb[data-x]:after{border-color:var(--ink) transparent transparent transparent}.cb.r:after{left:auto;right:28px;border-width:16px 0 0 14px}.cb.r:before{left:auto;right:29px;border-width:14px 0 0 12px}
+.fw line{stroke-dasharray:.3 1;stroke-dashoffset:.3;opacity:0}
+.slide.active .fw line{animation:fwk 4s ease-out infinite;animation-delay:calc(var(--d)*1s)}
+@keyframes fwk{0%{stroke-dashoffset:.3;opacity:1}55%{opacity:1}70%{stroke-dashoffset:-1;opacity:0}100%{stroke-dashoffset:-1;opacity:0}}
+.fw circle{opacity:0}.slide.active .fw circle{animation:fwd 4s ease-out infinite;animation-delay:calc(var(--d)*1s)}
+@keyframes fwd{0%{opacity:0;transform:scale(.2)}20%{opacity:1;transform:scale(1)}70%,100%{opacity:0}}
+
+
+.eggbtn{background:none;border:0;border-bottom:1px solid currentColor;color:var(--ink);opacity:.45;font:400 17px/1 var(--mono);letter-spacing:.08em;cursor:pointer;padding:0 0 3px}.eggbtn:hover{opacity:1}
+.egg{position:absolute;inset:0;z-index:60;background:rgba(31,43,224,.18);display:none}.egg.on{display:block}
+.egg .box{position:absolute;left:210px;top:120px;width:1500px;height:830px;background:var(--paper);border:1.5px solid var(--ink);padding:34px 56px;overflow:auto;color:var(--ink)}
+.egg h2{font:400 72px/1 'Newsreader',serif;margin:0 0 4px}.egg h2 em{font-style:italic}
+.egg .sub{font:400 30px/1.3 var(--sans);opacity:.8;margin-bottom:22px}
+.egg .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 28px}
+.egg .c{border:1.5px solid var(--ink);padding:18px 24px}
+.egg .c b{display:block;font:400 17px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.egg .c p{margin:0;font:400 24px/1.3 var(--sans)}
+.egg .x{position:absolute;right:26px;top:20px;background:none;border:1.5px solid var(--ink);color:var(--ink);font:400 18px/1 var(--mono);padding:10px 14px;cursor:pointer}
+.egg a{color:var(--ink);font-weight:600}.egg .go{display:inline-block;margin-top:22px;background:var(--ink);color:var(--paper);padding:18px 26px;font:400 20px/1 var(--mono);letter-spacing:.08em;text-decoration:none}
+#gate{position:absolute;inset:0;z-index:900;background:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px;display:flex;flex-direction:column;justify-content:center;padding:0 160px;color:var(--ink)}
+#gate.off{opacity:0;pointer-events:none;transition:opacity .6s}
+#gate .tag{align-self:flex-start;font:400 24px/1 var(--mono);letter-spacing:.2em;border:1.5px solid var(--ink);padding:12px 22px;margin-bottom:40px;background:var(--paper)}
+#gate h1{font:400 170px/1 var(--serif);margin:0 0 30px}
+#gate p{font:400 40px/1.2 var(--serif);margin:0 0 40px}
+#gate form{display:flex;gap:0}
+#gate input{font:400 40px/1 var(--mono);letter-spacing:.2em;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:22px 28px;width:560px;outline:none;border-radius:0}
+#gate button{font:400 28px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);border:1.5px solid var(--ink);padding:0 40px;cursor:pointer;border-radius:0}
+#gate .err{font:400 22px/1 var(--mono);letter-spacing:.14em;margin-top:22px;height:22px;text-transform:uppercase}
+#gate.shake form{animation:shk .4s}
+@keyframes shk{20%{transform:translateX(-14px)}40%{transform:translateX(14px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+.sechdr{position:absolute;right:70px;top:36px;display:flex;z-index:6;font:400 19px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);background:var(--paper)}
+.sechdr span{padding:12px 18px}.sechdr .k{background:var(--ink);color:var(--paper);font-weight:600}.sechdr.solo span{color:var(--ink)}
+.sechdr:before,.sechdr:after{content:"+";position:absolute;font-size:22px;line-height:1;color:var(--ink)}
+.sechdr:before{left:-14px;top:-14px}.sechdr:after{right:-14px;bottom:-14px}
+.slide .topbar .labtag{display:none}
+.drawer ul{margin:0;padding-left:30px}.drawer li{font:400 29px/1.4 var(--sans);margin-bottom:16px}
+#read .it ul{padding-left:22px;font:400 18px/1.55 var(--sans)}
+#ov{position:absolute;inset:0;z-index:200;background:var(--paper);display:none;padding:40px 70px;overflow:hidden}
+#ov.on{display:block}
+#ov h3{font:400 54px/1 var(--serif);margin:0 0 6px}
+#ov .hint{font:400 18px/1 var(--mono);letter-spacing:.1em;opacity:.7;text-transform:uppercase;margin-bottom:18px}
+#ov .secs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+#ov .secs button{font:400 17px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:9px 14px;cursor:pointer}
+#ov .secs button:hover{background:var(--ink);color:var(--paper)}
+#ov .grid{display:grid;grid-template-columns:repeat(9,1fr);gap:14px}
+#ov .th{position:relative;border:1.5px solid var(--faint);cursor:pointer;background:var(--paper);padding:0}
+#ov .th img{display:block;width:100%;height:auto}
+#ov .th b{position:absolute;right:0;bottom:0;background:var(--ink);color:var(--paper);font:400 14px/1 var(--mono);padding:4px 6px}
+#ov .th:hover{border-color:var(--ink)}#ov .th.cur{border:3px solid var(--ink)}
+
+.slide.active .bubbleb{animation:bounceoff 3s ease-in-out infinite}
+@keyframes bounceoff{0%,10%{transform:translateX(0)}45%{transform:translateX(205px)}60%{transform:translateX(60px)}100%{transform:translateX(0)}}
+.slide.active .fl{animation:flt 4s ease-in-out infinite;animation-delay:calc(var(--d)*1s)}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+.slide.active .mute{animation:mute 4s ease-in-out infinite;animation-delay:calc(var(--d)*1s)}
+@keyframes mute{0%,25%{transform:scale(1);opacity:1}60%,100%{transform:scale(.2);opacity:.1}}
+.eq{fill:#1F2BE0;transform-box:fill-box;transform-origin:bottom;transform:scaleY(.15)}
+.slide.active .eq{animation:eqb 1.5s ease-in-out infinite alternate;animation-delay:calc(var(--d)*-1s)}
+@keyframes eqb{from{transform:scaleY(.12)}to{transform:scaleY(1)}}
+.slide.active .keyswing{transform-origin:840px 40px;animation:ksw 2.4s ease-in-out infinite}
+@keyframes ksw{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+.slide.active .fall{animation:fallin 6s ease-in infinite;animation-delay:calc(var(--d)*1s)}
+@keyframes fallin{0%{opacity:0;transform:translateY(-30px)}8%{opacity:1;transform:translateY(0)}70%,100%{opacity:1;transform:translateY(390px)}}
+.rip rect{transform-box:fill-box;transform-origin:center;opacity:0}
+.slide.active .rip rect{animation:ripple 3.6s linear infinite}
+@keyframes ripple{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1.9);opacity:0}}
+.tl{fill:transparent}
+.slide.active .tl{animation:tilep 3.2s infinite;animation-delay:calc(var(--d)*1s)}
+@keyframes tilep{0%,55%{fill:transparent}68%,82%{fill:#1F2BE0}100%{fill:transparent}}
+.conf{position:absolute;top:-60px;background:var(--ink);opacity:.9;display:block;z-index:1}
+.slide.active .conf{animation:cfall var(--t) linear infinite;animation-delay:calc(var(--d)*-1s)}
+@keyframes cfall{to{transform:translateY(1180px) rotate(200deg)}}
+.im1,.im2{position:absolute;left:0;top:0;white-space:nowrap}
+.slide.active .im1{animation:fout .6s 2.4s both}.slide.active .im2{opacity:0;animation:fadein .6s 2.7s both}
+@keyframes fout{to{opacity:0}}
+.pcard.sel{background:var(--ink)!important;color:var(--paper)}
+.ppanel{position:absolute;left:340px;top:70px;width:1100px;height:480px;border:1.5px solid var(--ink);background:var(--paper);z-index:6;padding:40px 50px;opacity:0;pointer-events:none;transition:opacity .25s}
+.ppanel.on{opacity:1}
+.ppanel .pb{display:none}.ppanel .pb.on{display:block}
+.ppanel ul{list-style:none;margin-top:26px}
+.ppanel li{font:400 54px/1.12 var(--serif);letter-spacing:-.01em;padding:12px 0 12px 44px;position:relative}
+.ppanel li::before{content:"";position:absolute;left:0;top:34px;width:18px;height:18px;background:var(--ink)}
+
+.pong{position:absolute;width:1160px;height:580px}
+.pong .px2{position:absolute;inset:0 0 0 0;animation:pongx 2.9s linear infinite alternate}
+.pong .py2{position:absolute;left:0;top:0;width:44px;height:44px;background:var(--ink);animation:pongy 1.9s linear infinite alternate}
+@keyframes pongx{from{transform:translateX(0)}to{transform:translateX(1116px)}}
+@keyframes pongy{from{transform:translateY(0)}to{transform:translateY(536px)}}
+.px2{width:44px;height:44px}
+.swap .badge{position:absolute;left:0;width:430px;height:210px;border:1.5px solid var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:20px 26px;background:var(--paper)}
+.swap .badge .t{font:400 20px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}.swap .badge .n{font:400 96px/.9 var(--serif);letter-spacing:-.01em}
+.swap .b1{top:0}.swap .b2{top:300px;background:var(--ink);color:var(--paper)}
+.swap .arrows{position:absolute;left:0;right:0;top:222px;text-align:center;font:400 54px/1 var(--mono)}
+.slide.active .swap .b1{animation:dropin .7s cubic-bezier(.3,1.2,.5,1) both,swapA 5s 2.4s cubic-bezier(.65,0,.3,1) infinite}
+.slide.active .swap .b2{animation:dropin .7s .12s cubic-bezier(.3,1.2,.5,1) both,swapB 5s 2.4s cubic-bezier(.65,0,.3,1) infinite}
+.slide.active .swap .arrows{animation:blink 5s 2.4s infinite}
+@keyframes dropin{from{opacity:0;transform:translateY(-120px)}to{opacity:1;transform:none}}
+@keyframes swapA{0%,8%{transform:none}28%,58%{transform:translateY(300px)}78%,100%{transform:none}}
+@keyframes swapB{0%,8%{transform:none}28%,58%{transform:translateY(-300px)}78%,100%{transform:none}}
+@keyframes blink{0%,8%,78%,100%{opacity:1}18%,68%{opacity:.25}}
+.m23 .row{display:grid;grid-template-columns:1fr 130px 1fr;height:170px;align-items:center}
+.m23 .l .t{display:block;font:400 18px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;opacity:.65;margin-bottom:12px}
+.m23 .l p{font:400 44px/1.15 var(--sans)}.m23 .l p .strike{opacity:.75}
+.m23 .mid{font:400 52px/1 var(--mono);text-align:center}.m23 .r p{font:400 66px/1 var(--serif);letter-spacing:-.01em}
+.slide.active .figs{animation:figsin .5s .5s both}@keyframes figsin{to{opacity:1}}
+.slide.active .key{animation:keyflash 3.4s infinite;animation-delay:calc(var(--d)*1s)}
+@keyframes keyflash{0%,70%{fill:#1F2BE0}85%{fill:transparent}100%{fill:#1F2BE0}}
+.slide.active .hand{animation:wave 3s 1.2s ease-in-out infinite}@keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(6deg)}75%{transform:rotate(-6deg)}}
+`;document.head.appendChild(css);
+
+/* ---------- stage, nav, transitions ---------- */
+const vp=$('#vp'),stage=$('#stage'),px=$('#px'),bl=$('#bl'),scan=$('#scan'),drawer=$('#drawer');
+let cur=0,busy=false;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+for(let r=0;r<14;r++)for(let c=0;c<24;c++){const d=document.createElement('i');d.style.left=c*80+'px';d.style.top=r*80+'px';d.style.setProperty('--d',(c+r)*14);px.appendChild(d);}
+for(let k=0;k<8;k++){const d=document.createElement('i');d.style.left=k*240+'px';d.style.setProperty('--d',[0,3,1,5,2,6,4,7][k]*55);bl.appendChild(d);}
+function fit(){const s=Math.min(vp.clientWidth/1920,vp.clientHeight/1080);stage.style.transform=`translate(${(vp.clientWidth-1920*s)/2}px,${(vp.clientHeight-1080*s)/2}px) scale(${s})`;}
+function closeDrawer(){drawer.classList.remove('open');}
+function fillDrawer(n){const m=META[n];$('#dk').textContent=`Slide ${String(n+1).padStart(2,'0')} / ${TOTAL} · ${m.s}`;$('#dh').textContent=m.t;const dp=$('#dp');dp.innerHTML='';const ul=document.createElement('ul');m.d.split('\n').forEach(x=>{if(!x.trim())return;const li=document.createElement('li');li.textContent=x.trim();ul.appendChild(li);});dp.appendChild(ul);}
+function show(n){slides[cur].classList.remove('active');slides[n].classList.remove('incoming');slides[cur].classList.remove('leaving');cur=n;slides[cur].classList.add('active');closeDrawer();fillDrawer(n);document.querySelectorAll('#slides video').forEach(v=>v.pause());slides[cur].querySelectorAll('video').forEach(v=>{try{v.play().catch(()=>{})}catch(e){}});try{history.replaceState(null,'','#'+(n+1));}catch(e){}}
+const run={
+ pixel:n=>{px.classList.add('fill');setTimeout(()=>{show(n);px.classList.remove('fill');px.classList.add('clear');},860);setTimeout(()=>{px.classList.remove('clear');busy=false;},1760);},
+ blinds:n=>{bl.classList.add('fill');setTimeout(()=>{show(n);bl.classList.remove('fill');bl.classList.add('clear');},880);setTimeout(()=>{bl.classList.remove('clear');busy=false;},1700);},
+ scan:n=>{scan.className='fx scan in';setTimeout(()=>{show(n);scan.className='fx scan out';},520);setTimeout(()=>{scan.className='fx scan';busy=false;},1060);},
+ fade:n=>{slides[cur].classList.add('leaving');slides[cur].classList.remove('active');setTimeout(()=>{show(n);busy=false;},300);},
+ cover:n=>run.fade(n)
+};
+function go(n){if(typeof gateOn!=='undefined'&&gateOn)return;if(n>=slides.length&&n===cur+1&&!busy){openOV();return;}if(n<0||n>=slides.length||n===cur||busy)return;if(reduce){show(n);return;}busy=true;(run[META[n].tx]||run.fade)(n);}
+
+/* ---------- overview ---------- */
+const ov=document.createElement('div');ov.id='ov';stage.appendChild(ov);
+let ovOn=false;
+function buildOV(){
+ const uniq=[];META.forEach((m,i)=>{if(!uniq.length||uniq[uniq.length-1][0]!==m.s)uniq.push([m.s,i]);});
+ ov.innerHTML=`<h3>Every slide</h3><div class="hint">Click one to jump · → next · ← back · G or Esc closes</div><div class="secs">${uniq.map(x=>`<button data-i="${x[1]}">${x[0]}</button>`).join('')}</div><div class="grid">${META.map((m,i)=>`<div class="th${i===cur?' cur':''}" data-i="${i}"><b>${String(i+1).padStart(2,'0')}</b>${m.th?`<img src="${m.th}" alt="">`:`<div style="aspect-ratio:16/9;padding:12px;font:400 15px/1.2 var(--serif)">${m.t}</div>`}</div>`).join('')}</div>`;
+}
+function openOV(){buildOV();ov.classList.add('on');ovOn=true;closeDrawer();}
+function closeOV(){ov.classList.remove('on');ovOn=false;}
+ov.addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;const n=+b.dataset.i;closeOV();if(n!==cur){slides[cur].classList.remove('active','leaving','incoming');cur=n;slides[cur].classList.add('active');closeDrawer();fillDrawer(n);try{history.replaceState(null,'','#'+(n+1));}catch(e){}}});
+
+/* ---------- password gate ---------- */
+const gate=document.createElement('div');gate.id='gate';
+gate.innerHTML='<div class="tag">CASE STUDY · AI-ENABLING A UX TEAM</div><h1>Build an<br><em>AI-native team</em></h1><p>Enter the password to begin.</p><form autocomplete="off"><input type="password" id="pw" aria-label="Password" autocomplete="off" spellcheck="false"><button type="submit">Enter</button></form><div class="err" id="pwerr"></div>';
+stage.appendChild(gate);
+let gateOn=__GATED__;
+const cy=(s,seed=0)=>{let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<s.length;i++){ch=s.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0);};
+function unlock(){gateOn=false;gate.classList.add('off');setTimeout(()=>{gate.style.display='none';},700);const s0=slides[cur];s0.classList.remove('active');void s0.offsetWidth;s0.classList.add('active');try{sessionStorage.setItem('deckok','1');}catch(e){}}
+let okAlready=false;try{okAlready=sessionStorage.getItem('deckok')==='1';}catch(e){}
+if(okAlready||!gateOn){gateOn=false;gate.style.display='none';}
+gate.querySelector('form').addEventListener('submit',e=>{e.preventDefault();const v=gate.querySelector('#pw').value.trim();if(cy(v)===2858555123870475){unlock();}else{gate.classList.remove('shake');void gate.offsetWidth;gate.classList.add('shake');$('#pwerr').textContent='Not quite. Try again.';gate.querySelector('#pw').select();}});
+if(gateOn)setTimeout(()=>{try{gate.querySelector('#pw').focus();}catch(e){}},100);
+fit();addEventListener('resize',fit);
+fillDrawer(0);
+window.eggOpen=function(o){const e=document.getElementById('egg');if(e)e.classList.toggle('on',!!o);};
+addEventListener('keydown',e=>{
+ if(document.querySelector('#egg.on')){if(e.key==='Escape')eggOpen(0);return;}
+ if($('#read').classList.contains('on')){if(e.key==='Escape'||e.key==='r'||e.key==='R'){toggleRead();}return;}
+ if(gateOn)return;
+ const k=e.key;
+ if(ovOn){if(k==='ArrowRight'){e.preventDefault();closeOV();if(cur===slides.length-1)go(0);else go(cur+1);}else if(k==='ArrowLeft'){e.preventDefault();closeOV();}else if(k==='Escape'||k==='g'||k==='G'){closeOV();}return;}
+ if(k==='g'||k==='G'){openOV();return;}
+ if(k==='ArrowRight'){e.preventDefault();go(cur+1);}
+ else if(k==='ArrowLeft'){e.preventDefault();go(cur-1);}
+ else if(k==='d'||k==='D'||k==='m'||k==='M'){drawer.classList.toggle('open');}
+ else if(k==='Escape'){closeDrawer();document.querySelectorAll('.ppanel').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.pcard').forEach(c=>c.classList.remove('sel'));}
+ else if(k==='r'||k==='R'){toggleRead();}
+ else if(k==='Home'){go(0);}else if(k==='End'){go(slides.length-1);}
+});
+vp.addEventListener('click',e=>{
+ if(e.target.closest('.moreBtn')){drawer.classList.toggle('open');return;}
+ if(e.target.closest('.gridBtn')){openOV();return;}
+ const pc=e.target.closest('.pcard');
+ if(pc){const sl=pc.closest('.slide'),k=pc.dataset.k,was=pc.classList.contains('sel');
+  sl.querySelectorAll('.pcard').forEach(c=>c.classList.remove('sel'));sl.querySelectorAll('.pb').forEach(b=>b.classList.remove('on'));
+  const pp=sl.querySelector('.ppanel');
+  if(was){pp.classList.remove('on');}else{pc.classList.add('sel');sl.querySelector('.pb[data-k="'+k+'"]').classList.add('on');pp.classList.add('on');}
+  return;}
+ if(e.target.closest('#drawer')){if(e.target.closest('#dx'))closeDrawer();return;}
+ if(drawer.classList.contains('open')){closeDrawer();return;}
+ 
+});
+let tx=null;vp.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+vp.addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(d<0?cur+1:cur-1);tx=null;});
+/* reading view */
+const list=$('#readList');
+META.forEach((m,i)=>{const d=document.createElement('div');d.className='it';d.innerHTML=`<div class="n"><span>Slide ${String(i+1).padStart(2,'0')} · ${m.s}</span><a href="#${i+1}" data-j="${i}">Open slide</a></div><h2></h2><ul></ul>`;d.querySelector('h2').textContent=m.t;m.d.split('\n').forEach(x=>{if(!x.trim())return;const li=document.createElement('li');li.textContent=x.trim();d.querySelector('ul').appendChild(li);});list.appendChild(d);});
+list.addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();toggleRead();slides[cur].classList.remove('active');cur=+a.dataset.j;slides[cur].classList.add('active');fillDrawer(cur);}});
+function toggleRead(){$('#read').classList.toggle('on');}
+/* hash start + test hooks */
+const h=parseInt(location.hash.slice(1),10);if(h>1&&h<=TOTAL){slides[0].classList.remove('active');cur=h-1;slides[cur].classList.add('active');fillDrawer(cur);}
+window.__deck={jump:n=>{slides[cur].classList.remove('active','leaving','incoming');cur=n-1;slides[cur].classList.add('active');fillDrawer(cur);},go:n=>go(n-1),cur:()=>cur+1,open:()=>drawer.classList.add('open')};
+})();
+</script>
+</body>
+</html>
