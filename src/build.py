@@ -37,7 +37,7 @@ for pos,(n,s,st,p,_tx) in enumerate(PLAN,1):
     meta.append(d)
 t=open('template.html').read().replace('/*META*/[]',json.dumps(meta,ensure_ascii=False))
 import base64
-for _n in ['cloudy-monitor','clue','cloudspeaker','cloudy-search']:
+for _n in ['walkthrough-3','walkthrough-2','walkthrough-1','walkthrough-4']:
     _u='data:video/mp4;base64,'+base64.b64encode(open(f'vid/{_n}.mp4','rb').read()).decode()
     t=t.replace(f"videos/{_n}.mp4",_u)
 open('/mnt/user-data/outputs/ai-enabling-a-team.html','w').write(t.replace('__GATED__','false'))
