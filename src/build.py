@@ -13,7 +13,7 @@ PLAN=[
 (24,'After · Result',6,4,'scan'),
 (43,'After · Lessons',7,6,'pixel'),(30,'After · Lessons',7,3,'fade'),(31,'After · Lessons',7,4,'fade'),
 (114,'After · Lessons',7,2,'pixel'),(32,'After · Lessons',7,2,'fade'),(115,'After · Lessons',7,2,'fade'),(116,'After · Lessons',7,2,'fade'),(120,'After · Lessons',7,2,'blinds'),(117,'After · Lessons',7,2,'fade'),(119,'After · Lessons',7,2,'scan'),
-(37,'Where this goes next',-1,0,'scan'),(36,'Q&A',-1,0,'fade')]
+(37,'Closing',-1,0,'scan'),(36,'Q&A',-1,0,'fade')]
 import os,collections
 def mv(st,cnt):
     if st<=0: return None
@@ -22,10 +22,10 @@ def mv(st,cnt):
 for k,v in bullets.BUL.items():
     D[k]=(D[k][0],D[k][1],v)
 tot=collections.Counter(p[2] for p in PLAN); seen=collections.Counter()
-KIND={1:'Overview',2:'Example',3:'Pitfall',4:'Cool thing',5:'The fix',6:'Transition'}
+KIND={1:'Overview',2:'Example',3:'Pitfall',4:'Cool thing',5:'The fix',6:'Overview'}
 th=json.load(open('thumbs.json')) if os.path.exists('thumbs.json') else {}
 meta=[]
-TX=transitions.auto_tx([x[1] for x in PLAN])
+TX=transitions.auto_tx([x[1] for x in PLAN],[x[0] for x in PLAN])
 for pos,(n,s,st,p,_tx) in enumerate(PLAN,1):
     tx=TX[pos-1]
     seen[st]+=1
