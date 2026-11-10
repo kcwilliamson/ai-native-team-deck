@@ -94,7 +94,7 @@ Formulas can't judge tone, so we added an AI layer that checks context and voice
 Result: one product area's average score went from 7.42 to 10, about a 35% lift. Manual line edits became high-judgment feedback that shaped how we approached design critique.
 Candid: we rewrote every page description in that area by hand to prove it first. Then rebuilt it as a real app, with moderated usability tests and a 25-person survey before rollout.
 It checks what you wrote instead of writing it for you. The human stays in charge.""",
-40:"""Left: how the papercut report works, in six steps. Gather all the feedback, find and count the themes, check whether the docs already answer it, add community evidence with full quotes, classify each theme as a bug, UX friction or docs gap, then write it up in plain English.
+40:"""Left: how the papercut report works, in six steps. Gather all the feedback, find and count the themes, check whether the docs already answer it, add customer evidence with full quotes, classify each theme as a bug, UX friction or docs gap, then write it up in plain English.
 Right: what it set off. By the end of this work we were getting about 30 new UX improvement tickets every month.
 A monthly cross-team review of open-ended survey feedback turned themes into tickets and tracked them: closed, in progress, backlog, needs triage.
 Cool thing: the papercut report led to a lot more getting done. It made small problems visible and easy to prioritize, so they actually got fixed.
@@ -114,14 +114,14 @@ Show the tools. This is where the "wow" lives.""",
 25:"""Design: learn by doing. You don't know what AI can and can't do until you work with it.
 People who only have the theory often never start. You can't learn to swim from a book.
 Because we built first, we knew where AI was strong and where it needed help.
-Three ways we designed AI differently: 1. Cloudy search, a different way to think about AI. 2. Prompt monitoring, designed behind the scenes. 3. Chunkability, how we kept the agent in line.""",
-26:"""Way 1, thinking differently about AI: Cloudy search.
+Three ways we designed AI differently: 1. AI hints, a different way to think about AI. 2. Prompt monitoring, designed behind the scenes. 3. Chunkability, how we kept the agent in line.""",
+26:"""Way 1, thinking differently about AI: AI hints.
 We watched users click through each product on the dashboard and fail to find things.
 We deliberately skipped an open-ended chatbot or agent. Instead we made search smart: based on what someone searched, we could solve the problem or serve the right content.
 An answer, not a conversation. Customer sentiment held steady while product adoption rose.
 We also built in the ability to actually turn it off.
 Inline AI tips, too: they replaced documentation, tooltips and help, shown right where the customer is working. Each tip uses a pre-written, stress-tested prompt tied to that spot. Sentiment and task completion went up.""",
-41:"""Way 1, in the dashboard: this is Cloudy search on the real screens.
+41:"""Way 1, in the dashboard: this is AI hints on the real screens.
 Point out: the search bar, the suggested prompts, and the answer that comes right back.
 An answer, not a conversation. We solved the problem or served the right content.""",
 27:"""Pitfall: when things move fast, the basics get forgotten and the customer gets left out.
@@ -136,7 +136,7 @@ Because we had built things first, we knew enough to monitor the responses and c
 AI often means dropping in a chat bot. We got further because we knew what could happen.
 Building first taught us where AI is strong, where it needs help, and where it doesn't belong.""",
 121:"""Three experiences we shipped. Two were cool AI designs; the third was the real work.
-1. Cloudy search: an answer, not a chat. Sentiment held steady while adoption rose.
+1. AI hints: an answer, not a chat. Sentiment held steady while adoption rose.
 2. Inline AI tooling: tips right where the customer is working. Sentiment and task completion went up.
 3. Chunkability: we watched how the AI answered, then changed the source it learned from. Accuracy went from about one in five to about four in five.
 Candid: the designs got the attention, but knowing enough to monitor responses and change how it worked is what made them good.
@@ -220,7 +220,7 @@ Cool thing: a person still adds the tickets and decides what to fix. The AI find
 125:"""Way 3, keeping the agent in line: chunkability. This is the significant one.
 This was an actual agent experience. Chat was one more way to interface with it and take action on the real products. It was not an LLM wrapper having basic conversations.
 Why it matters: it addressed a huge issue for the company. Without a strategy behind the content, it goes unnoticed and the experience falls back to a bad chatbot instead of an agentic experience.
-The Cloudy answers were a 50/50 split of thumbs up and thumbs down. People told us third-party AI tools gave them a mixed bag too.
+The AI hint answers were a 50/50 split of thumbs up and thumbs down. People told us third-party AI tools gave them a mixed bag too.
 A hallucination is the AI confidently making something up. The AI was pulling from the wrong material, and the more information it had, the less accurate it got.
 Our docs were written for people who use sidebars and context. AI reads them in small slices, called chunks.
 We can't control how another tool slices our docs, so we assume the worst: no title, no breadcrumbs, no neighbors.
