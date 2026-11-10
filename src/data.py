@@ -125,3 +125,6 @@ D[20]=('Share. Teach. Celebrate. Publish.','fade',"Takeaway: enable, don't gatek
 
 D[119]=('Share it. Celebrate it.','fade',"Takeaway: share and celebrate openly. Share: biweekly reviews and internal blogs kept everyone in sync. Teach what we did and why. Celebrate with quarterly demos. Publish docs, guidance and external blogs, so sharing and celebrating reached customers too. Everything is new, and the small things people are already doing are clever solutions. Also: learn more about the tools you already have access to.")
 D[110]=('A napkin idea became a real tool','scan','Cool thing: when people started to play and find value for themselves, it naturally led them to find value and opportunity for each other. A napkin idea became a real tool. "Yes, and" (accept the idea, then add to it) is how it grew. Sharing what worked led us to standardize it, which moved us from Play into Build.')
+
+D[130]=('Break the ice: build a tiny app','scan','Your turn. Copilot chat is old news; today it builds a tool. Walk the five steps and give the room two minutes. Backup: a finished tool.html, ready to open.')
+D[131]=('Our AI principles','scan','Five principles for the products we build and advise on: purpose over novelty, building over prompting, appropriateness over adoption, conservation over consumption, accountability over automation.')

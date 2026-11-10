@@ -3,7 +3,7 @@ from data import D
 import bullets
 import transitions
 PLAN=[
-(1,'Welcome',0,0,'fade'),(2,'Welcome',0,0,'fade'),(101,'Welcome',0,0,'fade'),(3,'Welcome',0,0,'pixel'),
+(1,'Welcome',0,0,'fade'),(2,'Welcome',0,0,'fade'),(101,'Welcome',0,0,'fade'),(130,'Welcome · AI tip',0,0,'scan'),(3,'Welcome',0,0,'pixel'),
 (102,'The divide',0,0,'pixel'),(7,'The divide',0,0,'fade'),(103,'The divide',0,0,'fade'),(104,'The divide',0,0,'fade'),(6,'The divide',0,0,'blinds'),(9,'The divide',0,0,'scan'),
 (105,'Before · Concerns',1,2,'pixel'),(107,'Before · Concerns',1,4,'scan'),
 (15,'Before · Goals',2,2,'pixel'),(17,'Before · Goals',2,2,'fade'),
@@ -13,7 +13,7 @@ PLAN=[
 (24,'After · Result',6,4,'scan'),
 (43,'After · Lessons',7,6,'pixel'),(30,'After · Lessons',7,3,'fade'),(31,'After · Lessons',7,4,'fade'),
 (114,'After · Lessons',7,2,'pixel'),(32,'After · Lessons',7,2,'fade'),(115,'After · Lessons',7,2,'fade'),(116,'After · Lessons',7,2,'fade'),(120,'After · Lessons',7,2,'blinds'),(117,'After · Lessons',7,2,'fade'),(119,'After · Lessons',7,2,'scan'),
-(37,'Closing',-1,0,'scan'),(36,'Q&A',-1,0,'fade')]
+(131,'Closing',-1,0,'scan'),(37,'Closing',-1,0,'scan'),(36,'Q&A',-1,0,'fade')]
 import os,collections
 def mv(st,cnt):
     if st<=0: return None
