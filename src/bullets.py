@@ -231,5 +231,5 @@ Plan: baseline test, fix the pages and re-test the same questions, then target t
 Result: answers went from about one in five accurate to about four in five. Content is king.""",
 }
 
-BUL[130]="Your turn: a two-minute AI tip.\nYou already use Copilot to chat. Today it builds you a tiny app.\nPaste the prompt, copy the code, save it as tool.html, double-click it.\nFirst try a bit rough? That's the first pancake. Ask it to fix it."
+BUL[130]="Your turn: a two-minute AI tip.\nYou already use Copilot to chat. Today it builds you a tiny app.\nPaste the prompt, copy the code into TextEdit, make it plain text (Shift-Cmd-T), save as tool.html with the “use .txt” box unchecked, double-click it.\nFirst try a bit rough? That's the first pancake. Ask it to fix it."
 BUL[131]='Where this goes next, at One North: the rules for products we build and advise on.\nPurpose over novelty: start with the problem, not the shiny tool.\nBuilding over prompting: ask if code can do it.\nAppropriateness over adoption: for customer experiences, AI is optional when possible.\nConservation over consumption: use the smallest tool that does the job.\nAccountability over automation: a person owns every result.'
