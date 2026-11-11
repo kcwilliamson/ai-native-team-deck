@@ -120,3 +120,6 @@ D[111]=('Know your lane, embrace your skills as a team','fade','How we fixed the
 D[40]=('Papercut report: how it works','fade','')
 D[126]=('Watch the answers. Fix the source.','fade','')
 D[132]=('All the ways this could get better','fade','The first pancake, then all the ways to make it better.')
+
+D[31]=('Everyone is still figuring this out','fade',D[31][2])
+D[109]=('Experts who keep the keys','blinds',D[109][2])

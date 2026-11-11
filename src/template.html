@@ -432,8 +432,8 @@ B[29]=()=>`
   <path class="d" pathLength="1" d="M0 20 L520 480" style="--d:1.8;stroke-width:8"/><path class="d" pathLength="1" d="M520 20 L0 480" style="--d:2;stroke-width:8"/></svg>
  <div class="abs" style="left:76px;top:620px;font:400 50px/1.25 var(--serif);z-index:3"><div class="in" style="--d:1.2">Ask AI how to build.</div><div class="in" style="--d:1.5">Don’t always build <em>AI</em>.</div></div>`;
 B[31]=()=>{let p='';for(let i=0;i<8;i++){const x=150+i*215;p+=`${person(x,820,150,i*.25,true)}<text class="dl" x="${x}" y="${640}" text-anchor="middle" style="--d:${.4+i*.12};font-size:70px;font-family:Newsreader,serif;letter-spacing:0;text-transform:none">?</text>`;}
- return `${top('Almost no one is an expert','What we learned')}<svg class="abs" style="left:0;top:40px" width="1920" height="900" viewBox="0 0 1920 900">${p}</svg>
- <div class="serif abs in" style="--d:1.6;left:70px;top:330px;font-size:70px;z-index:3">Everyone is figuring it out.</div>`;};
+ return `${top('Everyone is still figuring this out','What we learned')}<svg class="abs" style="left:0;top:40px" width="1920" height="900" viewBox="0 0 1920 900">${p}</svg>
+ <div class="serif abs in" style="--d:1.6;left:70px;top:330px;font-size:70px;z-index:3">More time or less time playing. <em>Still figuring it out.</em></div>`;};
 B[33]=()=>`${top('Try 2: template + prompt','Try it')}
  <div class="abs" style="left:70px;top:290px;width:780px;height:620px;z-index:3"><div class="micro in" style="--d:.2;margin-bottom:18px">Template</div>
   <svg width="780" height="560" viewBox="0 0 780 560" fill="none" stroke="#1F2BE0" stroke-width="2"><rect class="d" pathLength="1" x="2" y="2" width="776" height="556" style="--d:.3"/><rect class="d" pathLength="1" x="40" y="40" width="700" height="90" style="--d:.7"/>${[0,1].map(i=>`<rect class="d" pathLength="1" x="${40+i*360}" y="170" width="340" height="230" style="--d:${1+i*.2}"/>`).join('')}<path class="d" pathLength="1" d="M40 450 L740 450 M40 490 L560 490" style="--d:1.6;stroke-width:4"/></svg></div>
@@ -508,6 +508,7 @@ B[108]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:120px;li
   <rect width="26" height="26" fill="#1F2BE0" stroke="none"><animateMotion dur="3.5s" repeatCount="indefinite" begin="1.8s" path="M157 327 L547 327 L867 187 L1167 187 L1487 47 L1597 47"/></rect></svg>`;
 B[109]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:100px;line-height:1.04;z-index:3">${lines(['Keep an eye out for','experts who','<em>keep the keys.</em>'],.1,.2)}</div>
  <div class="serif abs in" style="--d:1;left:76px;top:560px;width:820px;font-size:48px;line-height:1.25;z-index:3">More access. More jargon. Everyone else waits outside.</div>
+ <div class="serif abs in" style="--d:1.8;left:76px;top:790px;width:820px;font-size:48px;line-height:1.25;z-index:3"><em>Gatekeeping is toxic.</em> They show the results, not the will to share.</div>
  <svg class="abs" style="left:980px;top:260px" width="880" height="700" viewBox="0 0 880 700" fill="none" stroke="#1F2BE0" stroke-width="2.5">
   <rect class="d" pathLength="1" x="480" y="60" width="300" height="600" style="--d:.3"/><rect class="fillrect" x="640" y="330" width="40" height="70" style="--d:1"/>
   ${[0,1,2,3].map(i=>person(60+i*100,650,80,.5+i*.2,false)).join('')}
