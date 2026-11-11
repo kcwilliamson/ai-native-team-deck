@@ -26,13 +26,10 @@ D={
 23:("From mundane to strategic","scan","Feedback: digging through scattered feedback became strategy conversations shaped by customer signal. Scorer: manual line edits became high-judgment feedback that shaped how the team approached design critique. Papercuts: hunting small problems by hand became a systematic way to find and prioritize, so time went to deciding what mattered."),
 24:("The leadership shift","scan","Having data in hand is a powerful tool for conversation, and AI lets you grab it. Not being constantly in the weeds frees time for the bigger picture. Teams like ours often fight for a seat at the table, and with AI the fight got tougher, because every team felt they could jump over us with the speed and false confidence of AI. My proudest moment: one of my direct reports was invited into annual planning conversations."),
 25:("Design: learn by doing","pixel","You don't know what AI can and can't do until you work with it. People who only have the theory often never start, and you can't learn to swim from a book. Because we built first, we knew where AI was strong and where it needed help."),
-26:("Search: an answer, not a chat","fade","We watched users click through each product on the dashboard and fail to find things. We deliberately skipped an open-ended chatbot or agent. Instead we added an AI search bar with suggested prompts and made search lead to an answer, not a conversation. Customer sentiment held steady while product adoption rose."),
 27:("Fix the source","fade","A hallucination is the AI confidently making something up. When accuracy dropped, the AI was pulling from the wrong material, and the more information an agent had, the less accurate it got. We fixed the source: format, tagging and chunking (breaking content into small labeled pieces the AI can find and use). Answers went from roughly one in five accurate to roughly four in five."),
 28:("Enable, don't gatekeep","fade","Gatekeeping hoards the tool, the vocabulary or the reasoning. Enabling shares all three. Build tools so non-experts can do expert-level work with the human still in charge: people review the output and ask an expert when unsure. That's the line between enabling and the title flip: add skills, don't replace specialists."),
 29:("No more chatbots","pixel","Ask AI how to build, but don't always jump to AI. Look for the pragmatic engineering first, because not everything needs an LLM (a large language model, the engine behind chat AI) or an agent. AI is how you learn to build, not always what you build. Before building a chatbot, ask: is this something Claude can't already do? Don't put the lift on the user to engage with a chatbot as the main interaction."),
-30:("Find your value spots","fade","Human in the loop is about taste, creativity and authority. Don't worry about claiming tasks: the human superpower is talking to experts and making the judgment call. Prototyping is fast, cheap and easy, so treat what you bring back as a napkin sketch, then bring in the experts. Product development practice makes sure you build it with the right people and the right business case."),
 31:("Almost no one is an expert","fade","Don't talk down to each other, and feel confident enough to ask others not to. Almost no one is an AI expert, except engineers building models at their core. When someone makes a big claim, ask what it does, who checked it, and how many moving parts it really needs. If you don't know, ask me or ask Copilot. It's fun to figure out."),
-32:("Try 1: a prompt builds a site","pixel","Try it yourself: one prompt that creates a small local site. The prompt is on the slide so you can copy it."),
 33:("Try 2: template + prompt","fade","Add a template, plus the prompt that created it, so anyone can reuse it. That's the prompt library idea made personal."),
 34:("Try 3: presentation tips","fade","Ask Copilot for presentation tips, then pick the ones that fit on a slide. Same trick this talk used."),
 35:("Set client AI goals together","fade","Use the same method with clients: start from their roadmap, find the through-lines together, and set one specific AI goal and one metric per engagement. Goals chosen on purpose, not bolted on because AI is in the news."),
@@ -45,19 +42,15 @@ D[13]=('Hype is a glass ceiling','fade',"Technical talk, and hype, can make peop
 D[18]=('Play: Out of the box LLM','pixel',"Play was about individual AI use: find a way to make your own work better. It's about psychological safety and giving people time to learn within the bounds of work. I gave the team access to AI tools and one goal: find new ways to use AI. Low risk, low pressure, internal only.")
 D[19]=('How we played','fade',D[19][2])
 D[23]=('Results: mundane to strategic','scan',D[23][2])
-D[26]=('Search: an answer, not a chat','fade',"We watched users click through each product on the dashboard and fail to find things. We deliberately skipped an open-ended chatbot or agent. Instead we made search smart: based on what someone searched, we could solve the problem or serve the right content, an answer instead of a conversation. Customer sentiment held steady while product adoption rose.")
 D[27]=('Keep an eye on AI. Fix the source.','fade',D[27][2])
 D[38]=('Feedback tool: walkthrough','fade','Video walkthrough of the feedback tool. It pulls from community posts, support tickets, surveys and more, classifies them with AI, and shows a dashboard. Months of research became minutes.')
 D[39]=('Content scorer: walkthrough','fade',"Video walkthrough of the content scorer. It scores customer-facing words against the style rules, and one product area's average score rose by about a third.")
 D[40]=('Papercut report: walkthrough','fade','Video walkthrough of the papercut report. It finds small usability problems in a systematic way, and led to dozens of improvements in record time.')
-D[41]=('AI hints: the real screens','fade','AI hints, on the real product screens.')
-D[42]=('The real tool','fade','Space to show the actual content tool.')
 D[43]=('What we learned','pixel',"Section header: what we learned along the way. The slides that follow list each learning.")
 
 D[3]=('The phases of AI adoption','pixel','Three phases to remember: Play (try it), Build (make it), Design (shape it). Around them, like building a real bridge: Before is the survey and permits (concerns and goals). After is opening day (the result and what we learned).')
 D[7]=('The market is pushing','fade','The market was racing, and everyone was talking about it in jargon. Keeping up felt mandatory.')
 D[12]=('When designers became engineers','blinds','Pitfall in the build phase: designers started acting as engineers, and a team of "I" leads to burnout. We worked together, learned more about development and model training, reached out to experts, and did not try to do it all alone. The team got more technical and more cross-functional.')
-D[32]=('A live moment: a prompt builds a site','fade',D[32][2])
 D[101]=('What I hope you take away','fade','Three hopes: one idea you can try today, permission to ask the question you think is too basic, and a reason to share your small wins.')
 D[102]=('Leadership was excited','pixel','Leaders said this is the way and were excited to move.')
 D[103]=('Users were skeptical','fade','Our customers were highly technical and security-minded, so trust was fragile, and early chatbot experiments raised support tickets.')
@@ -97,23 +90,15 @@ D[109]=('Experts who keep the keys','blinds','Pitfall to watch for: internal exp
 D[104]=('The team was concerned','fade','On the team, people were concerned about the environment, made-up answers (hallucinations), brain rot, ethics, and being left behind or replaced.')
 D[102]=(D[102][0],D[102][1],'Leaders said this is the way and were excited to move. Quote on the slide, from the CEO: "If you think your job is to argue for manual screwdrivers, you\'re not going to have fun over the next 20 years."')
 
-D[121]=('Three experiences','blinds','')
 D[122]=('Inline insights: help right where you work','fade','')
-D[32]=('Go tinker','fade',D[32][2])
 
-D[41]=('AI hints: the real screens','fade','AI hints, on the real product screens.')
 
-D[42]=('The real tool: AI hints monitoring','fade',D[42][2])
 
 D[123]=('Papercut report: how it works','fade','')
 D[124]=('From feedback to fixes','fade','')
 
 D[40]=('Papercut report: how it works','fade','')
-D[125]=('Chunkability: the stranger test','fade','')
 
-D[41]=('AI hints: dashboard walkthrough','fade',D[41][2])
-D[42]=('Prompt monitoring: so we knew what was happening','fade',D[42][2])
-D[125]=('Chunkability: keeping the agent in line','fade',D[125][2])
 D[27]=('Hype over the customer','blinds',D[27][2])
 
 D[15]=('Goals before gadgets: not a side quest','pixel',"Takeaway: AI isn't a side quest, it's meaningfully part of our team objectives. Company goals were vague. We planned and aligned across roadmaps to find the through-lines, then created AI OKRs (a goal plus the measures that show you got there) that connected up to the company goals. Leadership could see it, so AI wasn't a side project.")
@@ -128,3 +113,10 @@ D[110]=('A napkin idea became a real tool','scan','Cool thing: when people start
 
 D[130]=('Break the ice: build a tiny app','scan','Your turn. Copilot chat is old news; today it builds a tool. Walk the five steps and give the room two minutes. Backup: a finished tool.html, ready to open.')
 D[131]=('Our AI principles','scan','Five principles for the products we build and advise on: purpose over novelty, building over prompting, appropriateness over adoption, conservation over consumption, accountability over automation.')
+
+# --- Nov 11 trim: Build = 2 tools, Design = 2 slides ---
+D[22]=('Build with a reason','fade','Build with a reason, not because you can.')
+D[111]=('Know your lane, embrace your skills as a team','fade','How we fixed the build pitfall: know your lane and embrace your skills as a team.')
+D[40]=('Papercut report: how it works','fade','')
+D[126]=('Watch the answers. Fix the source.','fade','')
+D[132]=('All the ways this could get better','fade','The first pancake, then all the ways to make it better.')

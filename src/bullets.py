@@ -111,36 +111,13 @@ Understand your value in the room, and understand others' value in the room. Don
 112:"""Cool thing: we got more technical.
 We also got more cross-functional: designers, engineers, strategy and content, building side by side.
 Show the tools. This is where the "wow" lives.""",
-25:"""Design: learn by doing. You don't know what AI can and can't do until you work with it.
-People who only have the theory often never start. You can't learn to swim from a book.
-Because we built first, we knew where AI was strong and where it needed help.
-Three ways we designed AI differently: 1. AI hints, a different way to think about AI. 2. Prompt monitoring, designed behind the scenes. 3. Chunkability, how we kept the agent in line.""",
-26:"""Way 1, thinking differently about AI: AI hints.
-We watched users click through each product on the dashboard and fail to find things.
-We deliberately skipped an open-ended chatbot or agent. Instead we made search smart: based on what someone searched, we could solve the problem or serve the right content.
-An answer, not a conversation. Customer sentiment held steady while product adoption rose.
-We also built in the ability to actually turn it off.
-Inline AI tips, too: they replaced documentation, tooltips and help, shown right where the customer is working. Each tip uses a pre-written, stress-tested prompt tied to that spot. Sentiment and task completion went up.""",
-41:"""Way 1, in the dashboard: this is AI hints on the real screens.
-Point out: the search bar, the suggested prompts, and the answer that comes right back.
-An answer, not a conversation. We solved the problem or served the right content.""",
 27:"""Pitfall: when things move fast, the basics get forgotten and the customer gets left out.
 It's easy to get caught up in the new tools and the hype instead of the user's needs and the business problem.
 That creates issues if no one is charged with watching out for it.
 As strategists, we are the voice of the customer. We always put needs over hype.""",
-42:"""Way 2, designing behind the scenes: prompt monitoring. This is the work I most want you to see.
-We built it so we knew what was happening. We tracked prompts, sentiment and accuracy over time.
-Then we used the data to go back to the content and change how it was written and chunked, not just tweak prompts.
-Because we had built things first, we knew enough to monitor the responses and change the functionality, not just ship and hope.""",
 113:"""Cool thing: the experiences got much better than "drop in a chatbot."
 AI often means dropping in a chat bot. We got further because we knew what could happen.
 Building first taught us where AI is strong, where it needs help, and where it doesn't belong.""",
-121:"""Three experiences we shipped. Two were cool AI designs; the third was the real work.
-1. AI hints: an answer, not a chat. Sentiment held steady while adoption rose.
-2. Inline AI tooling: tips right where the customer is working. Sentiment and task completion went up.
-3. Chunkability: we watched how the AI answered, then changed the source it learned from. Accuracy went from about one in five to about four in five.
-Candid: the designs got the attention, but knowing enough to monitor responses and change how it worked is what made them good.
-Content is king.""",
 122:"""We replaced documentation, tooltips and help with AI tips shown right where the customer is working.
 Each tip uses a pre-written, stress-tested prompt tied to exactly that spot. Nothing open-ended.
 We focused on high-traffic, high-support areas first.
@@ -160,10 +137,6 @@ The slides that follow list the learnings, one each.""",
 Build tools so non-experts can do expert-level work, with the human still in charge.
 People review the output and ask an expert when unsure.
 Add skills, don't replace specialists.""",
-30:"""Takeaway: human in the loop is about taste, creativity and authority.
-Don't worry about claiming tasks. The human superpower is talking to experts and making the judgment call.
-Prototyping is fast, cheap and easy: treat what you bring back as a napkin sketch.
-Then bring in the experts and build it the right way.""",
 31:"""Takeaway: don't talk down to each other, and feel confident enough to ask others not to.
 Almost no one is an AI expert, except engineers building models at their core.
 When someone makes a big claim, ask what it does, who checked it, and how many moving parts it needs.
@@ -171,9 +144,6 @@ If you don't know, ask me or ask Copilot. It's fun to figure out.""",
 114:"""Takeaway: if you keep prompting the same thing, ask AI if code or a script could do it.
 Look for pragmatic engineering first. Not everything needs an LLM or an agent.
 Ask AI how to build it, then try.""",
-32:"""Takeaway: go tinker. One prompt can build a small local site.
-The prompt is on the slide so you can copy it.
-It won't be perfect. That's fine, that's the point.""",
 115:"""Takeaway: start a folder and save things: ideas, tools, patterns.
 Designing with AI is a lot about curation.
 I saved an open-source slide repo to my library for this very talk.""",
@@ -217,19 +187,20 @@ Three bugs raised, five fixes already closed, and five waiting in the backlog.
 The point: feedback stopped being a pile of complaints and became a to-do list the team could ship.
 Cool thing: a person still adds the tickets and decides what to fix. The AI finds and explains, we decide."""
 ,
-125:"""Way 3, keeping the agent in line: chunkability. This is the significant one.
-This was an actual agent experience. Chat was one more way to interface with it and take action on the real products. It was not an LLM wrapper having basic conversations.
-Why it matters: it addressed a huge issue for the company. Without a strategy behind the content, it goes unnoticed and the experience falls back to a bad chatbot instead of an agentic experience.
-The AI hint answers were a 50/50 split of thumbs up and thumbs down. People told us third-party AI tools gave them a mixed bag too.
-A hallucination is the AI confidently making something up. The AI was pulling from the wrong material, and the more information it had, the less accurate it got.
-Our docs were written for people who use sidebars and context. AI reads them in small slices, called chunks.
-We can't control how another tool slices our docs, so we assume the worst: no title, no breadcrumbs, no neighbors.
-The stranger test: if I handed this slice to a stranger, would they know exactly which product and which action it's about?
-We built a skill that scores a page: Robust is 22 to 26, Stable is 16 to 21, Fragile is under 16.
-First audit, three key decision pages: scores of 19, 15 and 16. None were Robust, and one failed a hard floor.
-Plan: baseline test, fix the pages and re-test the same questions, then target the pages with the most thumbs down.
-Result: answers went from about one in five accurate to about four in five. Content is king.""",
 }
 
 BUL[130]="Your turn: a two-minute AI tip.\nYou already use Copilot to chat. Today it builds you a tiny app.\nPaste the prompt, copy the code into TextEdit, make it plain text (Shift-Cmd-T), save as tool.html with the “use .txt” box unchecked, double-click it.\nFirst try a bit rough? That's the first pancake. Ask it to fix it."
 BUL[131]='Where this goes next, at One North: the rules for products we build and advise on.\nPurpose over novelty: start with the problem, not the shiny tool.\nBuilding over prompting: ask if code can do it.\nAppropriateness over adoption: for customer experiences, AI is optional when possible.\nConservation over consumption: use the smallest tool that does the job.\nAccountability over automation: a person owns every result.'
+
+# --- Nov 11 trim: speaker notes from the outline doc ---
+BUL[22]="Sharing what worked moved us from Play into Build. But build with a reason, not because you can.\nThe test, three questions. Who asked for this? Does it bring in something we couldn't see before? Is it one thing built well, or many things built fast?\nAnti-pattern: a chatbot for every problem. We didn't want that.\nTwo tools, built by us for us. None were off the shelf.\nFeedback tool: months of research became minutes.\nContent scorer: one area's average score rose by about a third.\nCandid: both started small and rough. Next, a quick look at each."
+BUL[38]="What it does: pulls feedback from community posts, support tickets, surveys and social channels into one daily pipeline.\nAI sorts every item by type, product and sentiment. A dashboard shows filters, sentiment trends and on-demand summaries.\nResult: months of research became minutes, and more people got closer to customers. Digging through scattered feedback became strategy conversations shaped by customer signal.\nWhat it took (candid): we first found a research repository nobody used, because nobody had time.\nSo we teamed up with machine learning engineers, built a content warehouse, refined it with invested stakeholders, and launched with meetings, case studies and demos.\nIt sits behind company login. Ten steps from problem to launch, none of them skipped.\nThe test: who asked for this? [your answer]. Something we couldn't see before: customer signal from every channel in one place. One thing built well, not many things built fast."
+BUL[39]="What it does: scores customer-facing words (UI copy, error messages, docs) against the glossary, voice and tone, and UX writing best practices.\nIt started as a spreadsheet: formulas for readability, passive voice, action-led structure and inclusive language, rolled into one weighted score.\nFormulas can't judge tone, so we added an AI layer that checks context and voice. Does the error message sound empathetic?\nResult: one product area's average score went from 7.42 to 10, about a 35% lift. Manual line edits became high-judgment feedback that shaped how we approached design critique.\nCandid: we rewrote every page description in that area by hand to prove it first. Then rebuilt it as a real app, with moderated usability tests and a 25-person survey before rollout.\nIt checks what you wrote instead of writing it for you. The human stays in charge.\nThe test: who asked for this? [your answer]. Something we couldn't see before: how every page really scored on voice and tone. One thing built well: proven by hand first, then rebuilt as a real app with tests."
+BUL[12]='Pitfall: designers started acting as engineers.\nA team of "I" leads to burnout. Everyone doing everything alone doesn\'t scale.\nWhat we did: worked together, learned more about development and model training, reached out to experts.\nDon\'t try to do it all alone.'
+BUL[111]="Fix for the build pitfall: know your lane, and embrace your specific skills as a team.\nBuild as a team. Everyone has to do their job and own their role.\nUX can spot the missing user value. The engineer can spot the build issues. The product manager can see that the idea won't sell.\nWe work together on stable solutions. Skills are magnified, not replaced.\nHuman in the loop (a person checks and decides) is about taste, creativity and authority.\nDon't worry about claiming tasks. The human superpower is talking to experts and making the judgment call.\nBring in the experts and build it the right way.\nUnderstand your value in the room, and understand others' value in the room. Don't try to do it all alone."
+BUL[112]='Cool thing: we got more technical.\nWe also got more cross-functional: designers, engineers, strategy and content, building side by side.\nPurpose-built tools are great. We build in GitHub.\nMake internal systems reachable by LLMs instead of spawning a chatbot per problem.\nShow the tools. This is where the "wow" lives.'
+BUL[25]="Both tools showed us something we couldn't see before. Design is what we did with that sight.\nDesign: learn by doing. You don't know what AI can and can't do until you work with it.\nPeople who only have the theory often never start. You can't learn to swim from a book.\nBecause we built first, we knew where AI was strong and where it needed help.\nTwo ways we designed AI differently: 1. Papercuts, where the signals from our tools come together. 2. Watch the answers, fix the source: prompt monitoring and chunkability, designed behind the scenes."
+BUL[40]="Where it fits: the two tools we just built feed it, the feedback tool and the content scorer, plus survey responses. It's connected straight to the dashboard.\nTwo kinds of signal, one place. This is where they come together.\nLeft: how the papercut report works, in six steps. Gather all the feedback, find and count the themes, check whether the docs already answer it, add community evidence with full quotes, classify each theme as a bug, UX friction or docs gap, then write it up in plain English.\nRight: what it set off. By the end of this work we were getting about 30 new UX improvement tickets every month.\nA monthly cross-team review of open-ended survey feedback turned themes into tickets and tracked them: closed, in progress, backlog, needs triage.\nCool thing: the papercut report led to a lot more getting done. It made small problems visible and easy to prioritize, so they actually got fixed.\nCandid: it took many rounds to get right. Early versions invented quotes, so we required full, real quotes.\nA person still adds the tickets and decides what to fix. The AI finds and explains; we decide."
+BUL[126]="Papercuts made small problems visible. Now point the same eyes at the AI itself.\nWay 2, designing behind the scenes: prompt monitoring and chunkability. One loop: watch the answers, fix the source. This is the work I most want you to see.\nWatch: we built monitoring so we knew what was happening. We tracked prompts, sentiment and accuracy over time. Because we had built things first, we knew enough to monitor the responses, not just ship and hope. It passes the test: it shows us what the AI is really saying, which we couldn't see before.\nWhat it showed: the AI answers were a 50/50 split of thumbs up and thumbs down. People told us third-party AI tools gave them a mixed bag too.\nThe data pointed at the content, not the prompt. A hallucination is the AI confidently making something up. The AI was pulling from the wrong material, and the more information it had, the less accurate it got.\nOur docs were written for people who use sidebars and context. AI reads them in small slices, called chunks. We can't control how another tool slices our docs, so we assume the worst: no title, no breadcrumbs, no neighbors.\nThe stranger test: if I handed this slice to a stranger, would they know exactly which product and which action it's about?\nFix: we built a skill that scores a page: Robust is 22 to 26, Stable is 16 to 21, Fragile is under 16. First audit, three key decision pages: scores of 19, 15 and 16. None were Robust, and one failed a hard floor.\nPlan: baseline test, fix the pages and re-test the same questions, then target the pages with the most thumbs down.\nResult: answers went from about one in five accurate to about four in five. Content is king.\nThis was an actual agent experience. Chat was one more way to interface with it and take action on the real products. It was not an LLM wrapper having basic conversations. Without a strategy behind the content, it falls back to a bad chatbot."
+BUL[27]="Content is king. Hype over the customer is how you forget it.\nPitfall: when things move fast, the basics get forgotten and the customer gets left out.\nIt's easy to get caught up in the new tools and the hype instead of the user's needs and the business problem.\nThat creates issues if no one is charged with watching out for it.\nAs strategists, we are the voice of the customer. We always put needs over hype."
+BUL[132]="That's the first version. A first pancake. Now, all the ways this could get better.\nImagine the design system is ready and connected to an outline for a talk. It can even look at the speaker's previous talks to refine its answers. That gets fun fast.\nSpec it. Plan mode (an AI mode that plans before it builds) can interview you until we have a clear plan, or product requirements doc.\nWork agile: small loops, and use your judgment.\nAdd a success metric. The goal: remove as much of the ability to hallucinate as possible.\nThere's a black box of AI. As we build and use it, we shrink it as far as we can. You get better the more you do it.\nThis is the magic of AI: it breaks down the language barrier, and then you start layering tools.\nNow imagine you have this cool bingo card that you want to create custom for every meeting, based on the host. That's when this all becomes a skill: the recurring instructions.\nSkill versus agent is a common mix-up. The agent is Claude or Copilot, the worker. The skill is the recipe it follows.\nA true agent would run without being asked: watch the calendar, spot the meeting, look up the host, build the card and attach it to the invite.\nThe test: if you start it and it follows saved steps, it's a skill. If it starts itself and picks its own steps, it's an agent.\nNow, how I got my team to this point."
