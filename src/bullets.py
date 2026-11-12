@@ -378,3 +378,12 @@ The goal: build confidence and fluency through real use cases, so AI:
 > Reduces repetitive work.
 > Gives the team more time for higher-value thinking and client problems.
 > Helps us provide thoughtful solutions for clients."""
+
+BUL[1]="""Welcome. The chat is open the whole time, silly questions first.
+A co-pilot (an AI helper) is watching the chat for me.
+This is a case study: how we AI-enabled a team, told as a bridge we crossed together.
+**AI native** means "AI" becomes a normal part of how we work, document, learn and reuse knowledge, rather than a separate initiative.
+The goal is to build confidence and fluency through real use cases, so AI:
+> Reduces repetitive work.
+> Gives the team more time for higher-value thinking.
+> Helps us design thoughtful solutions for clients."""
