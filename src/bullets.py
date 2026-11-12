@@ -292,3 +292,15 @@ What lives under the umbrella:
 **Rules-based AI:** hand-written rules, the older kind.
 **Agents:** AI that picks its own steps toward a goal.
 I'll define each AI term the first time I say it, in one plain sentence."""
+
+BUL[2]="""AI is an umbrella term for a lot of things. So it means a lot and nothing at the same time. Here's what lives under the umbrella:
+> **Machine learning:** learns patterns from examples.
+> **Deep learning:** machine learning with many-layered networks.
+> **Generative AI:** creates new text, images or code.
+> **Robotics:** machines that act in the physical world.
+> **Natural language processing:** understands and writes human language.
+> **Computer vision:** interprets images and video.
+> **Speech recognition:** turns spoken words into text.
+> **Recommendation systems:** the "you might also like" engine.
+> **Rules-based AI:** hand-written rules, the older kind.
+> **Agents:** AI that picks its own steps toward a goal."""
