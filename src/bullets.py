@@ -369,3 +369,12 @@ We also say "AI" to mean a lot of tools and companies, interchangeably:
 > **Vector databases:** storage AI can search by meaning.
 > **Frontier labs:** OpenAI, Anthropic, Google, Meta, Microsoft. The ones training the biggest models.
 Yeah, you can go remember all this jargon and try to become a word wizard, or we can talk about specific uses and business. **So let's not go down this jargon rabbit hole today.**"""
+
+BUL[1]="""Welcome. The chat is open the whole time, silly questions first.
+A co-pilot (an AI helper) is watching the chat for me.
+This is a case study: how we AI-enabled a team, told as a bridge we crossed together.
+**AI native:** AI becomes a normal part of how we work, document, learn and reuse knowledge, rather than a separate initiative.
+The goal: build confidence and fluency through real use cases, so AI:
+> Reduces repetitive work.
+> Gives the team more time for higher-value thinking and client problems.
+> Helps us provide thoughtful solutions for clients."""
