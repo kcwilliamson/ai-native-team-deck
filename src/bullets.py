@@ -223,3 +223,21 @@ The flip side: if you're the one with the answer, share it fast.
 Keep an eye out for experts who keep the keys: more access, more jargon. Everyone else waits outside. That's another glass ceiling.
 Gatekeeping is toxic. These are the people who show the results but not the will to share.
 Fix: share all three, the tool, the vocabulary and the reasoning. Enable, don't gatekeep."""
+
+BUL[132]="""That's the basic way this works. A first pancake. Now think of how you could make this better.
+Imagine the design system is ready and connected to an outline for a talk. It can even look at the speaker's previous talks to refine its answers. That gets fun fast.
+Spec it. Plan mode (an AI mode that plans before it builds) can interview you until we have a clear plan, or product requirements doc.
+Work agile: small loops, and use your judgment.
+Add a success metric. The goal: remove as much of the ability to hallucinate as possible.
+There's a black box of AI. As we build and use it, we shrink it as far as we can. You get better the more you do it.
+This is the magic of AI: it breaks down the language barrier, and then you start layering tools.
+Now imagine you have this cool bingo card that you want to create custom for every meeting, based on the host. Here's how it evolves.
+1. A prompt: paste it, get one card.
+2. Code: keep re-pasting the same prompt? Ask AI if a script could do it. The shuffle doesn't need an LLM at all. Not everything does.
+3. A skill: the recurring instructions for a card per host. You start it, and it follows saved steps.
+4. A workflow: fixed steps chained together. Get the host, look up their past talks, build the card, save the file. Same path every time.
+5. An agent: you say "make the card for tomorrow's meeting" and it picks its own steps. It checks the calendar, finds the host, decides which talks to read, and redoes the card if it looks off. A model with tools, running in a loop.
+Skill versus agent is a common mix-up. The agent is Claude or Copilot, the worker. The skill is the recipe it follows.
+The test: who picks the steps? If you do, it's a skill or a workflow. If it does, it's an agent.
+Don't build an agent for everything. They cost more, and mistakes matter more. A bingo card is low stakes and the path is known, so a skill or workflow is the right tool. Agents are for ambiguous, valuable work you can't map in advance.
+Now, how I got my team to this point."""
