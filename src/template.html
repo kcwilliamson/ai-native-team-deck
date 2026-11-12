@@ -744,7 +744,7 @@ for(let r=0;r<14;r++)for(let c=0;c<24;c++){const d=document.createElement('i');d
 for(let k=0;k<8;k++){const d=document.createElement('i');d.style.left=k*240+'px';d.style.setProperty('--d',[0,3,1,5,2,6,4,7][k]*55);bl.appendChild(d);}
 function fit(){const s=Math.min(vp.clientWidth/1920,vp.clientHeight/1080);stage.style.transform=`translate(${(vp.clientWidth-1920*s)/2}px,${(vp.clientHeight-1080*s)/2}px) scale(${s})`;}
 function closeDrawer(){drawer.classList.remove('open');}
-function fillDrawer(n){const m=META[n];$('#dk').textContent=`Slide ${String(n+1).padStart(2,'0')} / ${TOTAL} · ${m.s}`;$('#dh').textContent=m.t;const dp=$('#dp');dp.innerHTML='';const ul=document.createElement('ul');m.d.split('\n').forEach(x=>{if(!x.trim())return;const li=document.createElement('li');li.textContent=x.trim();ul.appendChild(li);});dp.appendChild(ul);}
+function fillDrawer(n){const m=META[n];$('#dk').textContent=`Slide ${String(n+1).padStart(2,'0')} / ${TOTAL} · ${m.s}`;$('#dh').textContent=m.t;const dp=$('#dp');dp.innerHTML='';const ul=document.createElement('ul');m.d.split('\n').forEach(x=>{if(!x.trim())return;const li=document.createElement('li');li.innerHTML=x.trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');ul.appendChild(li);});dp.appendChild(ul);}
 function show(n){slides[cur].classList.remove('active');slides[n].classList.remove('incoming');slides[cur].classList.remove('leaving');cur=n;slides[cur].classList.add('active');closeDrawer();fillDrawer(n);document.querySelectorAll('#slides video').forEach(v=>v.pause());slides[cur].querySelectorAll('video').forEach(v=>{try{v.play().catch(()=>{})}catch(e){}});try{history.replaceState(null,'','#'+(n+1));}catch(e){}}
 const run={
  pixel:n=>{px.classList.add('fill');setTimeout(()=>{show(n);px.classList.remove('fill');px.classList.add('clear');},860);setTimeout(()=>{px.classList.remove('clear');done();},1760);},
@@ -812,7 +812,7 @@ let tx=null;vp.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{pass
 vp.addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(d<0?cur+1:cur-1);tx=null;});
 /* reading view */
 const list=$('#readList');
-META.forEach((m,i)=>{const d=document.createElement('div');d.className='it';d.innerHTML=`<div class="n"><span>Slide ${String(i+1).padStart(2,'0')} · ${m.s}</span><a href="#${i+1}" data-j="${i}">Open slide</a></div><h2></h2><ul></ul>`;d.querySelector('h2').textContent=m.t;m.d.split('\n').forEach(x=>{if(!x.trim())return;const li=document.createElement('li');li.textContent=x.trim();d.querySelector('ul').appendChild(li);});list.appendChild(d);});
+META.forEach((m,i)=>{const d=document.createElement('div');d.className='it';d.innerHTML=`<div class="n"><span>Slide ${String(i+1).padStart(2,'0')} · ${m.s}</span><a href="#${i+1}" data-j="${i}">Open slide</a></div><h2></h2><ul></ul>`;d.querySelector('h2').textContent=m.t;m.d.split('\n').forEach(x=>{if(!x.trim())return;const li=document.createElement('li');li.innerHTML=x.trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');d.querySelector('ul').appendChild(li);});list.appendChild(d);});
 list.addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();toggleRead();slides[cur].classList.remove('active');cur=+a.dataset.j;slides[cur].classList.add('active');fillDrawer(cur);}});
 function toggleRead(){$('#read').classList.toggle('on');}
 /* hash start + test hooks */

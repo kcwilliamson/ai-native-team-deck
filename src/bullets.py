@@ -254,3 +254,15 @@ Agent: you hand over a goal, and it picks its own steps and tools, checking its 
 A word we hear a lot is "agent," often for anything AI. Not wrong, it just helps to know the difference. The test: who picks the steps? If you do, it's a skill or workflow. If it does, it's an agent.
 Agents cost more, and mistakes matter more, so save them for work where you can't map the path in advance. A bingo card doesn't need one.
 Now, how I got my team to this point."""
+
+BUL[132]="""That's the basic way this works. A first pancake. Now think of how you could make this better.
+Imagine the design system is ready and connected to an outline for a talk. It can even look at the speaker's previous talks to refine its answers. That gets fun fast.
+Now imagine a bingo card you create custom for every meeting, based on the host. Here's how it can grow. Every step is a fine place to stop.
+**Prompt:** you ask, it answers once. One card.
+**Code:** same prompt again and again? Ask AI if a script could do it. The shuffle doesn't need AI at all.
+**Skill:** your recurring instructions, saved. You start it, and it follows your recipe. A card per host.
+**Workflow:** several steps chained in a fixed order. Get the host, look up their past talks, build the card, save the file. Same path every time.
+**Agent:** you hand over a goal, and it picks its own steps and tools, checking its work along the way. "Make the card for tomorrow's meeting."
+A word we hear a lot is "agent," often for anything AI. Not wrong, it just helps to know the difference. The test: who picks the steps? If you do, it's a skill or workflow. If it does, it's an agent.
+Agents cost more, and mistakes matter more, so save them for work where you can't map the path in advance. A bingo card doesn't need one.
+Now, how I got my team to this point."""
