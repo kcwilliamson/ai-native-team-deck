@@ -329,3 +329,23 @@ BUL[2]="""AI is an umbrella term for a lot of things. So it means a lot and noth
 > **Recommendation systems:** the "you might also like" engine.
 > **Rules-based AI:** hand-written rules, the older kind.
 > **Agents:** AI that picks its own steps toward a goal."""
+
+BUL[2]="""AI is an umbrella term for a lot of things. So it means a lot and nothing at the same time. Because of this, it's better to talk about the business case instead of a tech name. Here's what lives under the umbrella:
+> **Machine learning:** learns patterns from examples.
+> **Deep learning:** machine learning with many-layered networks.
+> **Generative AI:** creates new text, images or code.
+> **Robotics:** machines that act in the physical world.
+> **Natural language processing:** understands and writes human language.
+> **Computer vision:** interprets images and video.
+> **Speech recognition:** turns spoken words into text.
+> **Recommendation systems:** the "you might also like" engine.
+> **Rules-based AI:** hand-written rules, the older kind.
+> **Agents:** AI that picks its own steps toward a goal.
+We also say "AI" to mean a lot of tools and companies, interchangeably:
+> **Products:** Microsoft Copilot, GitHub Copilot (two different things), Cursor, Harvey, Salesforce.
+> **Cloud providers:** AWS, Google Cloud, Azure. Managed AI and whole ecosystems of frameworks.
+> **Open-source frameworks:** Hugging Face, LangChain. Free building blocks.
+> **Agent platforms:** tools for building and running agents.
+> **Vector databases:** storage AI can search by meaning.
+> **Frontier labs:** OpenAI, Anthropic, Google, Meta, Microsoft. The ones training the biggest models.
+Yeah, you can go remember all this jargon and try to become a word wizard, or we can talk about specific uses and business. So let's not go down this jargon rabbit hole today."""
