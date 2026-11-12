@@ -266,3 +266,13 @@ Now imagine a bingo card you create custom for every meeting, based on the host.
 A word we hear a lot is "agent," often for anything AI. Not wrong, it just helps to know the difference. The test: who picks the steps? If you do, it's a skill or workflow. If it does, it's an agent.
 Agents cost more, and mistakes matter more, so save them for work where you can't map the path in advance. A bingo card doesn't need one.
 Now, how I got my team to this point."""
+
+BUL[2]="""House rule: when buzzwords pile up, a hand goes up. "Stop with the jargon. Just talk to me."
+Everyone in this room gets that hand today.
+AI is an umbrella term for a lot of things. So it means a lot and nothing at the same time.
+What lives under the umbrella:
+**Machine learning:** software that learns patterns from examples instead of following hand-written rules.
+**Deep learning:** machine learning with many-layered networks. It's behind image and speech recognition.
+**Generative AI:** AI that creates new text, images or code. Chatbots like Copilot and Claude live here.
+**Robotics:** machines that sense and act in the physical world. AI is the brain, not the whole body.
+I'll define each AI term the first time I say it, in one plain sentence."""
