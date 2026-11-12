@@ -123,3 +123,5 @@ D[132]=('All the ways this could get better','fade','The first pancake, then all
 
 D[31]=('Everyone is still figuring this out','fade',D[31][2])
 D[109]=('Experts who keep the keys','blinds',D[109][2])
+
+D[109]=('Come up for air','blinds','Pitfall: AI is addictive. People can spend hours on something they could ask a developer about and get done in two seconds. Ask early, and if you have the answer, share it fast.')

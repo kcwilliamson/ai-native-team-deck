@@ -216,3 +216,10 @@ Everyone else waits outside. That's another glass ceiling.
 Gatekeeping is toxic. These are the people who show the results but not the will to share.
 Gatekeeping hoards the tool, the vocabulary, or the reasoning.
 Fix: share all three. Enable, don't gatekeep."""
+
+BUL[109]="""Pitfall: don't forget to come up for air. AI gets addictive.
+People can spend hours on something they could ask a developer about and get done in two seconds. Ask early.
+The flip side: if you're the one with the answer, share it fast.
+Keep an eye out for experts who keep the keys: more access, more jargon. Everyone else waits outside. That's another glass ceiling.
+Gatekeeping is toxic. These are the people who show the results but not the will to share.
+Fix: share all three, the tool, the vocabulary and the reasoning. Enable, don't gatekeep."""
