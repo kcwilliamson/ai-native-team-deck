@@ -1,4 +1,5 @@
-import json
+import json,base64
+ICE_CAPS=["Paste the prompt into Copilot. It writes the whole file for you.", "Open TextEdit (it's in Applications) and paste the code in.", "Format → Make Plain Text (⇧⌘T), so it saves as code, not a document.", "Save it as tool.html and double-click it. There's your bingo card."]
 from data import D
 import bullets
 import transitions
@@ -34,6 +35,7 @@ for pos,(n,s,st,p,_tx) in enumerate(PLAN,1):
     if 1<=st<=7:
         d["h"]=1; d["k"]='Principle' if (st in (1,2) and p==2) else ('Takeaway' if (st==7 and p not in (1,6)) else KIND[p])
     if str(pos) in th: d["th"]=th[str(pos)]
+    if n==130: d["im"]=[{"src":"data:image/jpeg;base64,"+base64.b64encode(open(f"icebreaker/step{i}.jpg","rb").read()).decode(),"cap":c} for i,c in enumerate(ICE_CAPS,1)]
     meta.append(d)
 t=open('template.html').read().replace('/*META*/[]',json.dumps(meta,ensure_ascii=False))
 import base64

@@ -197,6 +197,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
  <div class="deck-stage" id="stage">
   <div id="slides"></div>
   <div class="drawer" id="drawer"><div class="k"><span id="dk"></span><button class="x" id="dx">Close ✕</button></div><h3 id="dh"></h3><div id="dp"></div></div>
+  <div class="dzoom" id="dzoom"><img alt=""></div>
   <div class="fx px" id="px"></div>
   <div class="fx bl" id="bl"></div>
   <div class="fx scan" id="scan" style="position:absolute"></div>
@@ -360,8 +361,8 @@ B[122]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:112px;li
   <div class="in" style="--d:1.4;height:110px;border:1.5px solid var(--ink);display:flex;align-items:center;padding:0 26px;font:400 30px/1.2 var(--sans);width:640px">This setting controls who can see it.</div></div>
   <div class="cardbox in" style="--d:2.2;position:absolute;right:34px;bottom:34px;width:420px;padding:22px 26px;background:var(--ink);color:var(--paper);font:400 28px/1.3 var(--sans)"><div class="mono" style="font-size:18px;letter-spacing:.12em;margin-bottom:10px">LEARN WITH THE AI HELPER</div>Here’s what this does, and when to change it.</div></div>`;
 B[22]=()=>`${top('Build with a reason','Build')}
- <div class="serif abs" style="left:70px;top:290px;width:860px;font-size:104px;line-height:1.04;z-index:3">${lines(['Not because','<em>you can.</em>'],.2,.25)}</div>
- <div class="abs" style="left:70px;top:640px;width:860px;z-index:3"><div class="serif in" style="--d:1.6;font-size:50px;line-height:1.1"><span class="strike" style="--d:2.2">A chatbot for every problem</span></div>
+ <div class="serif abs" style="left:70px;top:290px;width:860px;font-size:104px;line-height:1.04;z-index:3">${lines(['Great use cases,','<em>for everyone.</em>'],.2,.25)}</div>
+ <div class="abs" style="left:70px;top:640px;width:860px;z-index:3"><div class="serif in" style="--d:1.6;font-size:42px;line-height:1.15">We had compelling use cases to democratize and speed up across the company.</div>
   <div class="serif in" style="--d:2.8;font-size:50px;line-height:1.1;margin-top:34px">Two tools. <em>Built by us, for us.</em></div><div class="mono in" style="--d:3.2;font-size:22px;opacity:.7;margin-top:14px;letter-spacing:.08em;text-transform:uppercase">None off the shelf</div></div>
  <div class="abs" style="left:1010px;top:290px;width:840px;display:grid;gap:22px;z-index:3">${['Who asked for this?','Does it bring in something we couldn’t see before?','One thing built well, or many things built fast?'].map((x,i)=>`<div class="cardbox in" style="--d:${.8+i*.5};padding:28px 34px;display:flex;gap:26px;align-items:baseline"><span class="mono" style="font-size:24px;opacity:.6">0${i+1}</span><span class="serif" style="font-size:52px;line-height:1.08">${x}</span></div>`).join('')}</div>`;
 function vid(name,crop){const c=crop||[1920,1080,0,0,1920,1080],cw=c[0],ch=c[1],cx=c[2],cy=c[3],W=c[4],H=c[5];return `<div style="position:absolute;inset:48px 0 0 0;overflow:hidden;background:#1F2BE0;z-index:2"><video src="${name.includes('/')?name:'https://katiewilliamsonsebkhi.com/videos/'+name+'.mp4'}" preload="metadata" muted loop playsinline onerror="this.style.display='none'" style="position:absolute;pointer-events:none;width:${W/cw*100}%;height:${H/ch*100}%;left:${-cx/cw*100}%;top:${-cy/ch*100}%"></video></div>`;}
@@ -433,7 +434,7 @@ B[29]=()=>`
  <div class="abs" style="left:76px;top:620px;font:400 50px/1.25 var(--serif);z-index:3"><div class="in" style="--d:1.2">Ask AI how to build.</div><div class="in" style="--d:1.5">Don’t always build <em>AI</em>.</div></div>`;
 B[31]=()=>{let p='';for(let i=0;i<8;i++){const x=150+i*215;p+=`${person(x,820,150,i*.25,true)}<text class="dl" x="${x}" y="${640}" text-anchor="middle" style="--d:${.4+i*.12};font-size:70px;font-family:Newsreader,serif;letter-spacing:0;text-transform:none">?</text>`;}
  return `${top('Everyone is still figuring this out','What we learned')}<svg class="abs" style="left:0;top:40px" width="1920" height="900" viewBox="0 0 1920 900">${p}</svg>
- <div class="serif abs in" style="--d:1.6;left:70px;top:330px;font-size:70px;z-index:3">More time or less time playing. <em>Still figuring it out.</em></div>`;};
+ <div class="serif abs in" style="--d:1.6;left:70px;top:330px;font-size:70px;z-index:3">More time or less time playing. <em>Your edge is your own expertise.</em></div>`;};
 B[33]=()=>`${top('Try 2: template + prompt','Try it')}
  <div class="abs" style="left:70px;top:290px;width:780px;height:620px;z-index:3"><div class="micro in" style="--d:.2;margin-bottom:18px">Template</div>
   <svg width="780" height="560" viewBox="0 0 780 560" fill="none" stroke="#1F2BE0" stroke-width="2"><rect class="d" pathLength="1" x="2" y="2" width="776" height="556" style="--d:.3"/><rect class="d" pathLength="1" x="40" y="40" width="700" height="90" style="--d:.7"/>${[0,1].map(i=>`<rect class="d" pathLength="1" x="${40+i*360}" y="170" width="340" height="230" style="--d:${1+i*.2}"/>`).join('')}<path class="d" pathLength="1" d="M40 450 L740 450 M40 490 L560 490" style="--d:1.6;stroke-width:4"/></svg></div>
@@ -466,7 +467,7 @@ B[37]=()=>`
 
 
 B[101]=()=>`${top('What I hope you take away','Welcome')}${['Excitement to try one idea today','Permission to ask the “basic” question','A reason to share your small wins'].map((x,i)=>`<div class="abs in" style="--d:${.3+i*.5};left:70px;top:${290+i*190}px;display:flex;align-items:center;gap:50px;z-index:3"><svg width="96" height="96" viewBox="0 0 96 96" fill="none" stroke="#1F2BE0" stroke-width="3"><rect x="2" y="2" width="92" height="92"/><path class="d" pathLength="1" d="M20 50 L42 72 L78 24" style="--d:${.9+i*.5};stroke-width:7"/></svg><span class="serif" style="font-size:84px;line-height:1">${x}</span></div>`).join('')}`;
-B[130]=()=>`${top('Break the ice: build a tiny app','AI tip')}
+B[130]=()=>`${top('Let\'s vibe','AI tip')}
  ${[['Paste','the prompt into Copilot',''],['Copy','the code it writes',''],['Paste','it into TextEdit',''],['Format','→ <em>Make Plain Text</em>','⇧⌘T'],['Save','as <em>tool.html</em>','uncheck “use .txt”'],['Double-click','it. Ta-da.','']].map((x,i)=>`<div class="abs in" style="--d:${.3+i*.3};left:70px;top:${290+i*108}px;display:flex;align-items:baseline;gap:30px;z-index:3;white-space:nowrap"><span class="mono" style="font-size:24px;opacity:.6">0${i+1}</span><span class="serif" style="font-size:50px;line-height:1.05"><em>${x[0]}</em> ${x[1]}</span>${x[2]?`<span class="mono" style="font-size:22px;opacity:.6">${x[2]}</span>`:''}</div>`).join('')}
  <div class="abs in" style="--d:.5;left:1010px;top:290px;width:840px;height:600px;background:var(--ink);color:var(--paper);padding:40px 46px;z-index:3;font:400 34px/1.5 var(--mono)"><div style="opacity:.6;margin-bottom:18px">&gt; prompt</div>Make me a single HTML file, with everything inside it, for a fun “meeting bingo” card. Put 9 common meeting phrases in a 3x3 grid. When I click a square, it highlights. Make it look clean and friendly.<div style="position:absolute;left:46px;bottom:34px;opacity:.6;font-size:24px">✓ no install · no setup</div></div>`;
 B[126]=()=>`<style>
@@ -691,6 +692,7 @@ const css=document.createElement('style');css.textContent=`
 .sechdr:before,.sechdr:after{content:"+";position:absolute;font-size:22px;line-height:1;color:var(--ink)}
 .sechdr:before{left:-14px;top:-14px}.sechdr:after{right:-14px;bottom:-14px}
 .slide .topbar .labtag{display:none}
+.dsh{margin-top:30px;display:grid;gap:28px}.dsh figure{margin:0}.dsh img{display:block;width:100%;height:auto;border:1.5px solid var(--ink);cursor:zoom-in}.dsh figcaption{font:400 26px/1.35 var(--sans);margin-top:12px}.dsh figcaption span{font:400 20px/1 var(--mono);opacity:.6;margin-right:10px}.dzoom{position:absolute;inset:0;z-index:60;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;cursor:zoom-out}.dzoom.on{display:flex}.dzoom img{max-width:94%;max-height:94%;box-shadow:0 0 0 2px #fff}
 .drawer li li{font-size:26px;margin:8px 0 0}.drawer ul{margin:0;padding-left:30px}.drawer li{font:400 29px/1.4 var(--sans);margin-bottom:16px}
 #read .it ul{padding-left:22px;font:400 18px/1.55 var(--sans)}
 #ov{position:absolute;inset:0;z-index:200;background:var(--paper);display:none;padding:40px 70px;overflow:hidden}
@@ -776,8 +778,8 @@ let cur=0,busy=false,pend=0;function done(){busy=false;if(pend){const d=pend;pen
 for(let r=0;r<14;r++)for(let c=0;c<24;c++){const d=document.createElement('i');d.style.left=c*80+'px';d.style.top=r*80+'px';d.style.setProperty('--d',(c+r)*14);px.appendChild(d);}
 for(let k=0;k<8;k++){const d=document.createElement('i');d.style.left=k*240+'px';d.style.setProperty('--d',[0,3,1,5,2,6,4,7][k]*55);bl.appendChild(d);}
 function fit(){const s=Math.min(vp.clientWidth/1920,vp.clientHeight/1080);stage.style.transform=`translate(${(vp.clientWidth-1920*s)/2}px,${(vp.clientHeight-1080*s)/2}px) scale(${s})`;}
-function closeDrawer(){drawer.classList.remove('open');}
-function fillDrawer(n){const m=META[n];$('#dk').textContent=`Slide ${String(n+1).padStart(2,'0')} / ${TOTAL} · ${m.s}`;$('#dh').textContent=m.t;const dp=$('#dp');dp.innerHTML='';const ul=document.createElement('ul');m.d.split('\n').forEach(x=>{if(!x.trim())return;const sub=x.startsWith('> ');if(sub)x=x.slice(2);let host=ul;if(sub&&ul.lastElementChild){const l=ul.lastElementChild;host=l.querySelector('ul')||l.appendChild(document.createElement('ul'));}const li=document.createElement('li');li.innerHTML=x.trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');host.appendChild(li);});dp.appendChild(ul);}
+function closeDrawer(){drawer.classList.remove('open');const z=document.getElementById('dzoom');if(z)z.classList.remove('on');}
+function fillDrawer(n){const m=META[n];$('#dk').textContent=`Slide ${String(n+1).padStart(2,'0')} / ${TOTAL} · ${m.s}`;$('#dh').textContent=m.t;const dp=$('#dp');dp.innerHTML='';const ul=document.createElement('ul');m.d.split('\n').forEach(x=>{if(!x.trim())return;const sub=x.startsWith('> ');if(sub)x=x.slice(2);let host=ul;if(sub&&ul.lastElementChild){const l=ul.lastElementChild;host=l.querySelector('ul')||l.appendChild(document.createElement('ul'));}const li=document.createElement('li');li.innerHTML=x.trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');host.appendChild(li);});dp.appendChild(ul);if(m.im){const g=document.createElement('div');g.className='dsh';m.im.forEach((s,i)=>{const f=document.createElement('figure'),im=document.createElement('img'),c=document.createElement('figcaption'),n=document.createElement('span');im.src=s.src;im.alt=s.cap;n.textContent=String(i+1).padStart(2,'0');c.append(n,s.cap);f.append(im,c);g.appendChild(f);});dp.appendChild(g);}}
 function show(n){slides[cur].classList.remove('active');slides[n].classList.remove('incoming');slides[cur].classList.remove('leaving');cur=n;slides[cur].classList.add('active');closeDrawer();fillDrawer(n);document.querySelectorAll('#slides video').forEach(v=>v.pause());slides[cur].querySelectorAll('video').forEach(v=>{try{v.play().catch(()=>{})}catch(e){}});try{history.replaceState(null,'','#'+(n+1));}catch(e){}}
 const run={
  pixel:n=>{px.classList.add('fill');setTimeout(()=>{show(n);px.classList.remove('fill');px.classList.add('clear');},860);setTimeout(()=>{px.classList.remove('clear');done();},1760);},
@@ -838,6 +840,8 @@ vp.addEventListener('click',e=>{
   const pp=sl.querySelector('.ppanel');
   if(was){pp.classList.remove('on');}else{pc.classList.add('sel');sl.querySelector('.pb[data-k="'+k+'"]').classList.add('on');pp.classList.add('on');}
   return;}
+ const zi=e.target.closest('.dsh img');if(zi){const z=$('#dzoom');z.querySelector('img').src=zi.src;z.classList.add('on');return;}
+ if(e.target.closest('#dzoom')){$('#dzoom').classList.remove('on');return;}
  if(e.target.closest('#drawer')){if(e.target.closest('#dx'))closeDrawer();return;}
  if(drawer.classList.contains('open')){closeDrawer();return;}
  
