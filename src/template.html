@@ -118,6 +118,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .slide.active .type{animation:typing 3.2s steps(46,end) both, caret .7s step-end infinite;animation-delay:calc(var(--d,0)*1s)}
 @keyframes typing{from{width:0}to{width:var(--w,100%)}}
 @keyframes caret{50%{border-color:transparent}}
+.slide .drop{opacity:0}.slide.active .drop{animation:intofolder 15.6s linear infinite;animation-delay:calc((var(--d,0) + .6)*1s)}
+@keyframes intofolder{0%{opacity:0;transform:translate(0,-40px) rotate(var(--r));animation-timing-function:ease-out}3%{opacity:1;transform:translate(0,0) rotate(var(--r));animation-timing-function:cubic-bezier(.45,.05,.55,1)}22%{opacity:1;transform:translate(var(--dx),600px) rotate(0deg)}23%,100%{opacity:0;transform:translate(var(--dx),600px) rotate(0deg)}}
 .chip{display:inline-block;border:1.5px solid var(--ink);padding:14px 22px;font:400 24px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--paper)}
 .drift{position:absolute;font:400 70px/1 var(--serif);color:var(--ink);opacity:.14;white-space:nowrap}
 .slide.active .drift{animation:drift 14s linear infinite;animation-delay:calc(var(--d,0)*-1s)}
@@ -575,12 +577,13 @@ B[114]=()=>`${top('Ask if code can do it','Takeaways')}
   <div><span class="type" style="--d:.9;--w:1420px;border-right-color:var(--paper)">&gt; Can a script do this instead of me prompting?</span></div>
   <div class="in" style="--d:4.4;margin-top:34px">✓ Yes. Here is a 12-line script.</div>
   <div class="in" style="--d:5;opacity:.8">✓ Run it any time. No prompt needed.</div></div>`;
-B[115]=()=>{const it=['A repo','A tool','A pattern','A prompt','An idea'];
+B[115]=()=>{const it=['A repo','A tool','ARTICLE','A pattern','A prompt','An idea'];
  return `${top('Start a folder. Save things.','Takeaways')}
  <div class="serif abs in" style="--d:.2;left:76px;top:300px;width:760px;font-size:62px;line-height:1.2;z-index:3">Designing with AI is mostly <em>curation.</em></div>
- ${it.map((x,i)=>`<div class="abs chip fall" style="left:${960+(i*173)%560}px;top:280px;--d:${.6+i*.6};z-index:4">${x}</div>`).join('')}
- <div class="abs" style="left:900px;top:610px;width:240px;height:40px;border:1.5px solid var(--ink);border-bottom:0;background:var(--paper);z-index:5"></div>
- <div class="abs mono" style="left:900px;top:650px;width:880px;height:300px;border:1.5px solid var(--ink);background:var(--paper);z-index:5;padding:30px;font-size:24px">My library</div>`;};
+ <div class="abs" style="left:900px;top:568px;width:240px;height:38px;border:1.5px solid var(--ink);border-bottom:0;background:var(--paper);z-index:3"></div>
+ <div class="abs" style="left:900px;top:605px;width:880px;height:335px;border:1.5px solid var(--ink);background:var(--paper);z-index:3"></div>
+ ${it.map((x,i)=>{const art=x==='ARTICLE',sx=[1010,1560,1180,1430,1080,1300][i],w=art?200:x.length*17+47,dx=Math.round(1340-sx-w/2),r=[-8,7,-4,9,-6,5][i],inner=art?`<div style="width:172px;height:82px;border:1.5px solid var(--ink);margin-bottom:10px;position:relative;overflow:hidden;background:var(--grid,#e6e3f5)"><svg width="172" height="82" viewBox="0 0 172 82" fill="none" stroke="#1F2BE0" stroke-width="2"><circle cx="128" cy="24" r="10"/><path d="M0 82 L52 34 L88 64 L114 44 L172 82"/></svg></div><div style="height:4px;background:var(--ink);width:150px;margin-bottom:6px"></div><div style="height:4px;background:var(--ink);opacity:.5;width:110px;margin-bottom:10px"></div>A design article`:x;return `<div class="abs chip drop" style="left:${sx}px;top:${art?150:200}px;${art?'width:200px;padding:12px 14px;font-size:18px;':''}--d:${i*2.6};--dx:${dx}px;--r:${r}deg;z-index:4">${inner}</div>`;}).join('')}
+ <div class="abs mono" style="left:900px;top:705px;width:880px;height:235px;border:1.5px solid var(--ink);background:var(--paper);z-index:5;padding:30px;font-size:24px;box-shadow:0 -10px 0 -8px var(--paper)">My library</div>`;};
 B[116]=()=>`<div class="serif abs" style="left:70px;top:130px;font-size:118px;line-height:1.04;z-index:3">${lines(['If we can’t measure it,','<em>we shouldn’t do it.</em>'],.1,.2)}</div>
  <div class="abs" style="left:76px;top:520px;z-index:3;display:grid;gap:22px">${['Pay attention to the bigger picture.','Ask constantly about the problem being solved.','It has to come back to impact or a measurement.'].map((x,i)=>`<div class="in" style="--d:${1+i*.7};font:400 50px/1.1 var(--sans)">${x}</div>`).join('')}</div>`;
 B[117]=()=>`<div class="serif abs" style="left:70px;top:170px;font-size:120px;line-height:1.04;width:1000px;z-index:3">${lines(['Think of the','<em>one person</em>','you’re solving for.'],.1,.2)}</div>
